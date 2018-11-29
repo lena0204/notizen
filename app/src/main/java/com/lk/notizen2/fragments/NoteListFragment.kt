@@ -41,11 +41,8 @@ class NoteListFragment: Fragment(), Observer<Any>, NotesAdapter.onClickListener 
         notesViewModel = ViewModelProviders.of(requireActivity()).get(NotesViewModel::class.java)
         notesViewModel.addListObservers(this, this)
         requireActivity().actionBar!!.setTitle(R.string.app_name)
-        /*setupRecyclerView(    IDEA_ noch nötig?
-            notesViewModel.getNotes().value!!
-        )*/
         // FloatingActionButton klickbar machen
-        // TODO Listener fab!!.setOnClickListener { listener!!.onNewTodo() }
+        // TODO neue Notiz anlegen: Listener fab!!.setOnClickListener { listener!!.onNewTodo() }
     }
 
     private fun setupRecyclerView(notesData: List<NoteEntity>, filterCategory: Category?, filterPriority: Priority?) {
@@ -67,14 +64,28 @@ class NoteListFragment: Fragment(), Observer<Any>, NotesAdapter.onClickListener 
     }
 
     override fun onChanged(update: Any?) {
-        if(update != null && notesViewModel.getNotes().value != null) {
-            setupRecyclerView(notesViewModel.getNotes().value!!,
-                    notesViewModel.filterColor.value,
-                    notesViewModel.filterPriority.value)
+        if(update != null) {
+            setupRecyclerViewWithLivedata()
         }
     }
 
+    private fun setupRecyclerViewWithLivedata(){
+        if (notesViewModel.getNotes().value != null) {
+            setupRecyclerView(
+                notesViewModel.getNotes().value!!,
+                notesViewModel.filterColor.value,
+                notesViewModel.filterPriority.value
+            )
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setupRecyclerViewWithLivedata()
+    }
+
     override fun onShowNote(noteId: Int) {
+        Log.d(TAG, "showing note with id $noteId")
         notesViewModel.setSelectedNoteFromId(noteId)
     }
 

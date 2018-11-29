@@ -20,6 +20,7 @@ class NotesViewModel(application: Application): AndroidViewModel(application) {
     val selectedNote = MutableLiveData<NoteEntity>()
     val filterPriority = MutableLiveData<Priority>()
     val filterColor = MutableLiveData<Category>()
+    val editNote = MutableLiveData<Boolean>()
 
     init{
         filterPriority.value = Priority.ALL
@@ -41,20 +42,31 @@ class NotesViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
+    fun editCurrentSelectedNote(){
+        if(selectedNote.value != null)
+            editNote.value = true
+        editNote.value = false
+    }
+
     fun getNotes(): LiveData<List<NoteEntity>> = repository.getNotesList()
 
     fun insertNote(note: NoteEntity){
         repository.insertNote(note)
+        selectedNote.value = NoteEntity()
+        // TODO führt zur Anzeige der Liste: noch keine ideale Lösung
     }
 
     fun updateNote(note: NoteEntity){
         repository.updateNote(note)
+        selectedNote.value = NoteEntity()
     }
 
     fun deleteNoteFromId(noteId: Int){
         val note = getNotes().value?.find { note -> note.id == noteId }
-        if(note != null)
+        if(note != null) {
             repository.deleteNote(note)
+            selectedNote.value = NoteEntity()
+        }
     }
 
     fun addTestNotes(){

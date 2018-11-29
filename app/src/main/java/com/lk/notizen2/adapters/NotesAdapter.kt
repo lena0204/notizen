@@ -163,7 +163,7 @@ class NotesAdapter(private val dataset: List<NoteEntity>,
         }
 
         override fun onCreateContextMenu(contextMenu: ContextMenu, view: View,
-                                         contextMenuInfo: ContextMenu.ContextMenuInfo) {
+                                         contextMenuInfo: ContextMenu.ContextMenuInfo?) {
             contextMenu.add(0, R.id.menu_delete, 0, R.string.action_delete)
         }
     }

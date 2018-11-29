@@ -22,7 +22,7 @@
             android:focusableInTouchMode="false"/>
 
         <TextView
-            android:id="@+id/tv_show_position"
+            android:id="@+id/tv_edit_id"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/spinner_edit_priority"
@@ -37,7 +37,7 @@
         android:layout_margin="@dimen/padding_between">
 
         <TextView
-            android:id="@+id/tv_explanation_protected"
+            android:id="@+id/tv_edit_protected"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/protected_n"
@@ -48,7 +48,7 @@
             android:id="@+id/switch_edit_protected"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/tv_explanation_protected"
+            android:layout_toEndOf="@id/tv_edit_protected"
             android:layout_alignParentEnd="true" />
 
     </RelativeLayout>
@@ -77,7 +77,7 @@
         android:imeOptions="actionNext"/>
 
     <Button
-        android:id="@+id/et_edit_save"
+        android:id="@+id/bt_edit_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/todo_edit_confirm"/>
