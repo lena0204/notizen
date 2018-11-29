@@ -1,0 +1,39 @@
+<resources>
+
+    <style name="AppTheme" parent="android:Theme.Material.Light.DarkActionBar">
+        <item name="android:colorPrimary">@color/actionBarColor</item>
+        <item name="android:colorPrimaryDark">@color/statusBarColor</item>
+        <item name="android:colorAccent">@color/accentColor2</item>
+        <item name="android:textColorPrimary">@color/black</item>
+    </style>
+
+    <style name="AppThemeDark" parent="android:Theme.Material">
+        <item name="android:colorPrimary">@color/actionBarColorD</item>
+        <item name="android:colorPrimaryDark">@color/statusBarColorD</item>
+        <item name="android:colorAccent">@color/accentColor2</item>
+        <item name="android:textColorPrimary">@color/white</item>
+    </style>
+
+    <!-- einheitlicher Stil für das Anzeigen der Notizen -->
+    <style name="style_note">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">@dimen/padding_default</item>
+        <item name="android:textSize">@dimen/textSize_show</item>
+        <item name="android:alpha">1</item>
+    </style>
+
+    <!-- Style für den Spinner -->
+    <style name="spinner_style">
+        <item name="android:layout_width">200dp</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <!-- Style für die Icons vom Widget -->
+    <style name="widget_icons">
+        <item name="android:layout_width">33dp</item>
+        <item name="android:layout_height">33dp</item>
+        <item name="android:layout_margin">@dimen/margin_icons</item>
+    </style>
+
+</resources>

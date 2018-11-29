@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Settings -->
+    <string name="pref_theme_title">Design \u00e4ndern</string>
+    <string name="pref_theme_summary_a">Helles Design ist angewandt</string>
+    <string name="pref_theme_summary_e">Dunkles Design ist angewandt</string>
+    <string name="pref_dynamic_title">Design zeitabh\u00e4ngig setzen</string>
+    <string name="pref_dynamic_summary_a">Design wird nicht ver\u00e4ndert</string>
+    <string name="pref_dynamic_summary_e">Dynamische Anpassung je nach Zeit</string>
+    <string name="pref_lines_no_title">Zeilenanzahl der Beschreibung</string>
+    <string name="pref_lines_no_dialog">W\u00e4hlen Sie die Zeilenanzahl</string>
+    <string name="pref_lines_no_summary">W\u00e4hlen Sie eine Zeilenanzahl für die Beschreibung</string>
+    <string name="pref_standard_title">Standardsortierung</string>
+    <string name="pref_standard_summary">Alle Notizen</string>
+    <string name="pref_standard_dialog">W\u00e4hlen Sie eine Kategorie / Farbe</string>
+    <string name="pref_favorite_title">Zweiter Favorit</string>
+    <string name="pref_favorite_summary">Zweiter Favorit: erreichbar über den Schalter</string>
+    <string name="pref_colour_title">Kategorienname der Farben</string>
+
+    <string name="pref_protection_title">Passwortschutz</string>
+    <string name="pref_protection_summary">Einzelne Notizen mit einem Passwort schützen</string>
+    <string name="pref_protection_explanation">Das Passwort wird genutzt, um einzelne Notizen zu
+        sch\u00fctzen. Sie werden dadurch auch verschl\u00fcsselt gespeichert.
+        \nDas Passwort muss mindestens 4 Zeichen lang sein und darf nur Zahlen enthalten.</string>
+
+    <string name="pref_br_title">Sichern und Wiederherstellen</string>
+    <string name="pref_br_backup_title">Notizen sichern</string>
+    <string name="pref_br_backup_summary">Datenbank wird im internen Speicher gesichert</string>
+    <string name="pref_br_restore_title">Alte Sicherung wiederherstellen</string>
+    <string name="pref_br_restore_summary">Datenbank wird aus dem internen Speicher wiederherstellt</string>
+
+    <string name="pref_title_title">Name der Kategorie</string>
+    <string name="pref_title_summary">W\u00e4hlen Sie einen Name für die Farbe</string>
+    <!-- Kategorien -->
+    <string name="pref_cat_perso">Personalisierung</string>
+    <string name="pref_cat_design">Design</string>
+    <string name="pref_cat_organisation">Organisation</string>
+
+    <!-- Farbenspezifische Überschriften -->
+    <string name="pref_lines_no_title_general">Allgemein</string>
+
+    <!-- Zeilenanzahl -->
+    <string name="lines_general">Nicht ausgew\u00e4hlt</string>
+    <string name="lines_no">Keine Beschreibung</string>
+    <string name="lines_all">Komplette Beschreibung</string>
+    <string name="lines_one">Eine Zeile der Beschreibung</string>
+    <string name="lines_two">Zwei Zeilen der Beschreibung</string>
+    <string name="lines_four">Vier Zeilen der Beschreibung</string>
+    <string name="lines_six">Sechs Zeilen der Beschreibung</string>
+    <string name="lines_eight">Acht Zeilen der Beschreibung</string>
+
+    <!-- Normale Kategorien -->
+    <string name="name_green">Freizeit</string>
+    <string name="name_blue">Wettbewerbe</string>
+    <string name="name_purple">Musik</string>
+    <string name="name_red">Wichtig</string>
+    <string name="name_orange">Apps</string>
+
+
+
+</resources>

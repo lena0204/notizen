@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="actionBarColor">#FF9800</color>
+    <color name="actionBarColorD">#ef6c00</color>
+    <color name="statusBarColor">#f57c00</color>
+    <color name="statusBarColorD">#e65100</color>
+    <color name="accentColor2">#f50057</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+
+    <!-- Farben für die Notizen hell -->
+    <color name="normal">#00000000</color>
+    <color name="yellow">#fffdf8ab</color>
+    <color name="orange">#ffffce75</color>
+    <color name="red">#ffff8b86</color>
+    <color name="purple">#ffeeb4ff</color>
+    <color name="blue">#ffa9f2ff</color>
+    <color name="green">#ffbbffb5</color>
+    <!-- Farben für die Notizen dunkel -->
+    <color name="yellowD">#535000</color>
+    <color name="orangeD">#502800</color>
+    <color name="redD">#550900</color>
+    <color name="purpleD">#4C005C</color>
+    <color name="blueD">#001F5A</color>
+    <color name="greenD">#00552C</color>
+
+    <!-- Tint Colours -->
+    <color name="tint_about">#d555</color>
+    <color name="tint_urgent_light">#990B4E</color>
+    <color name="tint_urgent_dark">#E35087</color>
+    <color name="tint_reminder_light">#090543</color>
+    <color name="tint_reminder_dark">#B3F0FF</color>
+    <color name="tint_protected_light">#004522</color>
+    <color name="tint_protected_dark">#00F394</color>
+    <!-- Widget -->
+    <color name="widget_background">#9111</color>
+</resources>

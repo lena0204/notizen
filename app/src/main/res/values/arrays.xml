@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="priorities">
+        <item>@string/reminder</item>
+        <item>@string/urgent</item>
+    </string-array>
+
+    <string-array name="sorting_array">
+        <item>@string/everything</item>
+        <item>@string/reminder</item>
+        <item>@string/urgent</item>
+        <item>@string/white</item>
+        <item>@string/yellow</item>
+        <item>@string/orange</item>
+        <item>@string/red</item>
+        <item>@string/purple</item>
+        <item>@string/blue</item>
+        <item>@string/green</item>
+    </string-array>
+
+    <string-array name="sorting_array_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+    </string-array>
+
+    <string-array name="favorite_array">
+        <item>@string/nothing</item>
+        <item>@string/everything</item>
+        <item>@string/reminder</item>
+        <item>@string/urgent</item>
+        <item>@string/white</item>
+        <item>@string/yellow</item>
+        <item>@string/orange</item>
+        <item>@string/red</item>
+        <item>@string/purple</item>
+        <item>@string/blue</item>
+        <item>@string/green</item>
+    </string-array>
+
+    <string-array name="favorite_array_values">
+        <item>-1</item>
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+    </string-array>
+
+    <string-array name="show_lines_array">
+        <item>@string/lines_general</item>
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>4</item>
+        <item>6</item>
+        <item>8</item>
+        <item>Alle</item>
+    </string-array>
+
+    <string-array name="values_lines_array">
+        <item>-2</item>
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>4</item>
+        <item>6</item>
+        <item>8</item>
+        <item>-1</item>
+    </string-array>
+
+</resources>

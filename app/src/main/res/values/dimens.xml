@@ -1,0 +1,21 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="padding_default">9dp</dimen>
+    <dimen name="padding_between">6dp</dimen>
+    <dimen name="padding_dialogs">24dp</dimen>
+
+    <!-- Zeige Notizen -->
+    <dimen name="padding_categories">8dp</dimen>
+    <dimen name="textSize_categories">13sp</dimen>
+    <dimen name="textSize_date">12sp</dimen>
+
+    <!-- Eine Notiz -->
+    <dimen name="textSize_show">18sp</dimen>
+
+    <!-- Widget -->
+    <dimen name="padding_widget">6dp</dimen>
+    <dimen name="margin_widget">4dp</dimen>
+    <dimen name="margin_icons">3dp</dimen>
+    <dimen name="textSize_content">16sp</dimen>
+    <dimen name="textSize_title">24sp</dimen>
+</resources>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- App name and menu options -->
+    <string name="app_name">Notizen 2</string>
+    <string name="action_insert">Neue Notiz</string>
+    <string name="action_delete">Notiz l\u00F6schen</string>
+    <string name="action_about">\u00DCber Notizen</string>
+    <string name="action_color">W\u00e4hle Farbe</string>
+    <string name="action_settings">Einstellungen</string>
+    <string name="action_change">Umschalten</string>
+    <string name="action_sort">Sortierung</string>
+
+    <!-- Edit note -->
+    <string name="todo_edit_title">Titel</string>
+    <string name="todo_edit_description">Beschreibung</string>
+    <string name="todo_edit_confirm">Speichern</string>
+    <string name="no_title">Bitte Titel eingeben</string>
+    <string name="image_priority">Priorit\u00e4t</string>
+    <string name="urgent">Dringend</string>
+    <string name="reminder">Erinnerung</string>
+    <string name="saved">Gespeichert</string>
+    <string name="protected_y">Schutz der Notiz aktiviert</string>
+    <string name="protected_n">Schutz nicht aktiviert</string>
+    <string name="status_protected">Gesch\u00fctzt</string>
+
+    <!-- Dialoge -->
+    <string name="dialog_title">L\u00F6schen?</string>
+    <string name="dialog_message">Wollen Sie die Notiz wirklich l\u00F6schen?</string>
+    <string name="dialog_ok">Ja</string>
+    <string name="dialog_cancel">Abbrechen</string>
+    <string name="dialog_storage_title">Speicherzugriff</string>
+    <string name="dialog_storage_message">F\u00FCr das Sichern und Wiederherstellen wird der Zugriff
+            auf den internen Speicher ben\u00F6tigt. Ohne die Berechtigung sind diese Funktionen
+            nicht verf\u00FCgbar. Wollen Sie den Zugriff erlauben?</string>
+    <string name="dialog_storage_ok">Ja</string>
+    <string name="dialog_storage_cancel">Nein</string>
+    <!-- Dialoge zu dem Passwort -->
+    <string name="dia_set_title">Passwort festlegen</string>
+    <string name="dia_set_explanation">Das Passwort muss aus 4 bis 10 Zeichen bestehen und darf nur
+        Zahlen enthalten.</string>
+    <string name="dia_set_yes">Festlegen</string>
+    <string name="dia_change_title">Passwort \u00e4ndern</string>
+    <string name="dia_change_old">Bitte geben Sie ihr altes Passwort an:</string>
+    <string name="dia_change_new1">Ihr neues Passwort:</string>
+    <string name="dia_change_new2">Ihr neues Passwort best\u00e4tigen:</string>
+    <string name="dia_request_title">Passwortabfrage</string>
+    <string name="dia_request_explanation">Geben Sie Ihr Passwort ein, um den Schutz der Notiz aufzuheben.</string>
+    <string name="dia_request_yes">Best\u00e4tigen</string>
+
+    <!-- Toasts -->
+    <string name="toast_deleted">Notiz gel\u00F6scht</string>
+    <string name="toast_backup">Notizen erfolgreich gesichert</string>
+    <string name="toast_restored">Notizen erfolgreich wiederhergestellt</string>
+    <string name="toast_b_failed">Sicherung ist fehlgeschlagen</string>
+    <string name="toast_r_failed">Wiederherstellung ist fehlgeschlagen \nKontrollieren Sie, ob die
+            gesicherte Datenbank vorhanden ist (Interner Speicher)</string>
+
+    <string name="toast_reset_password">Neues Passwort erfolgreich festgelegt.
+        \nDas Passwort kann über viermaliges Klicken der Ekl\u00e4rung unten zur\u00fcckgesetzt werden.</string>
+    <string name="toast_invalid_password">Das Passwort gen\u00fcgt den Anforderungen nicht.
+        \nBitte w\u00e4hlen Sie ein anderes.</string>
+    <string name="toast_invalid_authentication">Das Passwort ist falsch.
+        \nBitte versuchen Sie es erneut.</string>
+    <string name="toast_invalid_old_password">Das alte Passwort ist falsch. Ihr Passwort wurde nicht
+            ge\u00e4ndert. \nBitte versuchen Sie es erneut.</string>
+    <string name="toast_reset_successful">Das Passwort wurde erfolgreich zur\u00fcckgesetzt.</string>
+
+    <!-- Sortierung -->
+    <string name="sorter_name">Filter</string>
+    <string name="everything">Alles</string>
+
+    <!-- 2. Favorit -->
+    <string name="nothing">Nicht ausgew\u00e4hlt</string>
+    <string name="message_favorit">Sie haben keinen zweiten Favoriten ausgew\u00e4hlt.
+                    Sie k\u00f6nnen dies in den Einstellungen tun.</string>
+
+    <!-- About -->
+    <string name="text_about">Erstver\u00F6ffenlichung: 6. Juli 2015
+        \nAktuelle Ver\u00F6ffentlichung: 01. Juni 2017
+        \nAktuelle Version: 2.4 \nDiese App wird von Lena Kociemba ver\u00F6ffentlicht.
+        \nWohnort: Paderborn, Deutschland \nE-Mail: lenakociemba@gmail.com</string>
+
+    <!-- Colour Dialog -->
+    <string name="white">Weiß</string>
+    <string name="yellow">Gelb</string>
+    <string name="orange">Orange</string>
+    <string name="red">Rot</string>
+    <string name="purple">Lila</string>
+    <string name="blue">Blau</string>
+    <string name="green">Gr\u00FCn</string>
+
+    <!-- Widget -->
+    <string name="test_titel">Titel</string>
+    <string name="test_inhalt">Lade Inhalte &#8230;</string>
+    <string name="action_widget">Widgeteinstellungen</string>
+    <string name="save">Speichern</string>
+    <string name="widget_standard">Standard</string>
+    <string name="widget_text">Text</string>
+    <!-- Einstellungen Widget -->
+    <string name="pref_notes_title">Notiz ausw\u00e4hlen</string>
+    <string name="pref_notes_subtitle">Ausgew\u00e4hlte Notiz: </string>
+    <string name="pref_priority_title">Priorit\u00e4t anzeigen</string>
+    <string name="pref_content_title">Inhalt anzeigen</string>
+    <string name="pref_anzeigen">Wird angezeigt</string>
+    <string name="pref_verbergen">Wird verborgen</string>
+    <string name="pref_hint_title">Hinweis</string>
+    <string name="pref_hint_subtitle">Die Konfiguration kann jederzeit über die obere rechte Ecke (Icon)
+        aufgerufen werden.</string>
+
+
+</resources>
