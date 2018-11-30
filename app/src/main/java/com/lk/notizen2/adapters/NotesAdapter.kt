@@ -1,7 +1,5 @@
 package com.lk.notizen2.adapters
 
-import android.net.Uri
-import android.preference.PreferenceManager
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
@@ -82,7 +80,7 @@ class NotesAdapter(private val dataset: List<NoteEntity>,
 
     private fun printProtectedNote(){
         // Schloss Icon setzen, -1 setzt das Schloss Icon
-        currentHolder.ivPriority.setImageDrawable(Themer.getPriorityImage(Priority.URGENT_LOCKED, activity))
+        currentHolder.ivPriority.setImageDrawable(Themer.getStatusImage(Priority.URGENT_LOCKED, activity))
         currentHolder.tvPriority.setText(R.string.status_protected)
         currentHolder.tvColor.background =
                 Category.createDrawableForColor(Categories.WHITE.color, activity.resources)

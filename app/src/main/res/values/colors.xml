@@ -34,5 +34,5 @@
     <color name="tint_protected_light">#004522</color>
     <color name="tint_protected_dark">#00F394</color>
     <!-- Widget -->
-    <color name="widget_background">#9111</color>
+    <color name="widget_background">#99111111</color>
 </resources>

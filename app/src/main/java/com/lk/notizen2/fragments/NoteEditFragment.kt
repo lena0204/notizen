@@ -1,5 +1,7 @@
 package com.lk.notizen2.fragments
 
+import android.content.res.ColorStateList
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -9,8 +11,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.lk.notizen2.R
 import com.lk.notizen2.database.NoteEntity
+import com.lk.notizen2.main.Themer
 import com.lk.notizen2.models.Category
 import com.lk.notizen2.models.NotesViewModel
+import com.lk.notizen2.utils.Priority
 import kotlinx.android.synthetic.main.activity_todo_edit.*
 import kotlinx.android.synthetic.main.activity_todo_edit.view.*
 import java.util.*
@@ -23,6 +27,7 @@ class NoteEditFragment: Fragment(), Observer<NoteEntity> {
     private val TAG = "NoteEditFragment"
 
     private lateinit var notesVielModel: NotesViewModel
+    private var priority: Priority = Priority.ALL
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, saved: Bundle?): View? {
         val root = inflater.inflate(R.layout.activity_todo_edit, container, false)
@@ -40,14 +45,23 @@ class NoteEditFragment: Fragment(), Observer<NoteEntity> {
     }
 
     private fun printNote(note: NoteEntity){
+        priority = note.getPriorityAsEnum()
         tv_edit_id.text = note.id.toString()
         et_edit_title.setText(note.title, TextView.BufferType.EDITABLE)
         et_edit_description.setText(note.content,TextView.BufferType.EDITABLE)
+        tb_edit_priority.isChecked = isUrgentNote()
+        tb_edit_protected.isChecked = isProtectedNote()
         layout_todo_edit.background = Category.createDrawableForColor(note.getCategoryAsEnum().color, resources)
         requireActivity().actionBar?.title = note.title
         // TODO Themeauswahl / mindestens Themetracking implementieren mit generellem Zugriff ???
         // TODO Bearbeitung: schöne Lösung für verschiedene Status-Icons
     }
+
+    private fun isProtectedNote(): Boolean =
+        (priority == Priority.URGENT_LOCKED || priority == Priority.REMINDER_LOCKED)
+
+    private fun isUrgentNote(): Boolean =
+        (priority == Priority.URGENT_LOCKED || priority == Priority.URGENT)
 
     override fun onChanged(selectedNote: NoteEntity?) {
         if(selectedNote != null){

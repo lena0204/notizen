@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,22 +16,48 @@
         android:layout_marginEnd="@dimen/padding_between"
         android:layout_marginStart="0dp">
 
-        <Spinner
+        <!--<Spinner
             android:id="@+id/spinner_edit_priority"
             style="@style/spinner_style"
             android:entries="@array/priorities"
             android:focusableInTouchMode="false"/>
 
+            android:layout_toEndOf="@id/spinner_edit_priority"
+            -->
+
         <TextView
             android:id="@+id/tv_edit_id"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/spinner_edit_priority"
             android:minLines="2"
             android:visibility="invisible"/>
 
+        <ToggleButton
+            android:id="@+id/tb_edit_priority"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginEnd="10dp"
+            android:backgroundTint="@color/widget_background"
+            android:backgroundTintMode="add"
+            android:background="@drawable/selector_priority"
+            android:textOn=""
+            android:textOff=""/>
+
+        <ToggleButton
+            android:id="@+id/tb_edit_protected"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_toEndOf="@id/tb_edit_priority"
+            android:backgroundTint="@color/widget_background"
+            android:backgroundTintMode="add"
+            android:background="@drawable/selector_protected"
+            android:textOff=""
+            android:textOn="" />
+
     </RelativeLayout>
 
+<!--
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -51,7 +78,7 @@
             android:layout_toEndOf="@id/tv_edit_protected"
             android:layout_alignParentEnd="true" />
 
-    </RelativeLayout>
+    </RelativeLayout> -->
 
     <!-- nötig damit der save button unten noch erscheint -->
     <LinearLayout

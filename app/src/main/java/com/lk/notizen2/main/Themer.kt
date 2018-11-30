@@ -68,7 +68,7 @@ object Themer {
     }
 
     // passendes Prioritätsicon je nach Priorität und Theme zurückgeben
-    fun getPriorityImage(priority: Priority, act: Activity): Drawable {
+    fun getStatusImage(priority: Priority, act: Activity): Drawable {
         var image = act.resources.getDrawable(R.mipmap.ic_priority)
         var color = act.resources.getColor(R.color.tint_reminder_light)
         if (isThemeApplied(THEME_LIGHT)) {
