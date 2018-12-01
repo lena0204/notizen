@@ -1,8 +1,8 @@
 package com.lk.notizen2.adapters
 
 import android.view.*
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.lk.notizen2.R
@@ -36,7 +36,7 @@ class NotesAdapter(private val dataset: List<NoteEntity>,
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.activity_todo_row, parent, false)
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.list_cardview_2, parent, false)
         return ViewHolder(v)
     }
 
@@ -80,10 +80,13 @@ class NotesAdapter(private val dataset: List<NoteEntity>,
 
     private fun printProtectedNote(){
         // Schloss Icon setzen, -1 setzt das Schloss Icon
-        currentHolder.ivPriority.setImageDrawable(Themer.getStatusImage(Priority.URGENT_LOCKED, activity))
+        // currentHolder.ivPriority.setImageDrawable(Themer.getStatusImage(Priority.URGENT_LOCKED, activity))
         currentHolder.tvPriority.setText(R.string.status_protected)
-        currentHolder.tvColor.background =
-                Category.createDrawableForColor(Categories.WHITE.color, activity.resources)
+        currentHolder.ivPriority.isChecked = false
+        currentHolder.tbProtected.isChecked = true
+        /*currentHolder.tvColor.background =
+                Category.createDrawableForColor(Categories.WHITE.color, activity.resources)*/
+        currentHolder.cvNote.setCardBackgroundColor(activity.resources.getColor(Categories.WHITE.color))
         resetViewsForProtected()
     }
 
@@ -96,13 +99,16 @@ class NotesAdapter(private val dataset: List<NoteEntity>,
 
     private fun printNormalNote(category: Category, priority: Priority, text: String){
         // currentHolder.ivPriority.setImageDrawable()
-        currentHolder.tvColor.background =
-                Category.createDrawableForColor(category.color, activity.resources)
+        /*currentHolder.tvColor.background =
+                Category.createDrawableForColor(category.color, activity.resources)*/
+        currentHolder.cvNote.setCardBackgroundColor(activity.resources.getColor(category.color))
         currentHolder.tvText.text = text
         if (priority == Priority.REMINDER) {
             currentHolder.tvPriority.setText(R.string.reminder)
+            currentHolder.ivPriority.isChecked = false
         } else {
             currentHolder.tvPriority.setText(R.string.urgent)
+            currentHolder.ivPriority.isChecked = true
         }
         currentHolder.tvText.maxLines = 2
         currentHolder.tvCategory.text = "Preview"
@@ -142,14 +148,16 @@ class NotesAdapter(private val dataset: List<NoteEntity>,
 
     class ViewHolder(v: View) : RecyclerView.ViewHolder(v), View.OnCreateContextMenuListener {
 
-        val tvColor = v.findViewById<View>(R.id.label_color) as TextView
-        val tvId = v.findViewById<View>(R.id.label_id) as TextView
-        val tvPriority = v.findViewById<View>(R.id.label_reminder) as TextView
-        val tvCategory = v.findViewById<View>(R.id.label_category) as TextView
-        val tvTitle = v.findViewById<View>(R.id.label_title) as TextView
-        val tvText = v.findViewById<View>(R.id.label_text) as TextView
-        val tvDate = v.findViewById<View>(R.id.label_time) as TextView
-        val ivPriority = v.findViewById<View>(R.id.label_icon) as ImageView
+        // val tvColor = v.findViewById<View>(R.id.label_color) as TextView
+        val tvId = v.findViewById<View>(R.id.tv_list_id) as TextView
+        val tvPriority = v.findViewById<View>(R.id.tv_list_priority) as TextView
+        val tvCategory = v.findViewById<View>(R.id.tv_list_category) as TextView
+        val tvTitle = v.findViewById<View>(R.id.tv_list_title) as TextView
+        val tvText = v.findViewById<View>(R.id.tv_list_content) as TextView
+        val tvDate = v.findViewById<View>(R.id.tv_list_time) as TextView
+        val ivPriority = v.findViewById<View>(R.id.iv_list_priority) as ToggleButton
+        val tbProtected = v.findViewById<View>(R.id.iv_list_protected) as ToggleButton
+        val cvNote = v.findViewById<View>(R.id.cv_show_note) as CardView
 
         init {
             v.setOnClickListener {

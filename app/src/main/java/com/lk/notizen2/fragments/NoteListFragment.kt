@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.lk.notizen2.R
+import com.lk.notizen2.adapters.CardsAdapter
 import com.lk.notizen2.adapters.NotesAdapter
 import com.lk.notizen2.database.NoteEntity
 import com.lk.notizen2.models.Category

@@ -20,7 +20,7 @@ class MainActivity : FragmentActivity(), Observer<Any> {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_empty)
         notesViewModel = ViewModelProviders.of(this).get(NotesViewModel::class.java)
-        notesViewModel.addTestNotes()
+        // TESTING_ notesViewModel.addTestNotes()
         supportFragmentManager.transaction { replace(R.id.fl_main_empty, NoteListFragment()) }
         notesViewModel.selectedNote.observe(this, this)
         notesViewModel.editNote.observe(this,this)

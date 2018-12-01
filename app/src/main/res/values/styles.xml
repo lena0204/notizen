@@ -5,13 +5,17 @@
         <item name="android:colorPrimaryDark">@color/statusBarColor</item>
         <item name="android:colorAccent">@color/accentColor2</item>
         <item name="android:textColorPrimary">@color/black</item>
+        <item name="android:fontFamily">@font/family_exo</item>
     </style>
+
+    <!-- TODO auf Fontfamily festlegen, Farben für die Prioritätsicons entscheiden -->
 
     <style name="AppThemeDark" parent="android:Theme.Material">
         <item name="android:colorPrimary">@color/actionBarColorD</item>
         <item name="android:colorPrimaryDark">@color/statusBarColorD</item>
         <item name="android:colorAccent">@color/accentColor2</item>
         <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:fontFamily">@font/family_exo</item>
     </style>
 
     <!-- einheitlicher Stil für das Anzeigen der Notizen -->
@@ -34,6 +38,21 @@
         <item name="android:layout_width">33dp</item>
         <item name="android:layout_height">33dp</item>
         <item name="android:layout_margin">@dimen/margin_icons</item>
+    </style>
+
+    <style name="tb_image">
+        <item name="android:textOff">""</item>
+        <item name="android:textOn">""</item>
+        <item name="android:backgroundTint">?android:attr/colorAccent</item>
+        <item name="android:backgroundTintMode">src_atop</item>
+    </style>
+
+    <style name="togglebutton_card" parent="tb_image">
+        <item name="android:layout_width">22dp</item>
+        <item name="android:layout_height">22dp</item>
+        <item name="android:layout_marginEnd">@dimen/padding_categories</item>
+        <item name="android:enabled">false</item>
+        <item name="android:backgroundTint">?android:attr/textColorPrimary</item>
     </style>
 
 </resources>

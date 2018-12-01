@@ -18,7 +18,7 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/label_icon"
+                android:id="@+id/iv_list_priority"
                 android:layout_width="36dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="4dp"
@@ -26,25 +26,25 @@
                 android:src="@mipmap/ic_priority"/>
 
             <TextView
-                android:id="@+id/label_reminder"
+                android:id="@+id/tv_list_priority"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:layout_toEndOf="@id/label_icon"
+                android:layout_toEndOf="@id/iv_list_priority"
                 android:textSize="@dimen/textSize_categories"
                 android:textStyle="italic"
                 android:alpha="0.8"/>
 
             <TextView
-                android:id="@+id/label_id"
+                android:id="@+id/tv_list_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/label_reminder"
+                android:layout_toEndOf="@id/tv_list_priority"
                 android:visibility="invisible"
                 android:text="0"/>
 
             <TextView
-                android:id="@+id/label_category"
+                android:id="@+id/tv_list_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -54,12 +54,12 @@
                 android:textStyle="bold"/>
 
             <TextView
-                android:id="@+id/label_title"
+                android:id="@+id/tv_list_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:layout_marginBottom="2dp"
-                android:layout_below="@id/label_reminder"
+                android:layout_below="@id/tv_list_priority"
                 android:lines="1"
                 android:textStyle="bold"
                 android:textSize="21sp"
@@ -67,21 +67,21 @@
             </TextView>
 
             <TextView
-                android:id="@+id/label_text"
+                android:id="@+id/tv_list_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/label_title"
+                android:layout_below="@id/tv_list_title"
                 android:minLines="0"
                 android:alpha="1"
                 android:textSize="16sp"/>
 
             <TextView
-                android:id="@+id/label_time"
+                android:id="@+id/tv_list_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/padding_categories"
                 android:layout_marginTop="@dimen/padding_categories"
-                android:layout_below="@id/label_text"
+                android:layout_below="@id/tv_list_content"
                 android:gravity="end"
                 android:textSize="@dimen/textSize_date"
                 android:alpha="0.7"/>
