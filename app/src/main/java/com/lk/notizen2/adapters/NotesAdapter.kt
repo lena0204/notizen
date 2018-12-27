@@ -65,7 +65,7 @@ class NotesAdapter(private val dataset: List<NoteEntity>,
         currentHolder.tvDate.text = if (timeString.contains("/")) {
             val indexSpace = timeString.indexOf(' ')
             val time = timeString.substring( indexSpace + 1)
-            var datum = timeString.substring(0, indexSpace - 1)
+            var datum = timeString.substring(0, indexSpace)
             val s = datum.split("/".toRegex())
             datum = s[2] + "." + s[1] + "." + s[0]
             "$datum $time"
