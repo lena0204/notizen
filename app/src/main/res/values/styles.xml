@@ -1,18 +1,23 @@
 <resources>
 
-    <style name="AppTheme" parent="android:Theme.Material.Light.DarkActionBar">
-        <item name="android:colorPrimary">@color/actionBarColor</item>
-        <item name="android:colorPrimaryDark">@color/statusBarColor</item>
-        <item name="android:colorAccent">@color/accentColor2</item>
+    <style name="AppThemeBrown" parent="android:Theme.Material.Light.DarkActionBar">
+        <item name="android:colorPrimary">@color/primary_brown</item>
+        <item name="android:colorPrimaryDark">@color/primary_dark_brown</item>
+        <item name="android:colorAccent">@color/accent_amber</item>
         <item name="android:textColorPrimary">@color/black</item>
     </style>
 
-    <!-- TODO auf Fontfamily festlegen, Farben für die Prioritätsicons entscheiden -->
+    <style name="AppThemeGrey" parent="android:Theme.Material.Light.DarkActionBar">
+        <item name="android:colorPrimary">@color/primary_bluegrey</item>
+        <item name="android:colorPrimaryDark">@color/primary_dark_bluegrey</item>
+        <item name="android:colorAccent">@color/accent_indigo</item>
+        <item name="android:textColorPrimary">@color/black</item>
+    </style>
 
-    <style name="AppThemeDark" parent="android:Theme.Material">
-        <item name="android:colorPrimary">@color/actionBarColorD</item>
-        <item name="android:colorPrimaryDark">@color/statusBarColorD</item>
-        <item name="android:colorAccent">@color/accentColor2</item>
+    <style name="AppThemeGreyDark" parent="android:Theme.Material">
+        <item name="android:colorPrimary">@color/primary_bluegrey</item>
+        <item name="android:colorPrimaryDark">@color/primary_dark_bluegrey</item>
+        <item name="android:colorAccent">@color/accent_indigo</item>
         <item name="android:textColorPrimary">@color/white</item>
     </style>
 
@@ -27,6 +32,14 @@
         <item name="android:padding">@dimen/padding_default</item>
         <item name="android:textSize">@dimen/textSize_show</item>
         <item name="android:alpha">1</item>
+    </style>
+
+    <style name="edit_note_views">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">6dp</item>
+        <item name="android:layout_marginEnd">6dp</item>
+        <item name="android:imeOptions">actionNext</item>
     </style>
 
     <!-- Style für den Spinner -->
@@ -45,7 +58,7 @@
     <style name="togglebutton_image">
         <item name="android:textOff">""</item>
         <item name="android:textOn">""</item>
-        <item name="android:backgroundTint">?android:attr/colorAccent</item>
+        <item name="android:backgroundTint">?android:attr/textColorPrimary</item>
         <item name="android:backgroundTintMode">src_atop</item>
         <item name="android:layout_width">25dp</item>
         <item name="android:layout_height">25dp</item>
@@ -56,7 +69,23 @@
         <item name="android:layout_height">22dp</item>
         <item name="android:layout_marginEnd">@dimen/padding_categories</item>
         <item name="android:enabled">false</item>
-        <item name="android:backgroundTint">?android:attr/textColorPrimary</item>
+    </style>
+
+    <style name="togglebutton_menu" parent="togglebutton_image">
+        <item name="android:layout_width">32dp</item>
+        <item name="android:layout_height">32dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+    <style name="imagebutton_menu" parent="android:Widget.Material.Button">
+        <item name="android:layout_width">36dp</item>
+        <item name="android:layout_height">36dp</item>
+        <item name="android:layout_marginTop">6dp</item>
+        <item name="android:layout_marginBottom">6dp</item>
+        <item name="android:elevation">6dp</item>
+        <item name="android:layout_gravity">center</item>
     </style>
 
     <style name="togglebutton_text" parent="android:Widget.DeviceDefault.Light.Button.Toggle">
@@ -68,6 +97,16 @@
         <item name="android:paddingStart">10dp</item>
         <item name="android:paddingEnd">10dp</item>
         <item name="android:background">@color/transparent</item>
+    </style>
+
+    <style name="fab">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">bottom|end</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:elevation">5dp</item>
+        <item name="android:layout_margin">10dp</item>
+        <item name="android:background">@drawable/floating_button</item>
     </style>
 
 </resources>

@@ -40,7 +40,7 @@ class NoteListFragment: Fragment(), Observer<Any>, NotesAdapter.onClickListener 
         notesViewModel = ViewModelFactory.getNotesViewModel(requireActivity())
         actionViewModel = ViewModelFactory.getActionViewModel(requireActivity())
         notesViewModel.addListObservers(this, this)
-        requireActivity().actionBar!!.setTitle(R.string.app_name)
+        requireActivity().actionBar?.setTitle(R.string.app_name)
         fab.setOnClickListener { _ ->
             actionViewModel.setAction(NotesAction.NEW_NOTE)
         }

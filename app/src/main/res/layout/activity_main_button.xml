@@ -19,13 +19,7 @@
 
     <ImageButton
         android:id="@+id/button_add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="10dp"
-        android:background="@drawable/floating_button"
-        android:elevation="5dp"
-        android:padding="8dp"
+        style="@style/fab"
         android:src="@drawable/ic_action_new" />
 
 </FrameLayout>

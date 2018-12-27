@@ -9,6 +9,8 @@
     <dimen name="textSize_categories">13sp</dimen>
     <dimen name="textSize_date">12sp</dimen>
 
+    <dimen name="category_bar_width">10dp</dimen>
+
     <!-- Eine Notiz -->
     <dimen name="textSize_show">18sp</dimen>
 

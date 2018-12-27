@@ -1,5 +1,7 @@
 package com.lk.notizen2.adapters
 
+import android.content.res.ColorStateList
+import android.graphics.PorterDuff
 import android.util.Log
 import android.view.*
 import android.widget.*
@@ -9,6 +11,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.lk.notizen2.R
 import com.lk.notizen2.database.NoteEntity
+import com.lk.notizen2.models.Category
 import com.lk.notizen2.utils.*
 
 /**
@@ -75,17 +78,15 @@ class NotesAdapter(private val dataset: List<NoteEntity>,
     }
 
     private fun printProtectedNote() {
-        currentHolder.tbPriority.isChecked = currentNote.getLockedAsEnum() == Priority.URGENT
         currentHolder.tbProtected.isChecked = true
-        currentHolder.cvNote.setCardBackgroundColor(activity.resources.getColor(Categories.WHITE.color))
+        currentHolder.tbPriority.visibility = View.GONE
+        setCategoryBar(currentNote.getCategoryAsEnum())
         resetViewsForProtected()
     }
 
     private fun resetViewsForProtected(){
-        currentHolder.tvText.text = ""
-        currentHolder.tvText.setLines(0)
-        currentHolder.tvCategory.text = ""
-        currentHolder.tvDate.setLines(0)
+        currentHolder.tvText.visibility = View.GONE
+        currentHolder.tvDate.visibility = View.GONE
     }
 
     private fun printNormalNote(){
@@ -93,11 +94,13 @@ class NotesAdapter(private val dataset: List<NoteEntity>,
 
         currentHolder.tvText.text = currentNote.content
         currentHolder.tbPriority.isChecked = currentNote.getPriorityAsEnum() == Priority.URGENT
-        currentHolder.tbProtected.isChecked = currentNote.getLockedAsEnum() == Lock.LOCKED
-        currentHolder.cvNote.setCardBackgroundColor(
-            activity.resources.getColor(category.color))
+        currentHolder.tbProtected.visibility = View.GONE
+        setCategoryBar(category)
         currentHolder.tvText.maxLines = category.lineNumber
-        currentHolder.tvCategory.text = category.category
+    }
+
+    private fun setCategoryBar(category: Category){
+        currentHolder.ivCategory.setImageResource(category.color)
     }
 
     override fun getItemCount(): Int {
@@ -107,13 +110,12 @@ class NotesAdapter(private val dataset: List<NoteEntity>,
     class ViewHolder(v: View) : RecyclerView.ViewHolder(v), View.OnCreateContextMenuListener {
 
         val tvId = v.findViewById<View>(R.id.tv_list_id) as TextView
-        val tvCategory = v.findViewById<View>(R.id.tv_list_category) as TextView
         val tvTitle = v.findViewById<View>(R.id.tv_list_title) as TextView
         val tvText = v.findViewById<View>(R.id.tv_list_content) as TextView
         val tvDate = v.findViewById<View>(R.id.tv_list_time) as TextView
         val tbPriority = v.findViewById<View>(R.id.iv_list_priority) as ToggleButton
         val tbProtected = v.findViewById<View>(R.id.iv_list_protected) as ToggleButton
-        val cvNote = v.findViewById<View>(R.id.cv_show_note) as CardView
+        val ivCategory = v.findViewById<View>(R.id.iv_list_category) as ImageView
 
         init {
             v.setOnClickListener {

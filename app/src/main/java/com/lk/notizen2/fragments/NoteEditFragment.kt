@@ -51,14 +51,6 @@ class NoteEditFragment: Fragment(), Observer<Any> {
                 add(CategoryDialog(), "CAT_DIALOG")
             }
         }
-        sw_edit_priority.setOnCheckedChangeListener { _, checked ->
-            tb_edit_priority.isChecked = checked
-            tb_edit_priority_text.isChecked = checked
-        }
-        sw_edit_protected.setOnCheckedChangeListener { _, checked ->
-            tb_edit_protected.isChecked = checked
-            tb_edit_protected_text.isChecked = checked
-        }
     }
 
     private fun printNote(note: NoteEntity){
@@ -68,13 +60,11 @@ class NoteEditFragment: Fragment(), Observer<Any> {
         tv_edit_id.text = note.id.toString()
         et_edit_title.setText(note.title, TextView.BufferType.EDITABLE)
         et_edit_description.setText(note.content,TextView.BufferType.EDITABLE)
-        sw_edit_priority.isChecked = (priority == Priority.URGENT)
-        sw_edit_protected.isChecked = (locked == Lock.LOCKED)
-        layout_todo_edit.background = Category.createDrawableForColor(note.getCategoryAsEnum().color, resources)
+        tb_edit_priority.isChecked = (priority == Priority.URGENT)
+        tb_edit_protected.isChecked = (locked == Lock.LOCKED)
         notesViewModel.selectedCategory.value = note.getCategoryAsEnum()
         requireActivity().actionBar?.title = note.title
         // TODO Themeauswahl / mindestens Themetracking implementieren mit generellem Zugriff ???
-        // TESTING_ Bearbeitung: schöne Lösung für verschiedene Status-Icons
     }
 
 // TODO nach dem Speichern taucht kurz die default version auf -> verhindern
@@ -110,20 +100,19 @@ class NoteEditFragment: Fragment(), Observer<Any> {
         note.title = et_edit_title.text.toString()
         note.content = et_edit_description.text.toString()
         note.date = DateFormat.format("yyyy/MM/dd HH:mm:ss", Date().time).toString()
-        if(sw_edit_priority.isChecked) {
+        if(tb_edit_priority.isChecked) {
             note.setPriorityAsEnum(Priority.URGENT)
         } else {
             note.setPriorityAsEnum(Priority.REMINDER)
         }
 
-        if(sw_edit_protected.isChecked) {
+        if(tb_edit_protected.isChecked) {
             note.setLockedAsEnum(Lock.LOCKED)
         } else {
 
             note.setLockedAsEnum(Lock.UNLOCKED)
         }
         note.setCategoryAsEnum(category)
-        // TODO note.category nur Kategorie fehlt noch
         return note
     }
 
@@ -135,7 +124,8 @@ class NoteEditFragment: Fragment(), Observer<Any> {
 
     private fun onCategoryChosen(newCategory: Category) {
         category = newCategory
-        layout_todo_edit.background = Category.createDrawableForColor(newCategory.color, resources)
+        iv_edit_category.setImageResource(newCategory.color)
+        bt_edit_category.setBackgroundColor(requireActivity().resources.getColor(newCategory.color))
     }
 
     private fun saveNote(saveButton: Boolean = false){

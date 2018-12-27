@@ -29,11 +29,11 @@ object Themer {
     fun onActivityCreateSetTheme(activity: Activity) {
         when (iTheme) {
             THEME_LIGHT -> {
-                activity.setTheme(R.style.AppTheme)
+                activity.setTheme(R.style.AppThemeGrey)
                 Log.d(TAG, "Changed to light theme")
             }
             THEME_DARK -> {
-                activity.setTheme(R.style.AppThemeDark)
+                activity.setTheme(R.style.AppThemeGreyDark)
                 Log.d(TAG, "Changed to dark theme")
             }
         }
