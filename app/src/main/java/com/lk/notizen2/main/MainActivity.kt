@@ -9,46 +9,56 @@ import androidx.lifecycle.ViewModelProviders
 import com.lk.notizen2.R
 import com.lk.notizen2.database.NoteEntity
 import com.lk.notizen2.fragments.*
+import com.lk.notizen2.models.ActionViewModel
 import com.lk.notizen2.models.NotesViewModel
+import com.lk.notizen2.utils.NotesAction
+import com.lk.notizen2.utils.ViewModelFactory
 
-class MainActivity : FragmentActivity(), Observer<Any> {
+class MainActivity : FragmentActivity(), Observer<NotesAction> {
 
     private val TAG = "MainActivity"
     private lateinit var notesViewModel: NotesViewModel
+    private lateinit var actionViewModel: ActionViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_empty)
-        notesViewModel = ViewModelProviders.of(this).get(NotesViewModel::class.java)
-        // TESTING_ notesViewModel.addTestNotes()
+
+        notesViewModel = ViewModelFactory.getNotesViewModel(this)
+        actionViewModel = ViewModelFactory.getActionViewModel(this)
+        actionViewModel.setObserver(this,this)
+
         supportFragmentManager.transaction { replace(R.id.fl_main_empty, NoteListFragment()) }
-        notesViewModel.selectedNote.observe(this, this)
-        notesViewModel.editNote.observe(this,this)
     }
 
-    override fun onChanged(update: Any?) {
-        if(update != null){
-            // TODO onChanged: bessere Aufteilung der Fälle, BackStack korrekt konfigurieren
-            when{
-                update is NoteEntity && update.title != "" -> {
-                    supportFragmentManager.transaction {
-                        addToBackStack(null)
-                        replace(R.id.fl_main_empty, NoteShowFragment())
-                    }
-                }
-                update is NoteEntity && update.title == "" -> {
-                    supportFragmentManager.transaction {
-                        addToBackStack(null)
-                        replace(R.id.fl_main_empty, NoteListFragment())
-                    }
-                }
-                update == true -> {
-                    supportFragmentManager.transaction {
-                        addToBackStack(null)
-                        replace(R.id.fl_main_empty, NoteEditFragment())
-                    }
+    override fun onChanged(update: NotesAction) {
+        // TODO Backstack konfigurieren
+        when (update){
+             NotesAction.SHOW_NOTE -> {
+                supportFragmentManager.transaction {
+                    addToBackStack(null)
+                    replace(R.id.fl_main_empty, NoteShowFragment())
                 }
             }
+            NotesAction.SHOW_LIST -> {
+                supportFragmentManager.transaction {
+                    addToBackStack(null)
+                    replace(R.id.fl_main_empty, NoteListFragment())
+                }
+            }
+            NotesAction.EDIT_NOTE -> {
+                supportFragmentManager.transaction {
+                    addToBackStack(null)
+                    replace(R.id.fl_main_empty, NoteEditFragment())
+                }
+            }
+            NotesAction.NEW_NOTE -> supportFragmentManager.transaction {
+                addToBackStack(null)
+                replace(R.id.fl_main_empty, NoteEditFragment())
+            }
+            NotesAction.SHOW_PREFERENCES -> TODO()
+            NotesAction.NONE -> { }
         }
+
     }
 }

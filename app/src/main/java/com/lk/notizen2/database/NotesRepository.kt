@@ -17,19 +17,20 @@ class NotesRepository(application: Application) {
     private val notes: LiveData<List<NoteEntity>> = dao.getNotes()
 
     fun getNotesList(): LiveData<List<NoteEntity>> {
-        Log.d(TAG, "Notes length: ${notes.value?.size}")
         return notes
     }
 
     fun insertNote(note: NoteEntity){
         launch {
             dao.insertNote(note)
+            Log.d(TAG, "insert Value: " + note.toString())
         }
     }
 
     fun updateNote(note: NoteEntity){
         launch {
             dao.updateNote(note)
+            Log.d(TAG, "update Value: " + note.toString())
         }
     }
 

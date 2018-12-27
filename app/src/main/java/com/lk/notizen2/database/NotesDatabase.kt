@@ -6,10 +6,8 @@ import androidx.room.*
 /**
  * Erstellt von Lena am 06.10.18.
  */
-@Database(entities = [NoteEntity::class, WidgetEntity::class], version = 1, exportSchema = true)
+@Database(entities = [NoteEntity::class, WidgetEntity::class], version = 2, exportSchema = true)
 abstract class NotesDatabase: RoomDatabase() {
-
-    //private val TAG = "NotesDatabase"
 
     abstract fun notesDao(): DAONotesWidgets
 

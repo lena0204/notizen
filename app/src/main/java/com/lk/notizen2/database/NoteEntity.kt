@@ -29,6 +29,9 @@ class NoteEntity {
     @ColumnInfo(name = "note_priority")
     var priority: Int = 0
 
+    @ColumnInfo(name = "note_locked")
+    var locked: Int = 0
+
     @ColumnInfo(name = "note_date")
     var date: String = ""
 
@@ -44,17 +47,17 @@ class NoteEntity {
         priority = _priority.ordinal
     }
 
-    companion object {
-        fun newNote(_title: String, _content: String, _priority: Priority, _category: Category,
-                    _date: String): NoteEntity
-        {
-            val note = NoteEntity()
-            note.title = _title
-            note.content = _content
-            note.date = _date
-            note.setCategoryAsEnum(_category)
-            note.setPriorityAsEnum(_priority)
-            return note
-        }
+    fun getLockedAsEnum(): Lock = Lock.values()[locked]
+
+    fun setLockedAsEnum(_protected: Lock){
+        locked = _protected.ordinal
+    }
+
+    override fun toString(): String {
+        return "{id: $id, title: $title, category: $category, priority: $priority, locked: $locked, date: $date }"
+    }
+
+    fun toLimitedString(): String {
+        return "{id=$id, Priority = $priority, Locked = $locked}"
     }
 }

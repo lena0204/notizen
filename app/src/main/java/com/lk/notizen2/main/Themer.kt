@@ -68,7 +68,7 @@ object Themer {
     }
 
     // passendes Prioritätsicon je nach Priorität und Theme zurückgeben
-    fun getStatusImage(priority: Priority, act: Activity): Drawable {
+/*    fun getStatusImage(priority: Priority, act: Activity): Drawable {
         var image = act.resources.getDrawable(R.mipmap.ic_priority)
         var color = act.resources.getColor(R.color.tint_reminder_light)
         if (isThemeApplied(THEME_LIGHT)) {
@@ -79,7 +79,7 @@ object Themer {
                     image = act.resources.getDrawable(R.mipmap.ic_protected)
                     color = act.resources.getColor(R.color.tint_protected_light)
                 }
-                Priority.REMINDER, Priority.ALL ->  { /* ignored */ }
+                Priority.REMINDER, Priority.ALL ->  { *//* ignored *//* }
             }
         } else {
             when(priority){
@@ -89,11 +89,11 @@ object Themer {
                     color = act.resources.getColor(R.color.tint_protected_dark)
                 }
                 Priority.REMINDER -> color = act.resources.getColor(R.color.tint_reminder_dark)
-                Priority.ALL ->  { /* ignored */ }
+                Priority.ALL ->  { *//* ignored *//* }
             }
         }
         image.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
         return image
-    }
+    }*/
 
 }

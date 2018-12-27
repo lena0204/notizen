@@ -5,11 +5,10 @@ import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.lk.notizen2.R
 import com.lk.notizen2.database.NoteEntity
-import com.lk.notizen2.models.Category
-import com.lk.notizen2.models.NotesViewModel
+import com.lk.notizen2.models.*
+import com.lk.notizen2.utils.*
 import kotlinx.android.synthetic.main.activity_todo_show.*
 import kotlinx.android.synthetic.main.activity_todo_show.view.*
 
@@ -20,21 +19,23 @@ class NoteShowFragment: Fragment(), Observer<NoteEntity> {
 
     private val TAG = "NoteShowFragment"
 
-    private lateinit var notesVielModel: NotesViewModel
+    private lateinit var notesViewModel: NotesViewModel
+    private lateinit var actionViewModel: ActionViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, saved: Bundle?): View? {
         val root = inflater.inflate(R.layout.activity_todo_show, container, false)
         root.tv_show_content.setOnClickListener { _ ->
             Log.d(TAG, "Clicked")
-            notesVielModel.editCurrentSelectedNote()
+            actionViewModel.setAction(NotesAction.EDIT_NOTE)
         }
         return root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        notesVielModel = ViewModelProviders.of(requireActivity()).get(NotesViewModel::class.java)
-        notesVielModel.selectedNote.observe(this, this)
+        notesViewModel = ViewModelFactory.getNotesViewModel(requireActivity())
+        actionViewModel = ViewModelFactory.getActionViewModel(requireActivity())
+        notesViewModel.selectedNote.observe(this, this)
     }
 
     private fun printNote(note: NoteEntity){
@@ -55,7 +56,7 @@ class NoteShowFragment: Fragment(), Observer<NoteEntity> {
 
     override fun onResume() {
         super.onResume()
-        if(notesVielModel.selectedNote.value != null)
-            printNote(notesVielModel.selectedNote.value!!)
+        if(notesViewModel.selectedNote.value != null)
+            printNote(notesViewModel.selectedNote.value!!)
     }
 }

@@ -44,4 +44,6 @@ interface DAONotesWidgets {
 
     @Delete
     abstract fun deleteWidget(entity: WidgetEntity)
+
+    // IDEA_ queries, die auf Filteroptionen abzielen (Priority und Category)
 }

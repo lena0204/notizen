@@ -20,11 +20,12 @@ class NotesViewModel(application: Application): AndroidViewModel(application) {
     val selectedNote = MutableLiveData<NoteEntity>()
     val filterPriority = MutableLiveData<Priority>()
     val filterColor = MutableLiveData<Category>()
-    val editNote = MutableLiveData<Boolean>()
+    val selectedCategory = MutableLiveData<Category>()
 
     init{
         filterPriority.value = Priority.ALL
         filterColor.value = Categories.ALL
+        selectedCategory.value = Categories.ALL
         selectedNote.value = NoteEntity()
     }
 
@@ -42,23 +43,24 @@ class NotesViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
-    fun editCurrentSelectedNote(){
-        if(selectedNote.value != null)
-            editNote.value = true
-        editNote.value = false
+    fun getNotes(): LiveData<List<NoteEntity>> {
+        return repository.getNotesList()
     }
 
-    fun getNotes(): LiveData<List<NoteEntity>> = repository.getNotesList()
 
-    fun insertNote(note: NoteEntity){
+    fun insertNote(note: NoteEntity, savedButton: Boolean = false){
         repository.insertNote(note)
-        selectedNote.value = NoteEntity()
-        // TODO führt zur Anzeige der Liste: noch keine ideale Lösung
+        selectedNote.value = note
+        if (savedButton)
+            selectedNote.value = NoteEntity()
     }
 
-    fun updateNote(note: NoteEntity){
+    fun updateNote(note: NoteEntity, savedButton: Boolean = false){
         repository.updateNote(note)
-        selectedNote.value = NoteEntity()
+        selectedNote.value = note
+        if (savedButton)
+            selectedNote.value = NoteEntity()
+        Log.d(TAG, selectedNote.value?.toString())
     }
 
     fun deleteNoteFromId(noteId: Int){
@@ -68,16 +70,4 @@ class NotesViewModel(application: Application): AndroidViewModel(application) {
             selectedNote.value = NoteEntity()
         }
     }
-
-    fun addTestNotes(){
-        repository.deleteAllNotes()
-        val eins = NoteEntity.newNote("Titel 1", "Text 214235khsfmnbcvcxklslkjfs",
-            Priority.URGENT_LOCKED, Categories.PURPLE, "10.10.2018")
-        val zwei = NoteEntity.newNote("Titel 2", "test 2 klsfdiwentew 1246543 kl23ljk",
-            Priority.REMINDER, Categories.GREEN, "25.10.2018")
-        insertNote(eins)
-        insertNote(zwei)
-        Log.d(TAG, "Added test notes")
-    }
-
 }

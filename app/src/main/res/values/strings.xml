@@ -12,6 +12,7 @@
     <string name="action_sort">Sortierung</string>
 
     <!-- Edit note -->
+    <string name="new_note">Neue Notiz</string>
     <string name="todo_edit_title">Titel</string>
     <string name="todo_edit_description">Beschreibung</string>
     <string name="todo_edit_confirm">Speichern</string>
@@ -20,11 +21,11 @@
     <string name="urgent">Dringend</string>
     <string name="reminder">Erinnerung</string>
     <string name="saved">Gespeichert</string>
-    <string name="protected_y">Schutz der Notiz aktiviert</string>
+    <string name="protected_y">Schutz aktiviert</string>
     <string name="protected_n">Schutz nicht aktiviert</string>
-    <string name="status_protected">Gesch\u00fctzt</string>
 
     <!-- Dialoge -->
+    <string name="category_dialog_title">Kategorie auswählen</string>
     <string name="dialog_title">L\u00F6schen?</string>
     <string name="dialog_message">Wollen Sie die Notiz wirklich l\u00F6schen?</string>
     <string name="dialog_ok">Ja</string>

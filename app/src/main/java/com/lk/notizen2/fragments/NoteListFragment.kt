@@ -6,17 +6,14 @@ import android.view.*
 import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.lk.notizen2.R
-import com.lk.notizen2.adapters.CardsAdapter
 import com.lk.notizen2.adapters.NotesAdapter
 import com.lk.notizen2.database.NoteEntity
-import com.lk.notizen2.models.Category
-import com.lk.notizen2.models.NotesViewModel
-import com.lk.notizen2.utils.Categories
-import com.lk.notizen2.utils.Priority
+import com.lk.notizen2.models.*
+import com.lk.notizen2.utils.*
+import kotlinx.android.synthetic.main.activity_main_button.*
 
 /**
  * Erstellt von Lena am 06.10.18.
@@ -27,6 +24,7 @@ class NoteListFragment: Fragment(), Observer<Any>, NotesAdapter.onClickListener 
     private lateinit var fab: ImageButton
     private lateinit var rv: RecyclerView
     private lateinit var notesViewModel: NotesViewModel
+    private lateinit var actionViewModel: ActionViewModel
     private var deleteId = -1
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, args: Bundle?): View? {
@@ -39,11 +37,13 @@ class NoteListFragment: Fragment(), Observer<Any>, NotesAdapter.onClickListener 
 
     override fun onActivityCreated(args: Bundle?) {
         super.onActivityCreated(args)
-        notesViewModel = ViewModelProviders.of(requireActivity()).get(NotesViewModel::class.java)
+        notesViewModel = ViewModelFactory.getNotesViewModel(requireActivity())
+        actionViewModel = ViewModelFactory.getActionViewModel(requireActivity())
         notesViewModel.addListObservers(this, this)
         requireActivity().actionBar!!.setTitle(R.string.app_name)
-        // FloatingActionButton klickbar machen
-        // TODO neue Notiz anlegen: Listener fab!!.setOnClickListener { listener!!.onNewTodo() }
+        fab.setOnClickListener { _ ->
+            actionViewModel.setAction(NotesAction.NEW_NOTE)
+        }
     }
 
     private fun setupRecyclerView(notesData: List<NoteEntity>, filterCategory: Category?, filterPriority: Priority?) {
@@ -88,6 +88,7 @@ class NoteListFragment: Fragment(), Observer<Any>, NotesAdapter.onClickListener 
     override fun onShowNote(noteId: Int) {
         Log.d(TAG, "showing note with id $noteId")
         notesViewModel.setSelectedNoteFromId(noteId)
+        actionViewModel.setAction(NotesAction.SHOW_NOTE)
     }
 
     /*override fun onContextItemSelected(item: MenuItem): Boolean {

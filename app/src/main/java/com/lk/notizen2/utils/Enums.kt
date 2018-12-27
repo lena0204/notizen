@@ -33,8 +33,21 @@ object Categories{
 
 enum class Priority {
     URGENT,
-    URGENT_LOCKED,
     REMINDER,
-    REMINDER_LOCKED,
     ALL
+}
+
+enum class Lock {
+    LOCKED,
+    UNLOCKED,
+    ALL
+}
+
+enum class NotesAction {
+    NONE,
+    NEW_NOTE,
+    SHOW_NOTE,
+    EDIT_NOTE,
+    SHOW_PREFERENCES,
+    SHOW_LIST
 }

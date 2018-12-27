@@ -1,61 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/layout_todo_edit"
     android:padding="@dimen/padding_default">
 
+    <!-- two lines of settings for priority and protection -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/padding_between"
-        android:layout_marginBottom="@dimen/padding_between"
-        android:layout_marginEnd="@dimen/padding_between"
-        android:layout_marginStart="0dp">
+        android:layout_marginBottom="3dp">
 
         <TextView
             android:id="@+id/tv_edit_id"
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minLines="2"
             android:visibility="invisible"/>
 
         <ToggleButton
             android:id="@+id/tb_edit_priority"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            style="@style/tb_image"
+            style="@style/togglebutton_image"
             android:layout_alignParentStart="true"
-            android:layout_marginEnd="10dp"
-            android:background="@drawable/selector_priority"/>
-
+            android:background="@drawable/selector_priority"
+            android:enabled="false"/>
         <ToggleButton
-            android:id="@+id/tb_edit_protected"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            style="@style/tb_image"
+            android:id="@+id/tb_edit_priority_text"
+            style="@style/togglebutton_text"
             android:layout_toEndOf="@id/tb_edit_priority"
-            android:background="@drawable/selector_protected" />
+            android:textOn="@string/urgent"
+            android:textOff="@string/reminder"
+            android:enabled="false"/>
+
+        <Switch
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/sw_edit_priority"
+            android:layout_alignParentEnd="true" />
 
     </RelativeLayout>
 
-    <!-- nötig damit der save button unten noch erscheint -->
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/et_edit_title"
-            android:layout_width="0dp"
+        <ToggleButton
+            android:id="@+id/tb_edit_protected"
+            style="@style/togglebutton_image"
+            android:background="@drawable/selector_protected" />
+
+        <ToggleButton
+            android:id="@+id/tb_edit_protected_text"
+            style="@style/togglebutton_text"
+            android:layout_toEndOf="@id/tb_edit_protected"
+            android:textOn="@string/protected_y"
+            android:textOff="@string/protected_n"
+            android:enabled="false"/>
+
+        <Switch
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="@string/todo_edit_title"
-            android:imeOptions="actionNext" />
-            <!-- TODO bessere Darstellung beim editieren, z.B. auch durch unterschiedlich Größen, gute Idee für die Buttons und die Farbe -->
-    </LinearLayout>
+            android:layout_width="wrap_content"
+            android:id="@+id/sw_edit_protected"
+            android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/et_edit_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/todo_edit_title"
+        android:imeOptions="actionNext" />
 
     <EditText
         android:id="@+id/et_edit_description"
@@ -71,4 +87,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/todo_edit_confirm"/>
+
+    <Button
+        android:id="@+id/bt_edit_category"
+        android:text="@string/category_dialog_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </LinearLayout>

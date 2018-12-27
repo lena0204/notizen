@@ -1,14 +1,14 @@
 package com.lk.notizen2.adapters
 
+import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.cardview.widget.CardView
+import androidx.core.content.pm.PermissionInfoCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.lk.notizen2.R
 import com.lk.notizen2.database.NoteEntity
-import com.lk.notizen2.main.Themer
-import com.lk.notizen2.models.Category
 import com.lk.notizen2.utils.*
 
 /**
@@ -20,6 +20,8 @@ class NotesAdapter(private val dataset: List<NoteEntity>,
     private val TAG = "NotesAdapter"
 
     private lateinit var currentHolder: ViewHolder
+    private lateinit var currentNote: NoteEntity
+
     var selectedNoteId: Int = 0
         private set
 
@@ -42,19 +44,16 @@ class NotesAdapter(private val dataset: List<NoteEntity>,
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         currentHolder = holder
-        // 0 -> Id, 1 -> Priority, 2 -> Title, 3 -> Text, 4 -> Farbe, 5 -> Datum
-        // passenden Array aus der Liste holen
-        val data = dataset[position]
-        val priority = data.getPriorityAsEnum()
-        val strText = data.content
-        val strColor = data.getCategoryAsEnum()
-        holder.tvId.text = data.id.toString()
-        holder.tvTitle.text = data.title
-        printTime(data.date)
-        if (isProtected(priority)) {
+        currentNote = dataset[position]
+
+        holder.tvId.text = currentNote.id.toString()
+        holder.tvTitle.text = currentNote.title
+        printTime(currentNote.date)
+
+        if (currentNote.getLockedAsEnum() == Lock.LOCKED) {
             printProtectedNote()
         } else {
-            printNormalNote(strColor, priority, strText)
+            printNormalNote()
         }
         holder.itemView.setOnLongClickListener {
             selectedNoteId = Integer.parseInt(holder.tvId.text.toString())
@@ -75,17 +74,9 @@ class NotesAdapter(private val dataset: List<NoteEntity>,
         }
     }
 
-    private fun isProtected(priority: Priority) =
-        priority == Priority.REMINDER_LOCKED || priority == Priority.URGENT_LOCKED
-
-    private fun printProtectedNote(){
-        // Schloss Icon setzen, -1 setzt das Schloss Icon
-        // currentHolder.ivPriority.setImageDrawable(Themer.getStatusImage(Priority.URGENT_LOCKED, activity))
-        currentHolder.tvPriority.setText(R.string.status_protected)
-        currentHolder.ivPriority.isChecked = false
+    private fun printProtectedNote() {
+        currentHolder.tbPriority.isChecked = currentNote.getLockedAsEnum() == Priority.URGENT
         currentHolder.tbProtected.isChecked = true
-        /*currentHolder.tvColor.background =
-                Category.createDrawableForColor(Categories.WHITE.color, activity.resources)*/
         currentHolder.cvNote.setCardBackgroundColor(activity.resources.getColor(Categories.WHITE.color))
         resetViewsForProtected()
     }
@@ -97,50 +88,17 @@ class NotesAdapter(private val dataset: List<NoteEntity>,
         currentHolder.tvDate.setLines(0)
     }
 
-    private fun printNormalNote(category: Category, priority: Priority, text: String){
-        // currentHolder.ivPriority.setImageDrawable()
-        /*currentHolder.tvColor.background =
-                Category.createDrawableForColor(category.color, activity.resources)*/
-        currentHolder.cvNote.setCardBackgroundColor(activity.resources.getColor(category.color))
-        currentHolder.tvText.text = text
-        if (priority == Priority.REMINDER) {
-            currentHolder.tvPriority.setText(R.string.reminder)
-            currentHolder.ivPriority.isChecked = false
-        } else {
-            currentHolder.tvPriority.setText(R.string.urgent)
-            currentHolder.ivPriority.isChecked = true
-        }
-        currentHolder.tvText.maxLines = 2
-        currentHolder.tvCategory.text = "Preview"
-        // limitLinesForColor(category.number)
-        // printColourCategory(category.number)
-    }
+    private fun printNormalNote(){
+        val category = currentNote.getCategoryAsEnum()
 
-   /* private fun limitLinesForColor(colorId: Int){
-        if (checkLinesLimitForColour(colorId) == -2) {
-            if (checkLinesLimitForColour(7) == -2) {
-                currentHolder.tvText.maxLines = 0
-            } else if (checkLinesLimitForColour(7) != -1) {
-                currentHolder.tvText.maxLines = checkLinesLimitForColour(7)
-            }
-        } else if (checkLinesLimitForColour(colorId) != -1) {
-            currentHolder.tvText.maxLines = checkLinesLimitForColour(colorId)
-        }
+        currentHolder.tvText.text = currentNote.content
+        currentHolder.tbPriority.isChecked = currentNote.getPriorityAsEnum() == Priority.URGENT
+        currentHolder.tbProtected.isChecked = currentNote.getLockedAsEnum() == Lock.LOCKED
+        currentHolder.cvNote.setCardBackgroundColor(
+            activity.resources.getColor(category.color))
+        currentHolder.tvText.maxLines = category.lineNumber
+        currentHolder.tvCategory.text = category.category
     }
-
-    private fun checkLinesLimitForColour(colourId: Int): Int {
-        val sp = PreferenceManager.getDefaultSharedPreferences(activity)
-        val lines = sp.getString(Constants.ARRAY_PREF_LINES[colourId], "-2") as String
-        return Integer.parseInt(lines)
-    }
-
-    private fun printColourCategory(iFarbe: Int) {
-        val sp = PreferenceManager.getDefaultSharedPreferences(activity)
-        val name = sp.getString(Constants.ARRAY_PREF_TITLES[iFarbe], "")
-        if (name != "") {
-            currentHolder.tvCategory.text = name
-        }
-    }*/
 
     override fun getItemCount(): Int {
         return dataset.size
@@ -148,14 +106,12 @@ class NotesAdapter(private val dataset: List<NoteEntity>,
 
     class ViewHolder(v: View) : RecyclerView.ViewHolder(v), View.OnCreateContextMenuListener {
 
-        // val tvColor = v.findViewById<View>(R.id.label_color) as TextView
         val tvId = v.findViewById<View>(R.id.tv_list_id) as TextView
-        val tvPriority = v.findViewById<View>(R.id.tv_list_priority) as TextView
         val tvCategory = v.findViewById<View>(R.id.tv_list_category) as TextView
         val tvTitle = v.findViewById<View>(R.id.tv_list_title) as TextView
         val tvText = v.findViewById<View>(R.id.tv_list_content) as TextView
         val tvDate = v.findViewById<View>(R.id.tv_list_time) as TextView
-        val ivPriority = v.findViewById<View>(R.id.iv_list_priority) as ToggleButton
+        val tbPriority = v.findViewById<View>(R.id.iv_list_priority) as ToggleButton
         val tbProtected = v.findViewById<View>(R.id.iv_list_protected) as ToggleButton
         val cvNote = v.findViewById<View>(R.id.cv_show_note) as CardView
 
@@ -173,6 +129,4 @@ class NotesAdapter(private val dataset: List<NoteEntity>,
             contextMenu.add(0, R.id.menu_delete, 0, R.string.action_delete)
         }
     }
-
-
 }

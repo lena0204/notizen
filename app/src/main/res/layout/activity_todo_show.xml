@@ -30,7 +30,7 @@
 
                 <ImageView
                     android:id="@+id/iv_show_protected"
-                    android:contentDescription="@string/status_protected"
+                    android:contentDescription="@string/protected_y"
                     android:layout_width="45dp"
                     android:layout_height="45dp"
                     android:padding="3dp"
