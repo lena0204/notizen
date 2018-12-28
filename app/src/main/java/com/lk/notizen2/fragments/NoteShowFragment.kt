@@ -11,8 +11,8 @@ import com.lk.notizen2.R
 import com.lk.notizen2.database.NoteEntity
 import com.lk.notizen2.models.*
 import com.lk.notizen2.utils.*
-import kotlinx.android.synthetic.main.activity_todo_show.*
-import kotlinx.android.synthetic.main.activity_todo_show.view.*
+import kotlinx.android.synthetic.main.fragment_show.*
+import kotlinx.android.synthetic.main.fragment_show.view.*
 
 /**
  * Erstellt von Lena am 06.10.18.
@@ -25,7 +25,7 @@ class NoteShowFragment: Fragment(), Observer<NoteEntity> {
     private lateinit var actionViewModel: ActionViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, saved: Bundle?): View? {
-        val root = inflater.inflate(R.layout.activity_todo_show, container, false)
+        val root = inflater.inflate(R.layout.fragment_show, container, false)
         root.tv_show_content.setOnClickListener { _ ->
             Log.d(TAG, "Clicked")
             actionViewModel.setAction(NotesAction.EDIT_NOTE)

@@ -6,26 +6,27 @@
     <color name="transparent">#00000000</color>
     <color name="light_bluegrey50">#eceff1</color>
 
-    <!-- neue Farben -->
-    <color name="primary_brown">#795548</color>
-    <color name="primary_dark_brown">#5d4037</color>
-    <color name="accent_amber">#ffd600</color>
-
     <color name="primary_bluegrey">#607d8b</color>
     <color name="primary_dark_bluegrey">#455a64</color>
-    <color name="accent_indigo_alt">#304ffe</color>
-    <color name="accent_indigo">#3d5afe</color>
+    <color name="accent_indigo">#aeea00</color>
 
     <!-- Farben für die Notizen hell -->
-    <color name="normal">#00000000</color>
+    <color name="normal">#eeeeee</color>
+    <color name="yellow">#fdd835</color>
+    <color name="orange">#ffa726</color>
+    <color name="red">#ff5252</color>
+    <color name="purple">#7e57c2</color>
+    <color name="blue">#42a5f5</color>
+    <color name="green">#9ccc65</color>
+
+    <!--<color name="normal">#00000000</color>
     <color name="yellow">#fffdf8ab</color>
     <color name="orange">#ffffce75</color>
     <color name="red">#ffff8b86</color>
     <color name="purple">#ffeeb4ff</color>
     <color name="blue">#ffa9f2ff</color>
-    <color name="green">#ffbbffb5</color>
+    <color name="green">#bbffb5</color>-->
 
-    <!-- Farben für die Notizen dunkel -->
     <color name="yellowD">#535000</color>
     <color name="orangeD">#502800</color>
     <color name="redD">#550900</color>
@@ -34,5 +35,5 @@
     <color name="greenD">#00552C</color>
 
     <!-- Widget -->
-    <color name="widget_background">#99111111</color>
+    <color name="widget_background">#000000</color>
 </resources>

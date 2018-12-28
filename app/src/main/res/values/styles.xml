@@ -1,24 +1,17 @@
 <resources>
 
-    <style name="AppThemeBrown" parent="android:Theme.Material.Light.DarkActionBar">
-        <item name="android:colorPrimary">@color/primary_brown</item>
-        <item name="android:colorPrimaryDark">@color/primary_dark_brown</item>
-        <item name="android:colorAccent">@color/accent_amber</item>
-        <item name="android:textColorPrimary">@color/black</item>
-    </style>
-
     <style name="AppThemeGrey" parent="android:Theme.Material.Light.DarkActionBar">
         <item name="android:colorPrimary">@color/primary_bluegrey</item>
         <item name="android:colorPrimaryDark">@color/primary_dark_bluegrey</item>
         <item name="android:colorAccent">@color/accent_indigo</item>
-        <item name="android:textColorPrimary">@color/black</item>
+        <item name="android:colorForeground">@color/black</item>
     </style>
 
     <style name="AppThemeGreyDark" parent="android:Theme.Material">
         <item name="android:colorPrimary">@color/primary_bluegrey</item>
         <item name="android:colorPrimaryDark">@color/primary_dark_bluegrey</item>
         <item name="android:colorAccent">@color/accent_indigo</item>
-        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:colorForeground">@color/white</item>
     </style>
 
     <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
@@ -42,71 +35,56 @@
         <item name="android:imeOptions">actionNext</item>
     </style>
 
-    <!-- Style für den Spinner -->
-    <style name="spinner_style">
-        <item name="android:layout_width">200dp</item>
-        <item name="android:layout_height">wrap_content</item>
-    </style>
-
-    <!-- Style für die Icons vom Widget -->
-    <style name="widget_icons">
-        <item name="android:layout_width">33dp</item>
-        <item name="android:layout_height">33dp</item>
-        <item name="android:layout_margin">@dimen/margin_icons</item>
-    </style>
-
     <style name="togglebutton_image">
         <item name="android:textOff">""</item>
         <item name="android:textOn">""</item>
-        <item name="android:backgroundTint">?android:attr/textColorPrimary</item>
+        <item name="android:backgroundTint">?android:attr/colorForeground</item>
         <item name="android:backgroundTintMode">src_atop</item>
-        <item name="android:layout_width">25dp</item>
-        <item name="android:layout_height">25dp</item>
-    </style>
-
-    <style name="togglebutton_card" parent="togglebutton_image">
-        <item name="android:layout_width">22dp</item>
-        <item name="android:layout_height">22dp</item>
-        <item name="android:layout_marginEnd">@dimen/padding_categories</item>
-        <item name="android:enabled">false</item>
-    </style>
-
-    <style name="togglebutton_menu" parent="togglebutton_image">
-        <item name="android:layout_width">32dp</item>
-        <item name="android:layout_height">32dp</item>
-        <item name="android:layout_marginTop">8dp</item>
-        <item name="android:layout_marginBottom">8dp</item>
-        <item name="android:layout_gravity">center</item>
-    </style>
-
-    <style name="imagebutton_menu" parent="android:Widget.Material.Button">
-        <item name="android:layout_width">36dp</item>
-        <item name="android:layout_height">36dp</item>
-        <item name="android:layout_marginTop">6dp</item>
-        <item name="android:layout_marginBottom">6dp</item>
-        <item name="android:elevation">6dp</item>
-        <item name="android:layout_gravity">center</item>
-    </style>
-
-    <style name="togglebutton_text" parent="android:Widget.DeviceDefault.Light.Button.Toggle">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">25dp</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:layout_gravity">center_vertical</item>
-        <item name="android:textAllCaps">false</item>
-        <item name="android:paddingStart">10dp</item>
-        <item name="android:paddingEnd">10dp</item>
-        <item name="android:background">@color/transparent</item>
+        <item name="android:layout_width">24dp</item>
+        <item name="android:layout_height">24dp</item>
     </style>
 
     <style name="fab">
+        <item name="android:layout_width">48dp</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_gravity">bottom|end</item>
+        <item name="android:padding">@dimen/padding_default</item>
+        <item name="android:elevation">5dp</item>
+        <item name="android:layout_margin">16dp</item>
+        <item name="android:tint">@color/black</item>
+        <item name="android:tintMode">src_atop</item>
+        <item name="android:background">@drawable/floating_button</item>
+    </style>
+
+    <!-- Constraint styles -->
+
+    <style name="tb_show_constraint" parent="togglebutton_image">
+        <item name="android:layout_marginStart">@dimen/padding_default</item>
+        <item name="android:layout_marginTop">@dimen/padding_default</item>
+    </style>
+
+    <style name="notes_show_constraint">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_gravity">bottom|end</item>
-        <item name="android:padding">8dp</item>
-        <item name="android:elevation">5dp</item>
-        <item name="android:layout_margin">10dp</item>
-        <item name="android:background">@drawable/floating_button</item>
+        <item name="android:layout_marginStart">12dp</item>
+        <item name="android:layout_marginTop">@dimen/padding_default</item>
+    </style>
+
+    <style name="notes_edit_constraint">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:layout_marginEnd">8dp</item>
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:imeOptions">actionNext</item>
+    </style>
+
+    <style name="tb_edit_menu_constraint" parent="togglebutton_image">
+        <item name="android:layout_width">28dp</item>
+        <item name="android:layout_height">28dp</item>
+        <item name="android:layout_marginTop">@dimen/padding_default</item>
+        <item name="android:layout_marginBottom">@dimen/padding_default</item>
+        <item name="android:backgroundTint">@color/light_bluegrey50</item>
+        <item name="android:layout_gravity">center</item>
     </style>
 
 </resources>

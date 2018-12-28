@@ -1,5 +1,7 @@
 package com.lk.notizen2.fragments
 
+import android.content.res.ColorStateList
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.text.format.DateFormat
 import android.util.Log
@@ -13,7 +15,7 @@ import com.lk.notizen2.database.NoteEntity
 import com.lk.notizen2.dialogs.CategoryDialog
 import com.lk.notizen2.models.*
 import com.lk.notizen2.utils.*
-import kotlinx.android.synthetic.main.activity_todo_edit.*
+import kotlinx.android.synthetic.main.fragment_edit.*
 import java.util.*
 
 /**
@@ -31,7 +33,7 @@ class NoteEditFragment: Fragment(), Observer<Any> {
     private var wasSaved = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, saved: Bundle?): View? {
-        val root = inflater.inflate(R.layout.activity_todo_edit, container, false)
+        val root = inflater.inflate(R.layout.fragment_edit, container, false)
         return root
     }
 
@@ -63,7 +65,7 @@ class NoteEditFragment: Fragment(), Observer<Any> {
         tb_edit_priority.isChecked = (priority == Priority.URGENT)
         tb_edit_protected.isChecked = (locked == Lock.LOCKED)
         notesViewModel.selectedCategory.value = note.getCategoryAsEnum()
-        requireActivity().actionBar?.title = note.title
+        // requireActivity().actionBar?.title = note.title
         // TODO Themeauswahl / mindestens Themetracking implementieren mit generellem Zugriff ???
     }
 
@@ -125,7 +127,9 @@ class NoteEditFragment: Fragment(), Observer<Any> {
     private fun onCategoryChosen(newCategory: Category) {
         category = newCategory
         iv_edit_category.setImageResource(newCategory.color)
-        bt_edit_category.setBackgroundColor(requireActivity().resources.getColor(newCategory.color))
+        bt_edit_category.imageTintList = ColorStateList.valueOf(requireActivity().resources.getColor(newCategory.color))
+        bt_edit_category.imageTintMode = PorterDuff.Mode.SRC_ATOP
+        // bt_edit_category.setBackgroundColor(requireActivity().resources.getColor(newCategory.color))
     }
 
     private fun saveNote(saveButton: Boolean = false){

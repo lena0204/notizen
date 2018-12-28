@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/iv_edit_category"
+        android:layout_width="10dp"
+        android:layout_height="0dp"
+        android:background="@color/green"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/et_edit_title"
+        style="@style/notes_edit_constraint"
+        android:layout_height="wrap_content"
+        android:hint="@string/todo_edit_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/iv_edit_category"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/et_edit_description"
+        style="@style/notes_edit_constraint"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:gravity="top"
+        android:hint="@string/todo_edit_description"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/iv_edit_category"
+        app:layout_constraintTop_toBottomOf="@+id/et_edit_title"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/tv_edit_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="48dp" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="?android:attr/colorPrimary"
+        android:elevation="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline2">
+
+        <!-- TODO Lila Flagge ist nicht gut sichtbar auf dem Hintergrund -->
+        <!-- TODO Notizfarben passen noch nicht einwandfrei zum dunklen Theme -->
+
+        <ToggleButton
+            android:id="@+id/tb_edit_priority"
+            style="@style/tb_edit_menu_constraint"
+            android:layout_marginStart="12dp"
+            android:background="@drawable/selector_priority"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ToggleButton
+            android:id="@+id/tb_edit_protected"
+            style="@style/tb_edit_menu_constraint"
+            android:layout_marginStart="16dp"
+            android:layout_toEndOf="@id/tb_edit_priority"
+            android:background="@drawable/selector_protected"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tb_edit_priority"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/bt_edit_category"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="16dp"
+            android:layout_toEndOf="@id/tb_edit_protected"
+            android:background="@color/transparent"
+            android:contentDescription="@string/category_dialog_title"
+            android:elevation="2dp"
+            android:src="@drawable/ic_flag_black_24dp"
+            android:tintMode="src_atop"
+            android:tint="@color/normal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tb_edit_protected"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/bt_edit_save"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="12dp"
+            android:background="@color/transparent"
+            android:contentDescription="@string/todo_edit_confirm"
+            android:elevation="2dp"
+            android:src="@drawable/ic_action_save"
+            android:tint="?android:attr/colorAccent"
+            android:tintMode="src_atop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

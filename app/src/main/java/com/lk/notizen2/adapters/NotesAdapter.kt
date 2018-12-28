@@ -41,7 +41,7 @@ class NotesAdapter(private val dataset: List<NoteEntity>,
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.list_cardview_2, parent, false)
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.list_notes_cardview, parent, false)
         return ViewHolder(v)
     }
 
