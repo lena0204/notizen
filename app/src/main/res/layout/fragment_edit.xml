@@ -60,7 +60,6 @@
         app:layout_constraintTop_toTopOf="@+id/guideline2">
 
         <!-- TODO Lila Flagge ist nicht gut sichtbar auf dem Hintergrund -->
-        <!-- TODO Notizfarben passen noch nicht einwandfrei zum dunklen Theme -->
 
         <ToggleButton
             android:id="@+id/tb_edit_priority"

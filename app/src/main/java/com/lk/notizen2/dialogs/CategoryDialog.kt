@@ -6,7 +6,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.lk.notizen2.R
-import com.lk.notizen2.main.MainActivity
 import com.lk.notizen2.models.NotesViewModel
 import com.lk.notizen2.utils.Categories
 import com.lk.notizen2.utils.ViewModelFactory

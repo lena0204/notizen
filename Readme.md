@@ -10,3 +10,5 @@ Planned for Android 5 and higher.
 - edit existing notes
 - save them
 - show existing notes
+- delete notes, without dialog currently
+- change theme between light and dark

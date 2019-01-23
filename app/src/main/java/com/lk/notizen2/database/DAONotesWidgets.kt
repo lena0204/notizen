@@ -9,41 +9,40 @@ import androidx.room.*
 @Dao
 interface DAONotesWidgets {
 
-    @Query("SELECT * FROM notes")
-    abstract fun getNotes(): LiveData<List<NoteEntity>>
+    @Query("SELECT * FROM notes ORDER BY note_date DESC")
+    fun getNotes(): LiveData<List<NoteEntity>>
 
     //@Query("SELECT * FROM notes WHERE note_id == :id")
     //abstract fun getNoteFromId(id: Int): NoteEntity
 
     @Insert
-    abstract fun insertNote(entity: NoteEntity)
+    fun insertNote(entity: NoteEntity)
 
     @Update
-    abstract fun updateNote(entity: NoteEntity)
+    fun updateNote(entity: NoteEntity)
 
     @Delete
-    abstract fun deleteNote(entity: NoteEntity)
+    fun deleteNote(entity: NoteEntity)
 
     @Query("DELETE FROM notes WHERE note_id >= 0")
-    abstract fun deleteAll()
+    fun deleteAll()
 
     @Query("SELECT * FROM widgets")
-    abstract fun getWidget(): LiveData<List<WidgetEntity>>
+    fun getWidget(): LiveData<List<WidgetEntity>>
 
     @Query("SELECT * FROM widgets WHERE widget_id == :id")
-    abstract fun getWidgetFromId(id: Int): WidgetEntity
+    fun getWidgetFromId(id: Int): WidgetEntity
 
     @Query("SELECT * FROM widgets WHERE note_id == :noteId")
-    abstract fun getWidgetFromNoteId(noteId: Int): WidgetEntity
+    fun getWidgetFromNoteId(noteId: Int): WidgetEntity
 
     @Insert
-    abstract fun insertWidget(entity: WidgetEntity)
+    fun insertWidget(entity: WidgetEntity)
 
     @Update
-    abstract fun updateWidget(entity: WidgetEntity)
+    fun updateWidget(entity: WidgetEntity)
 
     @Delete
-    abstract fun deleteWidget(entity: WidgetEntity)
+    fun deleteWidget(entity: WidgetEntity)
 
-    // IDEA_ queries, die auf Filteroptionen abzielen (Priority und Category)
 }

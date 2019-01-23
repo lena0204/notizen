@@ -9,8 +9,7 @@ import com.lk.notizen2.R
  */
 data class Category(
     val number: Int = 0,
-    val color: Int = R.color.white,
-    val colorDark: Int = R.color.black,
+    val color: Int = R.color.normal,
     val category: String = "",
     val lineNumber: Int = 2
 ) {

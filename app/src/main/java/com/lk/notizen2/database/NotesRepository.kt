@@ -3,7 +3,7 @@ package com.lk.notizen2.database
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.LiveData
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.*
 
 /**
  * Erstellt von Lena am 06.10.18.
@@ -21,27 +21,28 @@ class NotesRepository(application: Application) {
     }
 
     fun insertNote(note: NoteEntity){
-        launch {
+        GlobalScope.launch(Dispatchers.IO) {
             dao.insertNote(note)
             Log.d(TAG, "insert Value: " + note.toString())
         }
     }
 
     fun updateNote(note: NoteEntity){
-        launch {
+        GlobalScope.launch(Dispatchers.IO) {
             dao.updateNote(note)
             Log.d(TAG, "update Value: " + note.toString())
         }
     }
 
     fun deleteNote(note: NoteEntity){
-        launch {
+        GlobalScope.launch(Dispatchers.IO) {
             dao.deleteNote(note)
+            Log.d(TAG, "delete note")
         }
     }
 
     fun deleteAllNotes(){
-        launch{
+        GlobalScope.launch(Dispatchers.IO){
             dao.deleteAll()
         }
     }

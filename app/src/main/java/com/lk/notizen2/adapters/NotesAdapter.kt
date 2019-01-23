@@ -1,12 +1,8 @@
 package com.lk.notizen2.adapters
 
-import android.content.res.ColorStateList
-import android.graphics.PorterDuff
 import android.util.Log
 import android.view.*
 import android.widget.*
-import androidx.cardview.widget.CardView
-import androidx.core.content.pm.PermissionInfoCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.lk.notizen2.R
@@ -130,5 +126,7 @@ class NotesAdapter(private val dataset: List<NoteEntity>,
                                          contextMenuInfo: ContextMenu.ContextMenuInfo?) {
             contextMenu.add(0, R.id.menu_delete, 0, R.string.action_delete)
         }
+
+
     }
 }

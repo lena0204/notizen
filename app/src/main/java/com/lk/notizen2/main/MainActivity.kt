@@ -1,18 +1,16 @@
 package com.lk.notizen2.main
 
 import android.os.Bundle
-import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.transaction
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.lk.notizen2.R
-import com.lk.notizen2.database.NoteEntity
 import com.lk.notizen2.fragments.*
 import com.lk.notizen2.models.ActionViewModel
 import com.lk.notizen2.models.NotesViewModel
-import com.lk.notizen2.utils.NotesAction
-import com.lk.notizen2.utils.ViewModelFactory
+import com.lk.notizen2.utils.*
 
 class MainActivity : FragmentActivity(), Observer<NotesAction> {
 
@@ -22,6 +20,7 @@ class MainActivity : FragmentActivity(), Observer<NotesAction> {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Themer.setThemeOnCreated(this)
         setContentView(R.layout.activity_main_empty)
 
         notesViewModel = ViewModelFactory.getNotesViewModel(this)
@@ -32,7 +31,7 @@ class MainActivity : FragmentActivity(), Observer<NotesAction> {
     }
 
     override fun onChanged(update: NotesAction) {
-        // TODO Backstack konfigurieren
+        // TESTING_ Backstack konfigurieren
         when (update){
              NotesAction.SHOW_NOTE -> {
                 supportFragmentManager.transaction {
@@ -42,23 +41,32 @@ class MainActivity : FragmentActivity(), Observer<NotesAction> {
             }
             NotesAction.SHOW_LIST -> {
                 supportFragmentManager.transaction {
-                    addToBackStack(null)
                     replace(R.id.fl_main_empty, NoteListFragment())
                 }
             }
-            NotesAction.EDIT_NOTE -> {
+            NotesAction.EDIT_NOTE, NotesAction.NEW_NOTE -> {
                 supportFragmentManager.transaction {
                     addToBackStack(null)
                     replace(R.id.fl_main_empty, NoteEditFragment())
                 }
             }
-            NotesAction.NEW_NOTE -> supportFragmentManager.transaction {
-                addToBackStack(null)
-                replace(R.id.fl_main_empty, NoteEditFragment())
-            }
             NotesAction.SHOW_PREFERENCES -> TODO()
-            NotesAction.NONE -> { }
+            NotesAction.NONE -> {  }
         }
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val value =  super.onCreateOptionsMenu(menu)
+        this.menuInflater.inflate(R.menu.menu_main, menu)
+        return value
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        val value = super.onOptionsItemSelected(item)
+        if(item?.itemId == R.id.menu_themeswitch){
+            Themer.switchTheme(this)
+        }
+        return value
     }
 }

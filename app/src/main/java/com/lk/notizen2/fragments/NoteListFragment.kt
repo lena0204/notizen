@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,7 +14,6 @@ import com.lk.notizen2.adapters.NotesAdapter
 import com.lk.notizen2.database.NoteEntity
 import com.lk.notizen2.models.*
 import com.lk.notizen2.utils.*
-import kotlinx.android.synthetic.main.activity_main_button.*
 
 /**
  * Erstellt von Lena am 06.10.18.
@@ -31,7 +31,7 @@ class NoteListFragment: Fragment(), Observer<Any>, NotesAdapter.onClickListener 
         val rootView = inflater.inflate(R.layout.activity_main_button, container, false)
         fab = rootView.findViewById<View>(R.id.button_add) as ImageButton
         rv = rootView.findViewById<View>(R.id.recyclerview) as RecyclerView
-        // registerForContextMenu(rv)
+        registerForContextMenu(rv)
         return rootView
     }
 
@@ -41,8 +41,9 @@ class NoteListFragment: Fragment(), Observer<Any>, NotesAdapter.onClickListener 
         actionViewModel = ViewModelFactory.getActionViewModel(requireActivity())
         notesViewModel.addListObservers(this, this)
         requireActivity().actionBar?.setTitle(R.string.app_name)
-        fab.setOnClickListener { _ ->
+        fab.setOnClickListener {
             actionViewModel.setAction(NotesAction.NEW_NOTE)
+            notesViewModel.selectedNote.value = NoteEntity()
         }
     }
 
@@ -91,13 +92,15 @@ class NoteListFragment: Fragment(), Observer<Any>, NotesAdapter.onClickListener 
         actionViewModel.setAction(NotesAction.SHOW_NOTE)
     }
 
-    /*override fun onContextItemSelected(item: MenuItem): Boolean {
+    override fun onContextItemSelected(item: MenuItem): Boolean {
         try {
             deleteId = (rv.adapter as NotesAdapter).selectedNoteId
-            if (item.itemId == R.id.action_delete) {
-                // die Notiz löschen; Dialog aufrufen um löschen zu bestätigen
-                val delete = DeleteDialog()
-                delete.show(fragmentManager, "Delete")
+            if (item.itemId == R.id.menu_delete) {
+                notesViewModel.deleteNoteFromId(deleteId)
+
+                // TODO Dialog anzeigen
+                // val delete = DeleteDialog()
+                // delete.show(fragmentManager, "Delete")
             }
         } catch (ex: Exception) {
             Log.d(TAG, ex.localizedMessage + "; " + ex.message)
@@ -108,5 +111,5 @@ class NoteListFragment: Fragment(), Observer<Any>, NotesAdapter.onClickListener 
     fun deleteItem() {
         notesViewModel.deleteNoteFromId(deleteId)
         Toast.makeText(activity, R.string.toast_deleted, Toast.LENGTH_SHORT).show()
-    }*/
+    }
 }

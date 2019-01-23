@@ -1,17 +1,22 @@
-<resources>
+<resources
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <style name="AppThemeGrey" parent="android:Theme.Material.Light.DarkActionBar">
         <item name="android:colorPrimary">@color/primary_bluegrey</item>
         <item name="android:colorPrimaryDark">@color/primary_dark_bluegrey</item>
         <item name="android:colorAccent">@color/accent_indigo</item>
-        <item name="android:colorForeground">@color/black</item>
+        <!--<item name="android:colorForeground">@color/black</item>-->
     </style>
 
     <style name="AppThemeGreyDark" parent="android:Theme.Material">
         <item name="android:colorPrimary">@color/primary_bluegrey</item>
         <item name="android:colorPrimaryDark">@color/primary_dark_bluegrey</item>
         <item name="android:colorAccent">@color/accent_indigo</item>
-        <item name="android:colorForeground">@color/white</item>
+        <!--<item name="android:colorForeground">@color/white</item>-->
+    </style>
+
+    <style name="AppThemeGreyBlack" parent="AppThemeGreyDark">
+        <item name="android:colorBackground">@color/black</item>
     </style>
 
     <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">

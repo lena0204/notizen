@@ -1,7 +1,5 @@
 package com.lk.notizen2.fragments
 
-import android.content.res.ColorStateList
-import android.graphics.PorterDuff
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -48,18 +46,10 @@ class NoteShowFragment: Fragment(), Observer<NoteEntity> {
         tb_show_priority.isChecked = note.getPriorityAsEnum() == Priority.URGENT
         tv_show_category.text = note.getCategoryAsEnum().category
         setCategoryBar(note.getCategoryAsEnum())
-
-        // requireActivity().actionBar?.title = note.title
-
-        // TODO mindestens Themetracking implementieren mit generellem Zugriff ??
-        // TESTING_ Anzeige: schöne Lösung für verschiedene Status-Icons
     }
 
     private fun setCategoryBar(category: Category){
         iv_show_category.setImageResource(category.color)
-        /*iv_show_category.backgroundTintList =
-                ColorStateList.valueOf(requireActivity().resources.getColor(category.color))
-        iv_show_category.backgroundTintMode = PorterDuff.Mode.SRC_ATOP*/
     }
 
     override fun onChanged(selectedNote: NoteEntity?) {

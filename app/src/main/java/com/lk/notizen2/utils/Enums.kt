@@ -9,12 +9,12 @@ import com.lk.notizen2.models.Category
 object Categories{
 
     val WHITE = Category(category = "Weiss")
-    val YELLOW = Category(1, R.color.yellow, R.color.yellowD, "Gelb")
-    val ORANGE = Category(2, R.color.orange, R.color.orangeD, "Orange")
-    val RED = Category(3, R.color.red, R.color.redD, "Rot")
-    val PURPLE = Category(4, R.color.purple, R.color.purpleD, "Lila")
-    val BLUE = Category(5, R.color.blue, R.color.blueD, "Blau")
-    val GREEN = Category(6, R.color.green, R.color.greenD, "Gruen")
+    val YELLOW = Category(1, R.color.yellow, "Gelb")
+    val ORANGE = Category(2, R.color.orange, "Orange")
+    val RED = Category(3, R.color.red, "Rot")
+    val PURPLE = Category(4, R.color.purple, "Lila")
+    val BLUE = Category(5, R.color.blue, "Blau")
+    val GREEN = Category(6, R.color.green, "Gruen")
     val ALL = Category(7, category = "All")
 
     fun getCategory(counter: Int): Category{
@@ -50,4 +50,10 @@ enum class NotesAction {
     EDIT_NOTE,
     SHOW_PREFERENCES,
     SHOW_LIST
+}
+
+enum class Design {
+    THEME_LIGHT,
+    THEME_DARK,
+    // THEME_BLACK
 }

@@ -7,6 +7,7 @@ import android.text.format.DateFormat
 import android.util.Log
 import android.view.*
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.transaction
 import androidx.lifecycle.Observer
@@ -44,9 +45,14 @@ class NoteEditFragment: Fragment(), Observer<Any> {
         notesViewModel.selectedNote.observe(this, this)
         notesViewModel.selectedCategory.observe(this,this)
         bt_edit_save.setOnClickListener { _ ->
-            saveNote(saveButton = true)
-            wasSaved = true
-            actionViewModel.setAction(NotesAction.SHOW_LIST)
+            if(et_edit_title.text.isNotEmpty()) {
+                saveNote(saveButton = true)
+                wasSaved = true
+                actionViewModel.setAction(NotesAction.SHOW_LIST)
+            } else {
+                // TODO fehlenden Titel eleganter lösen
+                Toast.makeText(context, R.string.no_title, Toast.LENGTH_LONG).show()
+            }
         }
         bt_edit_category.setOnClickListener { _ ->
             requireActivity().supportFragmentManager.transaction {
@@ -56,7 +62,6 @@ class NoteEditFragment: Fragment(), Observer<Any> {
     }
 
     private fun printNote(note: NoteEntity){
-        // wasSaved = false
         priority = note.getPriorityAsEnum()
         val locked = note.getLockedAsEnum()
         tv_edit_id.text = note.id.toString()
@@ -65,11 +70,9 @@ class NoteEditFragment: Fragment(), Observer<Any> {
         tb_edit_priority.isChecked = (priority == Priority.URGENT)
         tb_edit_protected.isChecked = (locked == Lock.LOCKED)
         notesViewModel.selectedCategory.value = note.getCategoryAsEnum()
-        // requireActivity().actionBar?.title = note.title
-        // TODO Themeauswahl / mindestens Themetracking implementieren mit generellem Zugriff ???
     }
 
-// TODO nach dem Speichern taucht kurz die default version auf -> verhindern
+    // TODO nach dem Speichern taucht kurz die default version (Farbe und Buttons) auf -> verhindern
     override fun onChanged(update: Any?) {
         if(update is NoteEntity?) {
             isNewNote = !isValidNote(update)
@@ -88,7 +91,7 @@ class NoteEditFragment: Fragment(), Observer<Any> {
     private fun printDefault(){
         tb_edit_priority.isChecked = false
         tb_edit_protected.isChecked = false
-        requireActivity().actionBar?.title = resources.getString(R.string.new_note)
+        onCategoryChosen(Categories.WHITE)
     }
 
     private fun isValidNote(note: NoteEntity?) = (note != null && note.id != 0)
@@ -127,13 +130,13 @@ class NoteEditFragment: Fragment(), Observer<Any> {
     private fun onCategoryChosen(newCategory: Category) {
         category = newCategory
         iv_edit_category.setImageResource(newCategory.color)
-        bt_edit_category.imageTintList = ColorStateList.valueOf(requireActivity().resources.getColor(newCategory.color))
+        bt_edit_category.imageTintList =
+                ColorStateList.valueOf(requireActivity().resources.getColor(newCategory.color))
         bt_edit_category.imageTintMode = PorterDuff.Mode.SRC_ATOP
-        // bt_edit_category.setBackgroundColor(requireActivity().resources.getColor(newCategory.color))
     }
 
     private fun saveNote(saveButton: Boolean = false){
-        if (!wasSaved) {
+        if (!wasSaved && et_edit_title.text.isNotEmpty()) {
             Log.d(TAG, "saving with button: $saveButton")
             val note = storeInputDataInNote()
             if (isNewNote)
