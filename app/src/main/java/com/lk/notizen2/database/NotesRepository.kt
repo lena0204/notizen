@@ -21,28 +21,28 @@ class NotesRepository(application: Application) {
     }
 
     fun insertNote(note: NoteEntity){
-        GlobalScope.launch(Dispatchers.IO) {
+        GlobalScope.launch(Dispatchers.Default) {
             dao.insertNote(note)
             Log.d(TAG, "insert Value: " + note.toString())
         }
     }
 
     fun updateNote(note: NoteEntity){
-        GlobalScope.launch(Dispatchers.IO) {
+        GlobalScope.launch(Dispatchers.Default) {
             dao.updateNote(note)
             Log.d(TAG, "update Value: " + note.toString())
         }
     }
 
     fun deleteNote(note: NoteEntity){
-        GlobalScope.launch(Dispatchers.IO) {
+        GlobalScope.launch(Dispatchers.Default) {
             dao.deleteNote(note)
             Log.d(TAG, "delete note")
         }
     }
 
     fun deleteAllNotes(){
-        GlobalScope.launch(Dispatchers.IO){
+        GlobalScope.launch(Dispatchers.Default){
             dao.deleteAll()
         }
     }

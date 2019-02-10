@@ -11,7 +11,7 @@ data class Category(
     val number: Int = 0,
     val color: Int = R.color.normal,
     val category: String = "",
-    val lineNumber: Int = 2
+    val lineNumber: Int = 4
 ) {
     companion object {
         fun createDrawableForColor(color: Int, resources: Resources): Drawable {

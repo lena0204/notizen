@@ -22,9 +22,9 @@ object Themer {
             Design.THEME_LIGHT ->
                 writeThemeToSharedPrefs(Design.THEME_DARK)
             Design.THEME_DARK ->
+                writeThemeToSharedPrefs(Design.THEME_BLACK)
+            Design.THEME_BLACK ->
                 writeThemeToSharedPrefs(Design.THEME_LIGHT)
-            //Design.THEME_BLACK ->
-              //  writeThemeToSharedPrefs(Design.THEME_LIGHT)
         }
         // IDEA_ ein ordentliches schwarzes Theme erstellen; Handling cardBackground?
         activity.recreate()
@@ -49,7 +49,7 @@ object Themer {
         val themeID = when(currentTheme){
             Design.THEME_LIGHT -> R.style.AppThemeGrey
             Design.THEME_DARK -> R.style.AppThemeGreyDark
-            // Design.THEME_BLACK -> R.style.AppThemeGreyBlack
+            Design.THEME_BLACK -> R.style.AppThemeGreyBlack
         }
         activity.setTheme(themeID)
     }

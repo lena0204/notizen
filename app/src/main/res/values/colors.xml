@@ -5,19 +5,20 @@
     <color name="black">#000000</color>
     <color name="transparent">#00000000</color>
     <color name="light_bluegrey50">#eceff1</color>
+    <color name="grey_semi_transparent">#40999999</color>
 
-    <color name="primary_bluegrey">#607d8b</color>
-    <color name="primary_dark_bluegrey">#455a64</color>
-    <color name="accent_indigo">#aeea00</color>
+    <color name="primary_color">#607d8b</color>
+    <color name="primary_dark_color">#455a64</color>
+    <color name="accent_color">#aeea00</color>
 
     <!-- Farben für die Notizen hell -->
     <color name="normal">#e0e0e0</color>
     <color name="yellow">#ffe082</color>
-    <color name="orange">#ffb74d</color>
+    <color name="orange">#FFB74D</color>
     <color name="red">#ff8a80</color>
     <color name="purple">#9575cd</color>
     <color name="blue">#90caf9</color>
-    <color name="green">#aed581</color>
+    <color name="green">#AED581</color>
 
     <!-- Widget -->
     <color name="widget_background">#000000</color>

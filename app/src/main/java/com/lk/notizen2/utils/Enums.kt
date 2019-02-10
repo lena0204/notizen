@@ -55,5 +55,5 @@ enum class NotesAction {
 enum class Design {
     THEME_LIGHT,
     THEME_DARK,
-    // THEME_BLACK
+    THEME_BLACK
 }
