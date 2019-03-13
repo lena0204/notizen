@@ -3,6 +3,7 @@ package com.lk.notizen2.main
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.transaction
 import androidx.lifecycle.Observer
@@ -30,8 +31,10 @@ class MainActivity : FragmentActivity(), Observer<NotesAction> {
         supportFragmentManager.transaction { replace(R.id.fl_main_empty, NoteListFragment()) }
     }
 
+    // TODO Permission Request fur Write / Read external storage, manuell nötig
+    // TODO Asynchron umsetzen
+
     override fun onChanged(update: NotesAction) {
-        // TESTING_ Backstack konfigurieren
         when (update){
              NotesAction.SHOW_NOTE -> {
                 supportFragmentManager.transaction {
@@ -64,9 +67,29 @@ class MainActivity : FragmentActivity(), Observer<NotesAction> {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         val value = super.onOptionsItemSelected(item)
-        if(item?.itemId == R.id.menu_themeswitch){
-            Themer.switchTheme(this)
+        when(item?.itemId){
+            R.id.menu_themeswitch -> Themer.switchTheme(this)
+            R.id.menu_backup -> {
+                val result = BackupRestore.backupNotes(notesViewModel.getNotes().value!!)
+                if(result) {
+                    createToast(R.string.toast_backup)
+                } else {
+                    createToast(R.string.toast_b_failed)
+                }
+            }
+            R.id.menu_restore -> {
+                val result = BackupRestore.restoreNotes(this)
+                if(result) {
+                    createToast(R.string.toast_restored)
+                } else {
+                    createToast(R.string.toast_r_failed)
+                }
+            }
         }
         return value
+    }
+
+    private fun createToast(text: Int){
+        Toast.makeText(applicationContext, text, Toast.LENGTH_LONG).show()
     }
 }

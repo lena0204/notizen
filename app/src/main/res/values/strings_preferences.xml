@@ -3,8 +3,12 @@
 
     <!-- Settings -->
     <string name="pref_theme_title">Design \u00e4ndern</string>
-    <string name="pref_theme_summary_a">Helles Design ist angewandt</string>
-    <string name="pref_theme_summary_e">Dunkles Design ist angewandt</string>
+    <string name="pref_theme_summary_light">Helles Design ist angewandt</string>
+    <string name="pref_theme_summary_dark">Dunkles Design ist angewandt</string>
+    <string name="pref_theme_summary_black">Schwarzes Design ist angewandt</string>
+
+
+
     <string name="pref_dynamic_title">Design zeitabh\u00e4ngig setzen</string>
     <string name="pref_dynamic_summary_a">Design wird nicht ver\u00e4ndert</string>
     <string name="pref_dynamic_summary_e">Dynamische Anpassung je nach Zeit</string>
@@ -57,6 +61,9 @@
     <string name="name_red">Wichtig</string>
     <string name="name_orange">Apps</string>
 
-
+    <!-- NEU -->
+    <string name="pref_cat_standard">Standardkategorie</string>
+    <string name="pref_categories">Kategorien</string>
+    <string name="pref_categories_summary">Einstellungen für die einzelnen Kategorien</string>
 
 </resources>

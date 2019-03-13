@@ -12,3 +12,4 @@ Planned for Android 5 and higher.
 - show existing notes
 - delete notes, without dialog currently
 - change theme between light, dark and black
+- basic backup / restore functionality
