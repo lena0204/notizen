@@ -1,6 +1,5 @@
 package com.lk.notizen2.adapters
 
-import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.fragment.app.FragmentActivity
@@ -14,7 +13,8 @@ import com.lk.notizen2.utils.*
  * Erstellt von Lena am 06.10.18.
  */
 class NotesAdapter(private val dataset: List<NoteEntity>,
-                   private val activity: FragmentActivity): RecyclerView.Adapter<NotesAdapter.ViewHolder>() {
+                   private val activity: FragmentActivity):
+        RecyclerView.Adapter<NotesAdapter.ViewHolder>() {
 
     private val TAG = "NotesAdapter"
 
@@ -25,55 +25,51 @@ class NotesAdapter(private val dataset: List<NoteEntity>,
         private set
 
     companion object {
-        var listener: onClickListener? = null
+        var listener: OnClickListener? = null
     }
 
-    interface onClickListener {
+    interface OnClickListener {
         fun onShowNote(noteId: Int)
     }
 
-    fun setListener(cl: onClickListener) {
+    fun setListener(cl: OnClickListener) {
         listener = cl
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.list_notes_cardview, parent, false)
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.list_notes_cardview,
+            parent, false)
         return ViewHolder(v)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         currentHolder = holder
         currentNote = dataset[position]
-
-        holder.tvId.text = currentNote.id.toString()
-        holder.tvTitle.text = currentNote.title
-        printTime(currentNote.date)
-
         if (currentNote.getLockedAsEnum() == Lock.LOCKED) {
             printProtectedNote()
         } else {
-            printNormalNote()
+            printOpenNote()
         }
-        holder.itemView.setOnLongClickListener {
-            selectedNoteId = Integer.parseInt(holder.tvId.text.toString())
-            false
-        }
+        setLongClickListener()
     }
 
-    private fun printTime(timeString: String) {
-        currentHolder.tvDate.text = if (timeString.contains("/")) {
-            val indexSpace = timeString.indexOf(' ')
-            val time = timeString.substring( indexSpace + 1)
-            var datum = timeString.substring(0, indexSpace)
-            val s = datum.split("/".toRegex())
-            datum = s[2] + "." + s[1] + "." + s[0]
-            "$datum $time"
-        } else {
-            timeString
-        }
+    private fun printBasicNoteData(){
+        currentHolder.tvId.text = currentNote.id.toString()
+        currentHolder.tvTitle.text = currentNote.title
+        currentHolder.tvDate.text = getFormattedDate(currentNote.date)
+    }
+
+    private fun getFormattedDate(dateTime: String): String {
+        val indexOfSpace = dateTime.indexOf(' ')
+        val time = dateTime.substring( indexOfSpace + 1)
+        var date = dateTime.substring(0, indexOfSpace)
+        val dateParts = date.split("/".toRegex())
+        date = dateParts[2] + "." + dateParts[1] + "." + dateParts[0]
+        return "$date $time"
     }
 
     private fun printProtectedNote() {
+        printBasicNoteData()
         currentHolder.tbProtected.isChecked = true
         currentHolder.tbPriority.visibility = View.GONE
         setCategoryBar(currentNote.getCategoryAsEnum())
@@ -85,18 +81,26 @@ class NotesAdapter(private val dataset: List<NoteEntity>,
         currentHolder.tvDate.visibility = View.GONE
     }
 
-    private fun printNormalNote(){
+    private fun printOpenNote(){
+        printBasicNoteData()
         val category = currentNote.getCategoryAsEnum()
+        setCategoryBar(category)
 
         currentHolder.tvText.text = currentNote.content
         currentHolder.tbPriority.isChecked = currentNote.getPriorityAsEnum() == Priority.URGENT
         currentHolder.tbProtected.visibility = View.GONE
-        setCategoryBar(category)
         currentHolder.tvText.maxLines = category.lineNumber
     }
 
     private fun setCategoryBar(category: Category){
         currentHolder.ivCategory.setImageResource(category.color)
+    }
+
+    private fun setLongClickListener(){
+        currentHolder.itemView.setOnLongClickListener {
+            selectedNoteId = Integer.parseInt(currentHolder.tvId.text.toString())
+            false
+        }
     }
 
     override fun getItemCount(): Int {
@@ -122,7 +126,8 @@ class NotesAdapter(private val dataset: List<NoteEntity>,
             v.setOnCreateContextMenuListener(this)
         }
 
-        override fun onCreateContextMenu(contextMenu: ContextMenu, view: View,
+        override fun onCreateContextMenu(contextMenu: ContextMenu,
+                                         view: View,
                                          contextMenuInfo: ContextMenu.ContextMenuInfo?) {
             contextMenu.add(0, R.id.menu_delete, 0, R.string.action_delete)
         }

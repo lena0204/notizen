@@ -18,11 +18,14 @@ import com.lk.notizen2.utils.*
 /**
  * Erstellt von Lena am 06.10.18.
  */
-class NoteListFragment: Fragment(), Observer<Any>, NotesAdapter.onClickListener {
+class NoteListFragment: Fragment(), Observer<Any>, NotesAdapter.OnClickListener {
 
     private val TAG = "NoteListFragment"
+
     private lateinit var fab: ImageButton
     private lateinit var rv: RecyclerView
+    private var notesList: List<NoteEntity> = listOf()
+
     private lateinit var notesViewModel: NotesViewModel
     private lateinit var actionViewModel: ActionViewModel
     private var deleteId = -1
@@ -37,53 +40,63 @@ class NoteListFragment: Fragment(), Observer<Any>, NotesAdapter.onClickListener 
 
     override fun onActivityCreated(args: Bundle?) {
         super.onActivityCreated(args)
-        notesViewModel = ViewModelFactory.getNotesViewModel(requireActivity())
-        actionViewModel = ViewModelFactory.getActionViewModel(requireActivity())
-        notesViewModel.addListObservers(this, this)
+        initialiseViewModels()
         requireActivity().actionBar?.setTitle(R.string.app_name)
-        fab.setOnClickListener {
+        fab.setOnClickListener {    // TESTING_ notwendig, dass für den FAB eine Attribut erzeugt wird??
             actionViewModel.setAction(NotesAction.NEW_NOTE)
             notesViewModel.selectedNote.value = NoteEntity()
         }
     }
 
-    private fun setupRecyclerView(notesData: List<NoteEntity>, filterCategory: Category?, filterPriority: Priority?) {
-        if(filterCategory != null && filterPriority != null) {
-            var dataset: List<NoteEntity> = notesData
-            if (filterCategory != Categories.ALL) {
-                dataset = dataset.filter { note -> note.category == filterCategory.number }
-            }
-            if (filterPriority != Priority.ALL) {
-                dataset = dataset.filter { note -> note.getPriorityAsEnum() == filterPriority }
-            }
-            val adapter = NotesAdapter(dataset, requireActivity())
-            adapter.setListener(this)
-            rv.layoutManager = LinearLayoutManager(activity)
-            rv.adapter = adapter
-        } else {
-            Log.e(TAG, "NullPointer: category: $filterCategory, priority: $filterPriority.")
-        }
-    }
-
-    override fun onChanged(update: Any?) {
-        if(update != null) {
-            setupRecyclerViewWithLivedata()
-        }
-    }
-
-    private fun setupRecyclerViewWithLivedata(){
-        if (notesViewModel.getNotes().value != null) {
-            setupRecyclerView(
-                notesViewModel.getNotes().value!!,
-                notesViewModel.filterColor.value,
-                notesViewModel.filterPriority.value
-            )
-        }
+    private fun initialiseViewModels(){
+        notesViewModel = ViewModelFactory.getNotesViewModel(requireActivity())
+        actionViewModel = ViewModelFactory.getActionViewModel(requireActivity())
+        notesViewModel.addListObservers(this, this)
     }
 
     override fun onResume() {
         super.onResume()
-        setupRecyclerViewWithLivedata()
+        setupRecyclerView()
+    }
+
+    override fun onChanged(update: Any?) {
+        if(update != null) {
+            setupRecyclerView()
+        }
+    }
+
+    private fun setupRecyclerView(){
+        if (notesViewModel.getNotes().value != null) {
+            setupDatalistAndAdapter(
+                notesViewModel.getNotes().value!!,
+                notesViewModel.filterColor.value!!,
+                notesViewModel.filterPriority.value!!
+            )
+        }
+    }
+
+    private fun setupDatalistAndAdapter(notesData: List<NoteEntity>,
+                                       filterCategory: Category,
+                                       filterPriority: Priority) {
+        notesList = notesData
+        filterNotesList(filterCategory, filterPriority)
+        setupRecyclerAdapter()
+    }
+
+    private fun filterNotesList(filterCategory: Category, filterPriority: Priority) {
+        if (filterCategory != Categories.ALL) {
+            notesList = notesList.filter { note -> note.category == filterCategory.number }
+        }
+        if (filterPriority != Priority.ALL) {
+            notesList = notesList.filter { note -> note.getPriorityAsEnum() == filterPriority }
+        }
+    }
+
+    private fun setupRecyclerAdapter(){
+        val adapter = NotesAdapter(notesList, requireActivity())
+        adapter.setListener(this)
+        rv.layoutManager = LinearLayoutManager(activity)
+        rv.adapter = adapter
     }
 
     override fun onShowNote(noteId: Int) {
@@ -98,7 +111,7 @@ class NoteListFragment: Fragment(), Observer<Any>, NotesAdapter.onClickListener 
             if (item.itemId == R.id.menu_delete) {
                 notesViewModel.deleteNoteFromId(deleteId)
 
-                // TODO Dialog anzeigen
+                // TODO Delete-Dialog anzeigen
                 // val delete = DeleteDialog()
                 // delete.show(fragmentManager, "Delete")
             }
@@ -108,6 +121,7 @@ class NoteListFragment: Fragment(), Observer<Any>, NotesAdapter.onClickListener 
         return super.onContextItemSelected(item)
     }
 
+    // TODO Implementierung des Delete-Dialogs fehlt noch
     fun deleteItem() {
         notesViewModel.deleteNoteFromId(deleteId)
         Toast.makeText(activity, R.string.toast_deleted, Toast.LENGTH_SHORT).show()

@@ -2,9 +2,7 @@ package com.lk.notizen2.main
 
 import android.os.Environment
 import android.util.Log
-import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
-import com.lk.notizen2.R
 import com.lk.notizen2.database.NoteEntity
 import com.lk.notizen2.models.NotesViewModel
 import com.lk.notizen2.utils.ViewModelFactory
@@ -14,8 +12,6 @@ import java.io.*
  * Erstellt von Lena am 13/03/2019.
  */
 object BackupRestore {
-
-    // TODO Toast anzeigen, ob erfolgreich oder fehlerhaft
 
     private const val TAG = "BackupRestore"
     private const val path = "//NotesBackup.txt"
@@ -46,23 +42,27 @@ object BackupRestore {
         return noteString
     }
 
-    private fun writeNotesToFile(notesCSVStr: String): Boolean{
-        try {
+    private fun writeNotesToFile(notesCSVStr: String): Boolean {
+        return try {
             val sdcard = Environment.getExternalStorageDirectory()
             if(sdcard.canWrite()){
                 val doc = File(sdcard, path)
-                val writer = FileWriter(doc)
-                writer.write(notesCSVStr)
-                writer.close()
-                Log.v(TAG, "Datei wurde hoffentlich geschrieben.")
+                writeFile(doc, notesCSVStr)
             } else {
                 Log.v(TAG, "SD-Karte kann nicht beschrieben werden.")
             }
-            return true
+            true
         } catch (ex: Exception){
             Log.e(TAG, ex.message)
-            return false
+            false
         }
+    }
+
+    private fun writeFile(file: File, text: String){
+        val writer = FileWriter(file)
+        writer.write(text)
+        writer.close()
+        Log.v(TAG, "Datei wurde hoffentlich geschrieben.")
     }
 
     fun restoreNotes(activity: FragmentActivity): Boolean{
@@ -71,26 +71,31 @@ object BackupRestore {
     }
 
     private fun readNotesFromFile(): Boolean {
-        try {
+        return try {
             val sdcard = Environment.getExternalStorageDirectory()
             if(sdcard.canRead()){
                 val doc = File(sdcard, path)
-                val reader = FileReader(doc)
-                val text = reader.readText()
-                readText(text)
-                reader.close()
-                Log.v(TAG, "Datei wurde hoffentlich gelesen.")
+                val text = readFile(doc)
+                splitTextInNotes(text)
             } else {
                 Log.v(TAG, "SD-Karte kann nicht gelesen werden.")
             }
-            return true
+            true
         } catch (ex: Exception){
             Log.e(TAG, ex.message)
-            return false
+            false
         }
     }
 
-    private fun readText(text: String){
+    private fun readFile(file: File): String {
+        val reader = FileReader(file)
+        val text = reader.readText()
+        reader.close()
+        Log.v(TAG, "Datei wurde hoffentlich gelesen.")
+        return text
+    }
+
+    private fun splitTextInNotes(text: String){
         val notesList = text.split("\"#\"")
         for(noteText in notesList){
             writeNoteToDatabase(noteText)
@@ -99,15 +104,14 @@ object BackupRestore {
 
     private fun writeNoteToDatabase(line: String){
         val attributeList = line.split("\";\"")
-        val note = readNote(attributeList)
+        val note = createNoteFromAttributes(attributeList)
         if(note != null)
             notesVM.insertNote(note)
     }
 
-    private fun readNote(attrList: List<String>): NoteEntity?{
+    private fun createNoteFromAttributes(attrList: List<String>): NoteEntity?{
         return if(attrList.size == 7) {
             val note = NoteEntity()
-            // don't read -> unique constraint can fail note.id = attrList[0].trim('\"').toInt()
             note.priority = attrList[1].toInt()
             note.category = attrList[2].trim('\"').toInt()
             note.locked = attrList[3].trim('\"').toInt()
@@ -117,7 +121,7 @@ object BackupRestore {
             Log.v(TAG, note.toString())
             note
         } else {
-            Log.e(TAG, "Die Zeile war fehlerhaft: " + attrList.toString())
+            Log.e(TAG, "Die Zeile war fehlerhaft: $attrList")
             null
         }
     }

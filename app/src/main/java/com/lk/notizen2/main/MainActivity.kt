@@ -36,27 +36,32 @@ class MainActivity : FragmentActivity(), Observer<NotesAction> {
 
     override fun onChanged(update: NotesAction) {
         when (update){
-             NotesAction.SHOW_NOTE -> {
-                supportFragmentManager.transaction {
-                    addToBackStack(null)
-                    replace(R.id.fl_main_empty, NoteShowFragment())
-                }
-            }
-            NotesAction.SHOW_LIST -> {
-                supportFragmentManager.transaction {
-                    replace(R.id.fl_main_empty, NoteListFragment())
-                }
-            }
-            NotesAction.EDIT_NOTE, NotesAction.NEW_NOTE -> {
-                supportFragmentManager.transaction {
-                    addToBackStack(null)
-                    replace(R.id.fl_main_empty, NoteEditFragment())
-                }
-            }
+            NotesAction.SHOW_NOTE -> showNoteTransaction()
+            NotesAction.SHOW_LIST -> showListTransaction()
+            NotesAction.EDIT_NOTE, NotesAction.NEW_NOTE -> editNoteTransaction()
             NotesAction.SHOW_PREFERENCES -> TODO()
             NotesAction.NONE -> {  }
         }
+    }
 
+    private fun showNoteTransaction(){
+        supportFragmentManager.transaction {
+            addToBackStack(null)
+            replace(R.id.fl_main_empty, NoteShowFragment())
+        }
+    }
+
+    private fun showListTransaction() {
+        supportFragmentManager.transaction {
+            replace(R.id.fl_main_empty, NoteListFragment())
+        }
+    }
+
+    private fun editNoteTransaction() {
+        supportFragmentManager.transaction {
+            addToBackStack(null)
+            replace(R.id.fl_main_empty, NoteEditFragment())
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -69,24 +74,28 @@ class MainActivity : FragmentActivity(), Observer<NotesAction> {
         val value = super.onOptionsItemSelected(item)
         when(item?.itemId){
             R.id.menu_themeswitch -> Themer.switchTheme(this)
-            R.id.menu_backup -> {
-                val result = BackupRestore.backupNotes(notesViewModel.getNotes().value!!)
-                if(result) {
-                    createToast(R.string.toast_backup)
-                } else {
-                    createToast(R.string.toast_b_failed)
-                }
-            }
-            R.id.menu_restore -> {
-                val result = BackupRestore.restoreNotes(this)
-                if(result) {
-                    createToast(R.string.toast_restored)
-                } else {
-                    createToast(R.string.toast_r_failed)
-                }
-            }
+            R.id.menu_backup -> tryNotesBackup()
+            R.id.menu_restore -> tryNotesRestore()
         }
         return value
+    }
+
+    private fun tryNotesBackup() {
+        val result = BackupRestore.backupNotes(notesViewModel.getNotes().value!!)
+        if(result) {
+            createToast(R.string.toast_backup)
+        } else {
+            createToast(R.string.toast_b_failed)
+        }
+    }
+
+    private fun tryNotesRestore() {
+        val result = BackupRestore.restoreNotes(this)
+        if(result) {
+            createToast(R.string.toast_restored)
+        } else {
+            createToast(R.string.toast_r_failed)
+        }
     }
 
     private fun createToast(text: Int){

@@ -1,7 +1,6 @@
 package com.lk.notizen2.models
 
 import android.app.Application
-import android.renderscript.RenderScript
 import android.util.Log
 import androidx.lifecycle.*
 import com.lk.notizen2.database.NoteEntity
@@ -35,6 +34,10 @@ class NotesViewModel(application: Application): AndroidViewModel(application) {
         getNotes().observe(owner, observer)
     }
 
+    fun getNotes(): LiveData<List<NoteEntity>> {
+        return repository.getNotesList()
+    }
+
     fun setSelectedNoteFromId(id: Int){
         val note = getNotes().value?.find { note -> note.id == id }
         if(note != null) {
@@ -42,11 +45,6 @@ class NotesViewModel(application: Application): AndroidViewModel(application) {
             Log.v(TAG, "selected note changed")
         }
     }
-
-    fun getNotes(): LiveData<List<NoteEntity>> {
-        return repository.getNotesList()
-    }
-
 
     fun insertNote(note: NoteEntity, savedButton: Boolean = false){
         repository.insertNote(note)
