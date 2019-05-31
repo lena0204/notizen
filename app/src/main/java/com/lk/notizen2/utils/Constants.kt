@@ -7,6 +7,10 @@ object Constants {
 
     const val PREF_DESIGN = "pref_design"
     const val PREF_DYNAMIC = "pref_dynamic"
+    const val PREF_FILTER = "pref_filter_cat"
+    const val PREF_PASSWORD = "pref_password"
+    const val PREF_PASSWORD_SET = "pref_password_set"
+    const val PREF_PASSWORD_CHANGE = "pref_password_change"
 
     const val PREF_CATEGORY_STANDARD = "pref_category_standard"
 

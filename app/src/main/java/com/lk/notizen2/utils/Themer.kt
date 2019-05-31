@@ -47,8 +47,10 @@ object Themer {
         sharedprefs = PreferenceManager.getDefaultSharedPreferences(activity)
         val currentTheme = readThemeFromSharedPrefs()
         val themeID = when(currentTheme){
-            Design.THEME_LIGHT -> R.style.AppThemeGrey
-            Design.THEME_DARK -> R.style.AppThemeGreyDark
+            Design.THEME_LIGHT -> R.style.AppThemeGreyBlack
+            Design.THEME_DARK -> { /* nicht mehr notwendig, TODO Theme Konstanten aufräumen */
+                R.style.AppThemeGreyBlack
+            }
             Design.THEME_BLACK -> R.style.AppThemeGreyBlack
         }
         activity.setTheme(themeID)

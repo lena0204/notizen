@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
+<!--
     <item
         android:id="@+id/menu_themeswitch"
-        android:title="@string/pref_theme_title"/>
+        android:title="@string/pref_theme_title"/>-->
     <item
         android:id="@+id/menu_backup"
         android:title="@string/pref_br_backup_title"/>
     <item
         android:id="@+id/menu_restore"
         android:title="@string/pref_br_restore_title"/>
+
+    <item
+        android:id="@+id/menu_settings"
+        android:title="@string/action_settings"/>
 
 </menu>

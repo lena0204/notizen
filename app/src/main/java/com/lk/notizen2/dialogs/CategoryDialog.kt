@@ -18,7 +18,7 @@ class CategoryDialog: DialogFragment() {
     private val TAG = "CategoryDialog"
     private lateinit var notesViewModel: NotesViewModel
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         notesViewModel = ViewModelFactory.getNotesViewModel(requireActivity())
     }

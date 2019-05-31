@@ -53,6 +53,8 @@ class NoteEntity {
         locked = _protected.ordinal
     }
 
+    fun isLocked(): Boolean = locked == Lock.LOCKED.ordinal
+
     override fun toString(): String {
         return "{id: $id, title: $title, category: $category, priority: $priority, locked: $locked, date: $date }"
     }

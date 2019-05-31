@@ -5,7 +5,7 @@
             android:radius="100dp"
             />
         <solid
-            android:color="?android:attr/colorAccent"
+            android:color="?attr/colorAccent"
             />
 
 </shape>

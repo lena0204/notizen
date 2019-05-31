@@ -69,7 +69,7 @@ class NoteListFragment: Fragment(), Observer<Any>, NotesAdapter.OnClickListener 
         if (notesViewModel.getNotes().value != null) {
             setupDatalistAndAdapter(
                 notesViewModel.getNotes().value!!,
-                notesViewModel.filterColor.value!!,
+                notesViewModel.filterCategory.value!!,
                 notesViewModel.filterPriority.value!!
             )
         }
@@ -93,7 +93,7 @@ class NoteListFragment: Fragment(), Observer<Any>, NotesAdapter.OnClickListener 
     }
 
     private fun setupRecyclerAdapter(){
-        val adapter = NotesAdapter(notesList, requireActivity())
+        val adapter = NotesAdapter(notesList)
         adapter.setListener(this)
         rv.layoutManager = LinearLayoutManager(activity)
         rv.adapter = adapter
@@ -102,12 +102,13 @@ class NoteListFragment: Fragment(), Observer<Any>, NotesAdapter.OnClickListener 
     override fun onShowNote(noteId: Int) {
         Log.d(TAG, "showing note with id $noteId")
         notesViewModel.setSelectedNoteFromId(noteId)
-        actionViewModel.setAction(NotesAction.SHOW_NOTE)
+        actionViewModel.setAction(NotesAction.CHECK_PROTECTION)
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
         try {
             deleteId = (rv.adapter as NotesAdapter).selectedNoteId
+            Log.d(TAG, "To be deleted: $deleteId")
             if (item.itemId == R.id.menu_delete) {
                 notesViewModel.deleteNoteFromId(deleteId)
 

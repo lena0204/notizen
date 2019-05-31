@@ -18,19 +18,19 @@ class NotesViewModel(application: Application): AndroidViewModel(application) {
 
     val selectedNote = MutableLiveData<NoteEntity>()
     val filterPriority = MutableLiveData<Priority>()
-    val filterColor = MutableLiveData<Category>()
+    val filterCategory = MutableLiveData<Category>()
     val selectedCategory = MutableLiveData<Category>()
 
     init{
         filterPriority.value = Priority.ALL
-        filterColor.value = Categories.ALL
+        filterCategory.value = Categories.ALL
         selectedCategory.value = Categories.ALL
         selectedNote.value = NoteEntity()
     }
 
     fun addListObservers(owner: LifecycleOwner, observer: Observer<Any>){
         filterPriority.observe(owner, observer)
-        filterColor.observe(owner, observer)
+        filterCategory.observe(owner, observer)
         getNotes().observe(owner, observer)
     }
 
@@ -53,6 +53,12 @@ class NotesViewModel(application: Application): AndroidViewModel(application) {
             selectedNote.value = NoteEntity()
     }
 
+    fun insertAllNotes(notes: List<NoteEntity>) {
+        for(note in notes) {
+            repository.insertNote(note)
+        }
+    }
+
     fun updateNote(note: NoteEntity, savedButton: Boolean = false){
         repository.updateNote(note)
         selectedNote.value = note
@@ -67,5 +73,10 @@ class NotesViewModel(application: Application): AndroidViewModel(application) {
             repository.deleteNote(note)
             selectedNote.value = NoteEntity()
         }
+    }
+
+    fun deleteNotes() {
+        Log.d(TAG, "Will delete ALL notes!")
+        repository.deleteAllNotes()
     }
 }

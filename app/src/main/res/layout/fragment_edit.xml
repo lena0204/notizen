@@ -19,6 +19,7 @@
         style="@style/notes_edit_constraint"
         android:layout_height="wrap_content"
         android:hint="@string/todo_edit_title"
+        android:inputType="textAutoCorrect|text|textCapSentences"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/iv_edit_category"
         app:layout_constraintTop_toTopOf="parent" />
@@ -30,6 +31,7 @@
         android:layout_marginBottom="8dp"
         android:gravity="top"
         android:hint="@string/todo_edit_description"
+        android:inputType="textAutoCorrect|textMultiLine|textCapSentences"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/iv_edit_category"
@@ -40,7 +42,9 @@
         android:id="@+id/tv_edit_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="invisible" />
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
@@ -106,7 +110,7 @@
             android:contentDescription="@string/todo_edit_confirm"
             android:elevation="2dp"
             android:src="@drawable/ic_action_save"
-            android:tint="?android:attr/colorAccent"
+            android:tint="?attr/colorAccent"
             android:tintMode="src_atop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

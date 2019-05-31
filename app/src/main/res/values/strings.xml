@@ -25,21 +25,26 @@
     <string name="protected_n">Schutz nicht aktiviert</string>
 
     <!-- Dialoge -->
-    <string name="category_dialog_title">Kategorie auswählen</string>
-    <string name="dialog_title">L\u00F6schen?</string>
-    <string name="dialog_message">Wollen Sie die Notiz wirklich l\u00F6schen?</string>
-    <string name="dialog_ok">Ja</string>
     <string name="dialog_cancel">Abbrechen</string>
+
+    <string name="category_dialog_title">Kategorie auswählen</string>
+    <string name="dialog_delete_title">L\u00F6schen?</string>
+    <string name="dialog_delete_message">Wollen Sie die Notiz wirklich l\u00F6schen?</string>
+    <string name="dialog_delete_ok">Ja</string>
+
     <string name="dialog_storage_title">Speicherzugriff</string>
     <string name="dialog_storage_message">F\u00FCr das Sichern und Wiederherstellen wird der Zugriff
             auf den internen Speicher ben\u00F6tigt. Ohne die Berechtigung sind diese Funktionen
             nicht verf\u00FCgbar. Wollen Sie den Zugriff erlauben?</string>
     <string name="dialog_storage_ok">Ja</string>
     <string name="dialog_storage_cancel">Nein</string>
+
     <!-- Dialoge zu dem Passwort -->
     <string name="dia_set_title">Passwort festlegen</string>
     <string name="dia_set_explanation">Das Passwort muss aus 4 bis 10 Zeichen bestehen und darf nur
         Zahlen enthalten.</string>
+    <string name="dia_set_hint_pw1">Passwort</string>
+    <string name="dia_set_hint_pw2">Passwort wiederholen</string>
     <string name="dia_set_yes">Festlegen</string>
     <string name="dia_change_title">Passwort \u00e4ndern</string>
     <string name="dia_change_old">Bitte geben Sie ihr altes Passwort an:</string>
@@ -98,6 +103,7 @@
     <string name="save">Speichern</string>
     <string name="widget_standard">Standard</string>
     <string name="widget_text">Text</string>
+
     <!-- Einstellungen Widget -->
     <string name="pref_notes_title">Notiz ausw\u00e4hlen</string>
     <string name="pref_notes_subtitle">Ausgew\u00e4hlte Notiz: </string>

@@ -6,7 +6,9 @@ import com.lk.notizen2.models.Category
 /**
  * Erstellt von Lena am 23.09.18.
  */
-object Categories{
+object Categories {
+
+    // TODO Farbnamen müssen auch sprachenspezifisch sein ...
 
     val WHITE = Category(category = "Weiss")
     val YELLOW = Category(1, R.color.yellow, "Gelb")
@@ -15,7 +17,7 @@ object Categories{
     val PURPLE = Category(4, R.color.purple, "Lila")
     val BLUE = Category(5, R.color.blue, "Blau")
     val GREEN = Category(6, R.color.green, "Gruen")
-    val ALL = Category(7, category = "All")
+    val ALL = Category(7, category = "Alle")
 
     fun getCategory(counter: Int): Category{
         return when(counter){
@@ -29,17 +31,22 @@ object Categories{
         }
     }
 
+    fun getCategoryArray(): Array<String> {
+        return arrayOf(WHITE.category, YELLOW.category,
+            ORANGE.category, RED.category, PURPLE.category, BLUE.category, GREEN.category, ALL.category)
+    }
+
 }
 
 enum class Priority {
-    URGENT,
     REMINDER,
+    URGENT,
     ALL
 }
 
 enum class Lock {
-    LOCKED,
     UNLOCKED,
+    LOCKED,
     ALL
 }
 
@@ -47,6 +54,7 @@ enum class NotesAction {
     NONE,
     NEW_NOTE,
     SHOW_NOTE,
+    CHECK_PROTECTION,
     EDIT_NOTE,
     SHOW_PREFERENCES,
     SHOW_LIST

@@ -2,7 +2,6 @@ package com.lk.notizen2.adapters
 
 import android.view.*
 import android.widget.*
-import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.lk.notizen2.R
 import com.lk.notizen2.database.NoteEntity
@@ -12,8 +11,7 @@ import com.lk.notizen2.utils.*
 /**
  * Erstellt von Lena am 06.10.18.
  */
-class NotesAdapter(private val dataset: List<NoteEntity>,
-                   private val activity: FragmentActivity):
+class NotesAdapter(private val dataset: List<NoteEntity>):
         RecyclerView.Adapter<NotesAdapter.ViewHolder>() {
 
     private val TAG = "NotesAdapter"
@@ -50,7 +48,7 @@ class NotesAdapter(private val dataset: List<NoteEntity>,
         } else {
             printOpenNote()
         }
-        setLongClickListener()
+        setLongClickListener(currentNote.id)
     }
 
     private fun printBasicNoteData(){
@@ -96,9 +94,9 @@ class NotesAdapter(private val dataset: List<NoteEntity>,
         currentHolder.ivCategory.setImageResource(category.color)
     }
 
-    private fun setLongClickListener(){
+    private fun setLongClickListener(id: Int){
         currentHolder.itemView.setOnLongClickListener {
-            selectedNoteId = Integer.parseInt(currentHolder.tvId.text.toString())
+            selectedNoteId = id
             false
         }
     }
