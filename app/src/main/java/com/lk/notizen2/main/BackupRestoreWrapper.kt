@@ -18,6 +18,7 @@ object BackupRestore {
     private lateinit var notesVM: NotesViewModel
 
     fun backupNotes(notes: List<NoteEntity>): Boolean {
+
         val notesCSVStr = readNotesFromDatabase(notes)
         return writeNotesToFile(notesCSVStr)
     }
@@ -65,7 +66,7 @@ object BackupRestore {
         Log.v(TAG, "Datei wurde hoffentlich geschrieben.")
     }
 
-    fun restoreNotes(activity: FragmentActivity): Boolean{
+    fun restoreNotes(activity: FragmentActivity): Boolean {
         notesVM = ViewModelFactory.getNotesViewModel(activity)
         return readNotesFromFile()
     }
@@ -77,10 +78,11 @@ object BackupRestore {
                 val doc = File(sdcard, path)
                 val text = readFile(doc)
                 splitTextInNotes(text)
+                true
             } else {
                 Log.v(TAG, "SD-Karte kann nicht gelesen werden.")
+                false
             }
-            true
         } catch (ex: Exception){
             Log.e(TAG, ex.message)
             false
@@ -97,10 +99,15 @@ object BackupRestore {
 
     private fun splitTextInNotes(text: String){
         val notesList = text.split("\"#\"")
+        if (notesList.isNotEmpty()) {
+            notesVM.deleteNotes()
+        }
         for(noteText in notesList){
             writeNoteToDatabase(noteText)
         }
     }
+
+    // TODO entweder vorher alles löschen, oder doppelte Notizen nur updaten: vorläufig löschen
 
     private fun writeNoteToDatabase(line: String){
         val attributeList = line.split("\";\"")
