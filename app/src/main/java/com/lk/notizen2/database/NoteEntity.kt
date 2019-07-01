@@ -26,40 +26,38 @@ class NoteEntity {
     @ColumnInfo(name = "note_category")
     var category: Int = 0
 
-    @ColumnInfo(name = "note_priority")
-    var priority: Int = 0
+    @ColumnInfo(name = "note_protectedValue")
+    var protectedValue: Int = 0
 
-    @ColumnInfo(name = "note_locked")
-    var locked: Int = 0
+    @ColumnInfo(name = "note_archived")
+    var archived: Boolean = false
 
     @ColumnInfo(name = "note_date")
     var date: String = ""
 
+    fun setProtected(value: Boolean) {
+        protectedValue = if(value) {
+            1
+        } else {
+            0
+        }
+    }
+
     fun getCategoryAsEnum(): Category = Categories.getCategory(category)
 
     fun setCategoryAsEnum(_category: Category){
-        category = _category.number
+        category = _category.id
     }
 
-    fun getPriorityAsEnum(): Priority = Priority.values()[priority]
+    fun isProtected(): Boolean = protectedValue == 1
 
-    fun setPriorityAsEnum(_priority: Priority){
-        priority = _priority.ordinal
-    }
-
-    fun getLockedAsEnum(): Lock = Lock.values()[locked]
-
-    fun setLockedAsEnum(_protected: Lock){
-        locked = _protected.ordinal
-    }
-
-    fun isLocked(): Boolean = locked == Lock.LOCKED.ordinal
+    fun isEmpty(): Boolean = id == 0 && title == ""
 
     override fun toString(): String {
-        return "{id: $id, title: $title, category: $category, priority: $priority, locked: $locked, date: $date }"
+        return "{id: $id, title: $title, category: $category, protected: ${isProtected()}, archived: $archived date: $date }"
     }
 
     fun toLimitedString(): String {
-        return "{id=$id, Priority = $priority, Locked = $locked}"
+        return "{id=$id, Category = $category, Archived = $archived, Protected = ${isProtected()}}"
     }
 }

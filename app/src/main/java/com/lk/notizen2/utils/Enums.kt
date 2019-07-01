@@ -10,52 +10,40 @@ object Categories {
 
     // TODO Farbnamen müssen auch sprachenspezifisch sein ...
 
-    val WHITE = Category(category = "Weiss")
-    val YELLOW = Category(1, R.color.yellow, "Gelb")
-    val ORANGE = Category(2, R.color.orange, "Orange")
-    val RED = Category(3, R.color.red, "Rot")
-    val PURPLE = Category(4, R.color.purple, "Lila")
-    val BLUE = Category(5, R.color.blue, "Blau")
-    val GREEN = Category(6, R.color.green, "Gruen")
-    val ALL = Category(7, category = "Alle")
+    val WHITE = Category(name = "Weiss")
+    val YELLOW = Category(1, "Gelb", R.color.yellow)
+    val ORANGE = Category(2, "Orange", R.color.orange)
+    val RED = Category(3, "Rot", R.color.red)
+    val PURPLE = Category(4, "Lila", R.color.purple)
+    val BLUE = Category(5, "Blau", R.color.blue)
+    val GREEN = Category(6, "Gruen", R.color.green)
+    val ALL = Category(7, "Alle")
 
     fun getCategory(counter: Int): Category{
         return when(counter){
+            0 -> WHITE
             1 -> YELLOW
             2 -> ORANGE
             3 -> RED
             4 -> PURPLE
             5 -> BLUE
             6 -> GREEN
-            else -> WHITE
+            else -> ALL
         }
     }
 
     fun getCategoryArray(): Array<String> {
-        return arrayOf(WHITE.category, YELLOW.category,
-            ORANGE.category, RED.category, PURPLE.category, BLUE.category, GREEN.category, ALL.category)
+        return arrayOf(WHITE.name, YELLOW.name,
+            ORANGE.name, RED.name, PURPLE.name, BLUE.name, GREEN.name, ALL.name)
     }
-
 }
 
-enum class Priority {
-    REMINDER,
-    URGENT,
-    ALL
-}
-
-enum class Lock {
-    UNLOCKED,
-    LOCKED,
-    ALL
-}
-
-enum class NotesAction {
-    NONE,
+enum class NavigationActions {
     NEW_NOTE,
     SHOW_NOTE,
-    CHECK_PROTECTION,
+    DELETE_NOTE,
     EDIT_NOTE,
+    SAVE_NOTE,
     SHOW_PREFERENCES,
     SHOW_LIST
 }

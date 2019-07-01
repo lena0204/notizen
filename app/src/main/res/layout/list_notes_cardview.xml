@@ -14,19 +14,9 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/divder2"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/divider_width"
-            android:background="@color/grey_semi_transparent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
             android:id="@+id/iv_list_category"
             android:layout_width="@dimen/category_bar_width"
             android:layout_height="0dp"
-            android:layout_marginBottom="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -69,17 +59,6 @@
             app:layout_constraintStart_toEndOf="@+id/iv_list_category"
             app:layout_constraintTop_toBottomOf="@+id/tv_list_title" />
 
-        <ToggleButton
-            android:id="@+id/iv_list_priority"
-            style="@style/tb_show_constraint"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/selector_priority"
-            android:enabled="false"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/iv_list_category"
-            app:layout_constraintTop_toBottomOf="@+id/tv_list_content" />
-
         <TextView
             android:id="@+id/tv_list_id"
             android:layout_width="wrap_content"
@@ -89,42 +68,23 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-<!--
--->
-
-
         <TextView
             android:id="@+id/tv_list_time"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginBottom="4dp"
             android:alpha="0.7"
             android:gravity="end"
             android:textSize="@dimen/textSize_date"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_list_priority"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/iv_list_priority"
-            app:layout_constraintTop_toTopOf="@+id/iv_list_priority" />
-
-        <ImageView
-            android:id="@+id/divder"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/divider_width"
-            android:background="@color/grey_semi_transparent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <ImageView
-            android:id="@+id/divder3"
-            android:layout_width="@dimen/divider_width"
-            android:layout_height="0dp"
-            android:background="@color/grey_semi_transparent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/iv_list_category"
+            app:layout_constraintTop_toBottomOf="@+id/tv_list_content"
+            tools:text="@tools:sample/date/ddmmyy" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

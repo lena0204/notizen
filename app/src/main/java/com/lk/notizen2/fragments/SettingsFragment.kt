@@ -2,33 +2,34 @@ package com.lk.notizen2.fragments
 
 import android.os.Bundle
 import android.util.Log
-import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.preference.*
 import com.lk.notizen2.R
 import com.lk.notizen2.dialogs.PasswordSetDialog
-import com.lk.notizen2.main.PasswordChecker
 import com.lk.notizen2.models.NotesViewModel
 import com.lk.notizen2.utils.*
 
 /**
  * Erstellt von Lena am 02/03/2019.
  */
-class SettingsFragment : PreferenceFragmentCompat(), PasswordSetDialog.DialogListener {
+class SettingsFragment : PreferenceFragmentCompat() {
 
     private val TAG = "SettingsFragment"
     private lateinit var notesViewModel: NotesViewModel
+    private lateinit var spw: SharedPrefWrapper
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.fragment_settings, rootKey)
         notesViewModel = ViewModelFactory.getNotesViewModel(requireActivity())
+        spw = SharedPrefWrapper(requireContext())
         addClickedListener()
         prepareFilterPreference()
+        preparePasswordPreferences()
         // setDynamicSummaries()
     }
 
     private fun addClickedListener(){
-        /*findPreference(Constants.PREF_DESIGN).onPreferenceClickListener =
+        /*findPreference(Constants.SPREF_DESIGN).onPreferenceClickListener =
                 Preference.OnPreferenceClickListener {
                     Themer.switchTheme(activity as MainActivity)
                     true
@@ -50,6 +51,7 @@ class SettingsFragment : PreferenceFragmentCompat(), PasswordSetDialog.DialogLis
         sorting.entries = Categories.getCategoryArray()
         sorting.entryValues = arrayOf("0","1","2","3","4","5","6","7")
         Log.d(TAG, "prepared Filter preference")
+        // TODO eigene Klasse, die Filtermöglichkeiten und Konvertierung in SharedPreferences bereitstellt
         sorting.setOnPreferenceChangeListener { _, newValue ->
             val filterCategoryNumber: Int = newValue.toString().toInt()
             notesViewModel.filterCategory.value = Categories.getCategory(filterCategoryNumber)
@@ -57,10 +59,16 @@ class SettingsFragment : PreferenceFragmentCompat(), PasswordSetDialog.DialogLis
         }
     }
 
+    private fun preparePasswordPreferences() {
+        val password = spw.readString(Constants.SPREF_PASSWORD)
+        if(password != "") {
+            findPreference(Constants.PREF_PASSWORD_SET).isEnabled = false
+        }
+    }
+
     private fun setDynamicSummaries(){
-        val sp = PreferenceManager.getDefaultSharedPreferences(activity)
-        val appTheme = sp.getInt(Constants.PREF_DESIGN, 0)
-        val designPreference = findPreference(Constants.PREF_DESIGN)
+        val appTheme = spw.readInt(Constants.SPREF_DESIGN)
+        val designPreference = findPreference(Constants.SPREF_DESIGN)
         when(appTheme){
             0 -> designPreference.setSummary(R.string.pref_theme_summary_light)
             1 -> designPreference.setSummary(R.string.pref_theme_summary_dark)
@@ -73,15 +81,6 @@ class SettingsFragment : PreferenceFragmentCompat(), PasswordSetDialog.DialogLis
         requireActivity().supportFragmentManager
             .beginTransaction().add(dialog, "Dialog_set_password").commit()
 
-    }
-
-    override fun dialogResult(password1: String, password2: String) {
-        if(PasswordChecker.checkNewPasswords(password1, password2) ) {
-            val sp = PreferenceManager.getDefaultSharedPreferences(activity)
-            sp.edit {
-                putString(Constants.PREF_PASSWORD, password1)
-            }
-        }
     }
 
 }

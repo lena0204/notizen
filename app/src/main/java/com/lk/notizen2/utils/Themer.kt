@@ -1,9 +1,6 @@
 package com.lk.notizen2.utils
 
-import android.content.SharedPreferences
 import android.util.Log
-import androidx.core.content.edit
-import androidx.preference.PreferenceManager
 import com.lk.notizen2.R
 import com.lk.notizen2.main.MainActivity
 
@@ -11,12 +8,12 @@ import com.lk.notizen2.main.MainActivity
  * Erstellt von Lena am 23/01/2019.
  */
 object Themer {
-
+    // TODO to be reworked !!!
     const val TAG = "Themer"
-    private lateinit var sharedprefs: SharedPreferences
+    private lateinit var spw: SharedPrefWrapper
 
     fun switchTheme(activity: MainActivity){
-        sharedprefs = PreferenceManager.getDefaultSharedPreferences(activity)
+        spw = SharedPrefWrapper(activity)
         val currentTheme = readThemeFromSharedPrefs()
         when(currentTheme){
             Design.THEME_LIGHT ->
@@ -31,20 +28,18 @@ object Themer {
     }
 
     private fun readThemeFromSharedPrefs(): Design {
-        val value = sharedprefs.getInt(Constants.PREF_DESIGN, 0)
+        val value = spw.readInt(Constants.SPREF_DESIGN)
         Log.d(TAG, "Theme: $value")
         return Design.values()[value]
     }
 
     private fun writeThemeToSharedPrefs(theme: Design){
         Log.d(TAG, "Theme: " + theme.ordinal)
-        sharedprefs.edit {
-            putInt(Constants.PREF_DESIGN, theme.ordinal)
-        }
+        spw.writeInt(Constants.SPREF_DESIGN, theme.ordinal)
     }
 
     fun setThemeOnCreated(activity: MainActivity){
-        sharedprefs = PreferenceManager.getDefaultSharedPreferences(activity)
+        spw = SharedPrefWrapper(activity)
         val currentTheme = readThemeFromSharedPrefs()
         val themeID = when(currentTheme){
             Design.THEME_LIGHT -> R.style.AppThemeGreyBlack

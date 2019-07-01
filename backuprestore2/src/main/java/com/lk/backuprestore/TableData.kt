@@ -1,9 +1,12 @@
 package com.lk.backuprestore
 
+import android.util.Log
+
 /**
  * Erstellt von Lena am 2019-05-30.
  */
 class TableData : Iterable<List<String>> {
+
     private val TAG = "TableData"
 
     private var data : MutableList<List<String>> = mutableListOf()
@@ -16,7 +19,7 @@ class TableData : Iterable<List<String>> {
 
     override fun iterator(): Iterator<List<String>> = data.iterator()
 
-    internal fun toCsvString() : String {
+    fun toCsvString() : String {
         val stringBuilder = StringBuilder()
         for(row in data) {
             stringBuilder.append("\"")
@@ -24,9 +27,10 @@ class TableData : Iterable<List<String>> {
                 stringBuilder.append(cell).append("\";\"")
             }
             stringBuilder.deleteCharAt(stringBuilder.length - 1)
-            stringBuilder.deleteCharAt(stringBuilder.length - 2)
+            stringBuilder.deleteCharAt(stringBuilder.length - 1) // has been shortened by one
             stringBuilder.append("#")
         }
+        stringBuilder.deleteCharAt(stringBuilder.length - 1)
         return stringBuilder.toString()
     }
 

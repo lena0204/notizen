@@ -26,13 +26,10 @@ class NoteEditFragment: Fragment(), Observer<Any> {
 
     private val TAG = "NoteEditFragment"
 
-    private lateinit var notesViewModel: NotesViewModel
-    private lateinit var actionViewModel: ActionViewModel
+    private lateinit var viewModel: NotesViewModel
 
-    private var priority: Priority = Priority.ALL
     private var category = Categories.WHITE
     private var currentNote = NoteEntity()
-    private var isNewNote = false
     private var wasSaved = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, saved: Bundle?): View? {
@@ -46,20 +43,34 @@ class NoteEditFragment: Fragment(), Observer<Any> {
     }
 
     private fun initialiseViewModels(){
-        notesViewModel = ViewModelFactory.getNotesViewModel(requireActivity())
-        actionViewModel = ViewModelFactory.getActionViewModel(requireActivity())
-        notesViewModel.selectedNote.observe(this, this)
-        notesViewModel.selectedCategory.observe(this,this)
+        viewModel = ViewModelFactory.getNotesViewModel(requireActivity())
+        viewModel.selectedNote.observe(this, this)
+        viewModel.selectedCategory.observe(this,this)
     }
-
     private fun setClickListeners(){
-        bt_edit_save.setOnClickListener { saveNoteIfNotEmpty() }
-        bt_edit_category.setOnClickListener { showCategoryDialogue() }
+        bt_edit_save.setOnClickListener {
+            onSave()
+        }
+        bt_edit_category.setOnClickListener {
+            onShowCategoryDialog()
+        }
     }
 
-    private fun showCategoryDialogue(){
+    private fun onShowCategoryDialog(){
         requireActivity().supportFragmentManager.transaction {
             add(CategoryDialog(), "CAT_DIALOG")
+        }
+    }
+
+    // TODO nach dem Speichern taucht kurz die default version (Farbe und Buttons) auf -> verhindern
+    override fun onChanged(update: Any?) {
+        when {
+            update is NoteEntity? && update != null -> {
+                onUpdateNote(update)
+            }
+            update is Category? && update != null -> {
+                onCategoryChosen(update)
+            }
         }
     }
 
@@ -71,113 +82,69 @@ class NoteEditFragment: Fragment(), Observer<Any> {
         bt_edit_category.imageTintMode = PorterDuff.Mode.SRC_ATOP
     }
 
-    private fun printNote(note: NoteEntity){
-        priority = note.getPriorityAsEnum()
-        val locked = note.getLockedAsEnum()
-        tv_edit_id.text = note.id.toString()
-        et_edit_title.setText(note.title, TextView.BufferType.EDITABLE)
-        et_edit_description.setText(note.content,TextView.BufferType.EDITABLE)
-        tb_edit_priority.isChecked = (priority == Priority.URGENT)
-        tb_edit_protected.isChecked = (locked == Lock.LOCKED)
-        notesViewModel.selectedCategory.value = note.getCategoryAsEnum()
-    }
-
-    private fun printDefaultNote(){
-        tb_edit_priority.isChecked = false
-        tb_edit_protected.isChecked = false
-        onCategoryChosen(Categories.WHITE)
-    }
-
-    override fun onPause(){
-        super.onPause()
-        Log.v(TAG,"onPause")
-        saveNote()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.v(TAG,"onResume")
-        val note = notesViewModel.selectedNote.value
-        wasSaved = false
-        updateNote(note)
-    }
-
-    // TODO nach dem Speichern taucht kurz die default version (Farbe und Buttons) auf -> verhindern
-    override fun onChanged(update: Any?) {
-        when {
-            update is NoteEntity? && update != null -> {
-                updateNote(update)
-            }
-            update is Category? && update != null -> {
-                onCategoryChosen(update)
-            }
-        }
-    }
-
-    private fun isValidNote(note: NoteEntity?) = (note != null && note.id != 0)
-
-    private fun updateNote(updatedNote: NoteEntity?){
-        if (isValidNote(updatedNote)) {
-            printNote(updatedNote!!)
+    private fun onUpdateNote(updatedNote: NoteEntity?){
+        if (updatedNote != null && !updatedNote.isEmpty()) {
+            currentNote = updatedNote
+            printNote(updatedNote)
         } else {
-            isNewNote = true
+            currentNote = NoteEntity()
             printDefaultNote()
         }
     }
 
-    private fun saveNoteIfNotEmpty(){
+    private fun printNote(note: NoteEntity){
+        tv_edit_id.text = note.id.toString()
+        et_edit_title.setText(note.title, TextView.BufferType.EDITABLE)
+        et_edit_description.setText(note.content,TextView.BufferType.EDITABLE)
+        tb_edit_protected.isChecked = note.isProtected()
+        viewModel.selectedCategory.value = note.getCategoryAsEnum()
+    }
+
+    private fun printDefaultNote(){
+        tb_edit_protected.isChecked = false
+        onCategoryChosen(Categories.WHITE)
+    }
+
+    private fun onSave(){
         if(et_edit_title.text.isNotEmpty()) {
-            saveNote(saveButtonUsed = true)
+            saveNote()
             wasSaved = true
-            actionViewModel.setAction(NotesAction.SHOW_LIST)
+            viewModel.doAction(NavigationActions.SHOW_LIST, -1)
         } else {
             // TODO fehlenden Titel eleganter lösen
             Toast.makeText(context, R.string.no_title, Toast.LENGTH_LONG).show()
         }
     }
 
-    private fun saveNote(saveButtonUsed: Boolean = false){
+    private fun saveNote(){
         if (canSaveNote()) {
-            Log.v(TAG, "saving with button: $saveButtonUsed")
-            saveInputInNote()
-            if (isNewNote) {
-                notesViewModel.insertNote(currentNote, saveButtonUsed)
-            } else {
-                notesViewModel.updateNote(currentNote, saveButtonUsed)
-            }
+            // TODO InstanceState vernünftig implementieren: Fragment merken und aktuellen Stand
+            storeInputData()
+            viewModel.doAction(NavigationActions.SAVE_NOTE, currentNote)
         }
     }
-
     private fun canSaveNote() = (!wasSaved && et_edit_title.text.isNotEmpty())
 
-    private fun saveInputInNote() {
-        currentNote = if(isNewNote) {
-            NoteEntity()
-        } else {
-            notesViewModel.selectedNote.value!!
-        }
-        storeTextData()
-        storeEnumData()
-    }
-
-    private fun storeTextData(){
+    private fun storeInputData() {
         currentNote.title = et_edit_title.text.toString()
         currentNote.content = et_edit_description.text.toString()
         currentNote.date = DateFormat.format("yyyy/MM/dd HH:mm:ss", Date().time).toString()
+        currentNote.setProtected(tb_edit_protected.isChecked)
+        currentNote.setCategoryAsEnum(category)
     }
 
-    private fun storeEnumData(){
-        if(tb_edit_priority.isChecked) {
-            currentNote.setPriorityAsEnum(Priority.URGENT)
-        } else {
-            currentNote.setPriorityAsEnum(Priority.REMINDER)
-        }
-        if(tb_edit_protected.isChecked) {
-            currentNote.setLockedAsEnum(Lock.LOCKED)
-        } else {
-            currentNote.setLockedAsEnum(Lock.UNLOCKED)
-        }
-        currentNote.setCategoryAsEnum(category)
+    override fun onPause(){
+        super.onPause()
+        Log.v(TAG,"onPause: don't save atm")
+        // saveNote()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.v(TAG,"onResume")
+        // val note = viewModel.selectedNote.value
+        // wasSaved = false
+        // onUpdateNote(note)
     }
 
 }

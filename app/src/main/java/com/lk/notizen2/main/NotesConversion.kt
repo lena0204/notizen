@@ -13,28 +13,32 @@ class NotesConversion : Conversion<NoteEntity>() {
         val tableData = TableData()
         val rowList: MutableList<String> = mutableListOf()
         for (note in data) {
+            rowList.clear()
             rowList.add(note.id.toString())
-            rowList.add(note.priority.toString())
             rowList.add(note.category.toString())
-            rowList.add(note.locked.toString())
+            rowList.add(note.isProtected().toString())
+            rowList.add(note.archived.toString())
             rowList.add(note.title)
             rowList.add(note.content)
             rowList.add(note.date)
-            tableData.addDataToList(rowList)
+            tableData.addDataToList(rowList.toList())
+            // toList() notwendig um die Übergabe einer Referenz auf ein weitergenutztes Objekt zu verhindern
         }
         return tableData
     }
 
+    // TODO handle errors in csv gracely, at least without shutdown; might they occur?
     override fun fromTableData(data: TableData): List<NoteEntity> {
         val notesList = mutableListOf<NoteEntity>()
         for (row in data) {
             val note = NoteEntity()
-            note.priority = row[1].toInt()
-            note.category = row[2].trim('\"').toInt()
-            note.locked = row[3].trim('\"').toInt()
+            // note.id = row[0].trim('\"').toInt() -> Autoincrement der DB nutzens
+            note.category = row[1].toInt()
+            note.setProtected(row[2].toBoolean())
+            note.archived = row[3].toBoolean()
             note.title = row[4]
             note.content = row[5]
-            note.date = row[6]
+            note.date = row[6].trim('\"')
             notesList.add(note)
         }
         return notesList

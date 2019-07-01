@@ -9,25 +9,25 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.transaction
 import androidx.lifecycle.Observer
-import androidx.preference.PreferenceManager
 import com.lk.backuprestore.Result
 import com.lk.backuprestore.listener.OnBackupFinished
 import com.lk.notizen2.R
 import com.lk.notizen2.database.NoteEntity
+import com.lk.notizen2.dialogs.PasswordSetDialog
 import com.lk.notizen2.dialogs.ProtectionDialog
 import com.lk.notizen2.fragments.*
-import com.lk.notizen2.models.ActionViewModel
 import com.lk.notizen2.models.NotesViewModel
 import com.lk.notizen2.utils.*
 
 class MainActivity : AppCompatActivity(),
-    Observer<NotesAction>,
+    Observer<Any>,
     ProtectionDialog.DialogListener,
+    PasswordSetDialog.DialogListenerPasswordSet,
     OnBackupFinished {
 
     private val TAG = "MainActivity"
-    private lateinit var notesViewModel: NotesViewModel
-    private lateinit var actionViewModel: ActionViewModel
+    private lateinit var viewModel: NotesViewModel
+    private lateinit var spw: SharedPrefWrapper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,34 +35,42 @@ class MainActivity : AppCompatActivity(),
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         setContentView(R.layout.activity_main_empty)
 
-        notesViewModel = ViewModelFactory.getNotesViewModel(this)
-        actionViewModel = ViewModelFactory.getActionViewModel(this)
-        actionViewModel.setObserver(this, this)
+        viewModel = ViewModelFactory.getNotesViewModel(this)
+        viewModel.observeListAndActions(this, this)
+        spw = SharedPrefWrapper(this)
 
         supportFragmentManager.transaction { replace(R.id.fl_main_empty, NoteListFragment()) }
     }
 
     // TODO Permission Request fur Write / Read external storage, manuell nötig
-    // TODO Asynchron umsetzen
 
-    override fun onChanged(update: NotesAction) {
+    override fun onChanged(update: Any?) {
+        Log.v(TAG, "Main: $update")
         when (update) {
-            NotesAction.CHECK_PROTECTION -> checkNoteProtection()
-            NotesAction.SHOW_NOTE -> showNoteTransaction()
-            NotesAction.SHOW_LIST -> showListTransaction()
-            NotesAction.EDIT_NOTE, NotesAction.NEW_NOTE -> editNoteTransaction()
-            NotesAction.SHOW_PREFERENCES -> { } // NOT needed in current implementation
-            NotesAction.NONE -> { }
+            NavigationActions.SHOW_NOTE -> checkNoteProtection()
+            NavigationActions.SHOW_LIST -> showListTransaction()
+            NavigationActions.EDIT_NOTE,
+                NavigationActions.NEW_NOTE -> editNoteTransaction()
+            NavigationActions.SHOW_PREFERENCES -> { } // NOT needed in current implementation
+            NavigationActions.DELETE_NOTE -> {}
+            NavigationActions.SAVE_NOTE -> {}
         }
     }
 
-    override fun dialogResult(value: String) {
+    override fun dialogResultSetter(password1: String, password2: String) {
+        if(PasswordChecker.checkNewPasswords(password1, password2) ) {
+            spw.writeString(Constants.SPREF_PASSWORD, password1)
+            createToast(R.string.toast_new_password)
+        }
+    }
+
+    override fun dialogResultProtection(value: String) {
         if (value == ProtectionDialog.LOCK_DIALOG_CANCELLED) {
             Log.d(TAG, "Passwortabfrage wurde gecancelt.")
         } else {
             val isPasswordCorrect = checkPassword(value)
             if (isPasswordCorrect) {
-                actionViewModel.setAction(NotesAction.SHOW_NOTE)
+                showNoteTransaction()   // PROBLEM_ es wird immer die Notiz angezeigt, nicht das Ziel bei geschützem löschen
                 Log.d(TAG, "Notiz anzeigen (Passwort)")
             } else {
                 createToast("Das Passwort ist falsch.")
@@ -71,20 +79,19 @@ class MainActivity : AppCompatActivity(),
     }
 
     private fun checkPassword(value: String): Boolean {
-        val sp = PreferenceManager.getDefaultSharedPreferences(this)
-        val truePassword = sp.getString(Constants.PREF_PASSWORD, "") ?: ""
+        val truePassword = spw.readString(Constants.SPREF_PASSWORD)
         Log.d(TAG, "Passwort prüfen: (Eingabe) $value == $truePassword (korrekt)")
         return PasswordChecker.isInputPasswordCorrect(value, truePassword)
     }
 
     private fun checkNoteProtection() {
-        val note: NoteEntity = notesViewModel.selectedNote.value!!
-        if (note.isLocked()) {
+        val note: NoteEntity = viewModel.selectedNote.value!!
+        if (note.isProtected()) {
             supportFragmentManager.transaction {
                 add(ProtectionDialog(), "Release lock dialog")
             }
         } else {
-            actionViewModel.setAction(NotesAction.SHOW_NOTE)
+            showNoteTransaction()
             Log.d(TAG, "Notiz direkt anzeigen, weil offen")
         }
     }
@@ -134,7 +141,7 @@ class MainActivity : AppCompatActivity(),
     }
 
     private fun tryNotesBackup() {
-        BackupRestoreWrapper(notesViewModel).backupNotes(this)
+        BackupRestoreWrapper(viewModel).backupNotes(this)
     }
 
     override fun onBackupFinished(result: Result) {
@@ -145,7 +152,7 @@ class MainActivity : AppCompatActivity(),
     }
 
     private fun tryNotesRestore() {
-        BackupRestoreWrapper(notesViewModel).restoreNotes()
+        BackupRestoreWrapper(viewModel).restoreNotes()
         // TODO Nutzerrückmeldung notwendig??
     }
 

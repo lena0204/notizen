@@ -19,37 +19,32 @@ class NoteShowFragment: Fragment(), Observer<NoteEntity> {
 
     private val TAG = "NoteShowFragment"
 
-    private lateinit var notesViewModel: NotesViewModel
-    private lateinit var actionViewModel: ActionViewModel
+    private lateinit var viewModel: NotesViewModel
+    private lateinit var currentNote: NoteEntity
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, saved: Bundle?): View? {
         val root = inflater.inflate(R.layout.fragment_show, container, false)
-        root.tv_show_content.setOnClickListener { _ ->
+        root.tv_show_content.setOnClickListener {
             Log.d(TAG, "Clicked")
-            actionViewModel.setAction(NotesAction.EDIT_NOTE)
+            viewModel.doAction(NavigationActions.EDIT_NOTE, currentNote)
         }
         return root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        notesViewModel = ViewModelFactory.getNotesViewModel(requireActivity())
-        actionViewModel = ViewModelFactory.getActionViewModel(requireActivity())
-        notesViewModel.selectedNote.observe(this, this)
+        viewModel = ViewModelFactory.getNotesViewModel(requireActivity())
+        viewModel.selectedNote.observe(this, this)
     }
 
     private fun printNote(note: NoteEntity){
-        tv_show_id.text = note.id.toString()
-        tv_show_title.text = note.title
-        tv_show_content.text = note.content
-        tb_show_protected.isChecked = note.getLockedAsEnum() == Lock.LOCKED
-        tb_show_priority.isChecked = note.getPriorityAsEnum() == Priority.URGENT
-        tv_show_category.text = note.getCategoryAsEnum().category
-        setCategoryBar(note.getCategoryAsEnum())
-    }
-
-    private fun setCategoryBar(category: Category){
-        iv_show_category.setImageResource(category.color)
+        currentNote = note
+        tv_show_id.text = currentNote.id.toString()
+        tv_show_title.text = currentNote.title
+        tv_show_content.text = currentNote.content
+        tb_show_protected.isChecked = currentNote.isProtected()
+        tv_show_category.text = currentNote.getCategoryAsEnum().name
+        iv_show_category.setImageResource(currentNote.getCategoryAsEnum().color)
     }
 
     override fun onChanged(selectedNote: NoteEntity?) {
@@ -60,7 +55,7 @@ class NoteShowFragment: Fragment(), Observer<NoteEntity> {
 
     override fun onResume() {
         super.onResume()
-        if(notesViewModel.selectedNote.value != null)
-            printNote(notesViewModel.selectedNote.value!!)
+        if(viewModel.selectedNote.value != null)
+            printNote(viewModel.selectedNote.value!!)
     }
 }

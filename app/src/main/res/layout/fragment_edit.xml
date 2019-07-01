@@ -66,22 +66,12 @@
         <!-- TODO Lila Flagge ist nicht gut sichtbar auf dem Hintergrund -->
 
         <ToggleButton
-            android:id="@+id/tb_edit_priority"
-            style="@style/tb_edit_menu_constraint"
-            android:layout_marginStart="12dp"
-            android:background="@drawable/selector_priority"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ToggleButton
             android:id="@+id/tb_edit_protected"
             style="@style/tb_edit_menu_constraint"
-            android:layout_marginStart="16dp"
-            android:layout_toEndOf="@id/tb_edit_priority"
+            android:layout_marginStart="12dp"
             android:background="@drawable/selector_protected"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/tb_edit_priority"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton

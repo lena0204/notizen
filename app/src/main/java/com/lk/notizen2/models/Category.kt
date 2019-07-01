@@ -8,14 +8,8 @@ import com.lk.notizen2.R
  * Erstellt von Lena am 06.10.18.
  */
 data class Category(
-    val number: Int = 0,
+    var id: Int = 0,
+    var name: String = "",
     val color: Int = R.color.normal,
-    val category: String = "",
     val lineNumber: Int = 4
-) {
-    companion object {
-        fun createDrawableForColor(color: Int, resources: Resources): Drawable {
-            return resources.getDrawable(color)
-        }
-    }
-}
+)

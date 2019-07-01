@@ -1,12 +1,12 @@
 package com.lk.notizen2.adapters
 
+import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.lk.notizen2.R
 import com.lk.notizen2.database.NoteEntity
 import com.lk.notizen2.models.Category
-import com.lk.notizen2.utils.*
 
 /**
  * Erstellt von Lena am 06.10.18.
@@ -27,7 +27,7 @@ class NotesAdapter(private val dataset: List<NoteEntity>):
     }
 
     interface OnClickListener {
-        fun onShowNote(noteId: Int)
+        fun onShowNote(note: Int)
     }
 
     fun setListener(cl: OnClickListener) {
@@ -43,7 +43,7 @@ class NotesAdapter(private val dataset: List<NoteEntity>):
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         currentHolder = holder
         currentNote = dataset[position]
-        if (currentNote.getLockedAsEnum() == Lock.LOCKED) {
+        if (currentNote.isProtected()) {
             printProtectedNote()
         } else {
             printOpenNote()
@@ -69,7 +69,6 @@ class NotesAdapter(private val dataset: List<NoteEntity>):
     private fun printProtectedNote() {
         printBasicNoteData()
         currentHolder.tbProtected.isChecked = true
-        currentHolder.tbPriority.visibility = View.GONE
         setCategoryBar(currentNote.getCategoryAsEnum())
         resetViewsForProtected()
     }
@@ -85,7 +84,6 @@ class NotesAdapter(private val dataset: List<NoteEntity>):
         setCategoryBar(category)
 
         currentHolder.tvText.text = currentNote.content
-        currentHolder.tbPriority.isChecked = currentNote.getPriorityAsEnum() == Priority.URGENT
         currentHolder.tbProtected.visibility = View.GONE
         currentHolder.tvText.maxLines = category.lineNumber
     }
@@ -105,18 +103,18 @@ class NotesAdapter(private val dataset: List<NoteEntity>):
         return dataset.size
     }
 
-    class ViewHolder(v: View) : RecyclerView.ViewHolder(v), View.OnCreateContextMenuListener {
+    inner class ViewHolder(v: View) : RecyclerView.ViewHolder(v), View.OnCreateContextMenuListener {
 
         val tvId = v.findViewById<View>(R.id.tv_list_id) as TextView
         val tvTitle = v.findViewById<View>(R.id.tv_list_title) as TextView
         val tvText = v.findViewById<View>(R.id.tv_list_content) as TextView
         val tvDate = v.findViewById<View>(R.id.tv_list_time) as TextView
-        val tbPriority = v.findViewById<View>(R.id.iv_list_priority) as ToggleButton
         val tbProtected = v.findViewById<View>(R.id.iv_list_protected) as ToggleButton
         val ivCategory = v.findViewById<View>(R.id.iv_list_category) as ImageView
 
         init {
             v.setOnClickListener {
+                // IDEA_ adapterposition verweist den Index im dataset
                 val strId = tvId.text.toString()
                 val id = Integer.parseInt(strId)
                 listener!!.onShowNote(id)

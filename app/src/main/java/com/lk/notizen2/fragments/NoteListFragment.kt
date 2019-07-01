@@ -26,8 +26,7 @@ class NoteListFragment: Fragment(), Observer<Any>, NotesAdapter.OnClickListener 
     private lateinit var rv: RecyclerView
     private var notesList: List<NoteEntity> = listOf()
 
-    private lateinit var notesViewModel: NotesViewModel
-    private lateinit var actionViewModel: ActionViewModel
+    private lateinit var viewModel: NotesViewModel
     private var deleteId = -1
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, args: Bundle?): View? {
@@ -43,15 +42,14 @@ class NoteListFragment: Fragment(), Observer<Any>, NotesAdapter.OnClickListener 
         initialiseViewModels()
         requireActivity().actionBar?.setTitle(R.string.app_name)
         fab.setOnClickListener {    // TESTING_ notwendig, dass für den FAB eine Attribut erzeugt wird??
-            actionViewModel.setAction(NotesAction.NEW_NOTE)
-            notesViewModel.selectedNote.value = NoteEntity()
+            Log.d(TAG, "new note")
+            viewModel.doAction(NavigationActions.NEW_NOTE, NoteEntity())
         }
     }
 
     private fun initialiseViewModels(){
-        notesViewModel = ViewModelFactory.getNotesViewModel(requireActivity())
-        actionViewModel = ViewModelFactory.getActionViewModel(requireActivity())
-        notesViewModel.addListObservers(this, this)
+        viewModel = ViewModelFactory.getNotesViewModel(requireActivity())
+        viewModel.observeListAndActions(this, this)
     }
 
     override fun onResume() {
@@ -66,29 +64,9 @@ class NoteListFragment: Fragment(), Observer<Any>, NotesAdapter.OnClickListener 
     }
 
     private fun setupRecyclerView(){
-        if (notesViewModel.getNotes().value != null) {
-            setupDatalistAndAdapter(
-                notesViewModel.getNotes().value!!,
-                notesViewModel.filterCategory.value!!,
-                notesViewModel.filterPriority.value!!
-            )
-        }
-    }
-
-    private fun setupDatalistAndAdapter(notesData: List<NoteEntity>,
-                                       filterCategory: Category,
-                                       filterPriority: Priority) {
-        notesList = notesData
-        filterNotesList(filterCategory, filterPriority)
-        setupRecyclerAdapter()
-    }
-
-    private fun filterNotesList(filterCategory: Category, filterPriority: Priority) {
-        if (filterCategory != Categories.ALL) {
-            notesList = notesList.filter { note -> note.category == filterCategory.number }
-        }
-        if (filterPriority != Priority.ALL) {
-            notesList = notesList.filter { note -> note.getPriorityAsEnum() == filterPriority }
+        if (viewModel.filteredNotes.value != null) {
+            notesList = viewModel.filteredNotes.value!!
+            setupRecyclerAdapter()
         }
     }
 
@@ -101,8 +79,7 @@ class NoteListFragment: Fragment(), Observer<Any>, NotesAdapter.OnClickListener 
 
     override fun onShowNote(noteId: Int) {
         Log.d(TAG, "showing note with id $noteId")
-        notesViewModel.setSelectedNoteFromId(noteId)
-        actionViewModel.setAction(NotesAction.CHECK_PROTECTION)
+        viewModel.doAction(NavigationActions.SHOW_NOTE, noteId)
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
@@ -110,9 +87,10 @@ class NoteListFragment: Fragment(), Observer<Any>, NotesAdapter.OnClickListener 
             deleteId = (rv.adapter as NotesAdapter).selectedNoteId
             Log.d(TAG, "To be deleted: $deleteId")
             if (item.itemId == R.id.menu_delete) {
-                notesViewModel.deleteNoteFromId(deleteId)
+                viewModel.doAction(NavigationActions.DELETE_NOTE, deleteId)
+                Toast.makeText(activity, R.string.toast_deleted, Toast.LENGTH_SHORT).show()
 
-                // TODO Delete-Dialog anzeigen
+                // IDEA_ Delete-Dialog anzeigen
                 // val delete = DeleteDialog()
                 // delete.show(fragmentManager, "Delete")
             }
@@ -120,11 +98,5 @@ class NoteListFragment: Fragment(), Observer<Any>, NotesAdapter.OnClickListener 
             Log.d(TAG, ex.localizedMessage + "; " + ex.message)
         }
         return super.onContextItemSelected(item)
-    }
-
-    // TODO Implementierung des Delete-Dialogs fehlt noch
-    fun deleteItem() {
-        notesViewModel.deleteNoteFromId(deleteId)
-        Toast.makeText(activity, R.string.toast_deleted, Toast.LENGTH_SHORT).show()
     }
 }

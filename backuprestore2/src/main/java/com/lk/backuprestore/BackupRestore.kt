@@ -18,6 +18,6 @@ class BackupRestore {
     }
 
     companion object {
-        const val PATH = "//DataBackup.txt"
+        const val PATH = "//NotesBackup.txt"
     }
 }

@@ -14,7 +14,7 @@ class BackupRestoreWrapper(private val viewModel: NotesViewModel) : OnRestoreFin
     private val TAG = "BackupRestoreWrapper"
 
     fun backupNotes(listener: OnBackupFinished) {
-        val notes = viewModel.getNotes().value!!
+        val notes = viewModel.filteredNotes.value!!
         if(notes.isNotEmpty()) {
             val tableData = NotesConversion().toTableData(notes)
             BackupRestore().backupData(tableData, listener)

@@ -12,11 +12,8 @@ interface DAONotesWidgets {
     @Query("SELECT * FROM notes ORDER BY note_date DESC")
     fun getNotes(): LiveData<List<NoteEntity>>
 
-    //@Query("SELECT * FROM notes WHERE note_id == :id")
-    //abstract fun getNoteFromId(id: Int): NoteEntity
-
     @Insert
-    fun insertNote(entity: NoteEntity)
+    fun insertNote(entity: NoteEntity): Long    // Long returns the row number inserted
 
     @Update
     fun updateNote(entity: NoteEntity)
@@ -27,7 +24,7 @@ interface DAONotesWidgets {
     @Query("DELETE FROM notes WHERE note_id >= 0")
     fun deleteAll()
 
-    @Query("SELECT * FROM widgets")
+/*    @Query("SELECT * FROM widgets")
     fun getWidget(): LiveData<List<WidgetEntity>>
 
     @Query("SELECT * FROM widgets WHERE widget_id == :id")
@@ -43,6 +40,6 @@ interface DAONotesWidgets {
     fun updateWidget(entity: WidgetEntity)
 
     @Delete
-    fun deleteWidget(entity: WidgetEntity)
+    fun deleteWidget(entity: WidgetEntity)*/
 
 }

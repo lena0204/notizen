@@ -14,7 +14,7 @@ internal class FileAccess {
     private val TAG = this::class.java.simpleName
 
     fun writeToFile(data: TableData, listenerWrite: OnBackupFinished) {
-        GlobalScope.launch(Dispatchers.IO) {
+        GlobalScope.launch(Dispatchers.Main) {
             val text = data.toCsvString()
             try {
                 writeTextToFile(text)
@@ -43,7 +43,7 @@ internal class FileAccess {
     }
 
     fun readFromFile(listenerRead: OnRestoreFinished) {
-        GlobalScope.launch(Dispatchers.IO) {
+        GlobalScope.launch(Dispatchers.Main) {
             try {
                 val text = readDataFromFile()
                 val tableData = TableData.fromCsvString(text)

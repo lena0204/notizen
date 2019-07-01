@@ -16,67 +16,97 @@ class NotesViewModel(application: Application): AndroidViewModel(application) {
 
     private val repository = NotesRepository(application)
 
+    // TODO make them private with getters / setters
+
     val selectedNote = MutableLiveData<NoteEntity>()
-    val filterPriority = MutableLiveData<Priority>()
-    val filterCategory = MutableLiveData<Category>()
     val selectedCategory = MutableLiveData<Category>()
 
+    val filteredNotes = MediatorLiveData<List<NoteEntity>>()
+    val filterCategory = MutableLiveData<Category>()
+    private val notes = repository.getNotesList()
+
+    private val notesAction = MutableLiveData<NavigationActions>()
+
     init{
-        filterPriority.value = Priority.ALL
         filterCategory.value = Categories.ALL
         selectedCategory.value = Categories.ALL
         selectedNote.value = NoteEntity()
-    }
+        notesAction.value = NavigationActions.SHOW_LIST
 
-    fun addListObservers(owner: LifecycleOwner, observer: Observer<Any>){
-        filterPriority.observe(owner, observer)
-        filterCategory.observe(owner, observer)
-        getNotes().observe(owner, observer)
-    }
-
-    fun getNotes(): LiveData<List<NoteEntity>> {
-        return repository.getNotesList()
-    }
-
-    fun setSelectedNoteFromId(id: Int){
-        val note = getNotes().value?.find { note -> note.id == id }
-        if(note != null) {
-            selectedNote.value = note
-            Log.v(TAG, "selected note changed")
+        filteredNotes.addSource(filterCategory) {
+            filteredNotes.value = filterNotes(it)
+        }
+        filteredNotes.addSource(notes) {
+            filteredNotes.value = filterNotes(filterCategory.value!!)
+            // For testing purpose: Log.v(TAG, "NACHHER: ${filteredNotes.value}")
         }
     }
 
-    fun insertNote(note: NoteEntity, savedButton: Boolean = false){
-        repository.insertNote(note)
-        selectedNote.value = note
-        if (savedButton)
-            selectedNote.value = NoteEntity()
+    fun observeListAndActions(owner: LifecycleOwner, observer: Observer<Any>){
+        filteredNotes.observe(owner, observer)
+        notesAction.observe(owner, observer)
+    }
+
+    private fun filterNotes(category: Category): List<NoteEntity> {
+        Log.v(TAG, "filterNotes: ${category.name}")
+        return when {
+            notes.value == null -> listOf()
+            category == Categories.ALL -> notes.value!!
+            else -> notes.value!!.filter {
+                    note -> note.getCategoryAsEnum() == filterCategory.value
+            }
+        }
+    }
+
+    fun doAction(action: NavigationActions, noteID: Int) {
+        val note = findNoteById(noteID)
+        doAction(action, note)
+    }
+
+    fun doAction(action: NavigationActions, note: NoteEntity) {
+        when(action) {
+            NavigationActions.SHOW_LIST,
+            NavigationActions.NEW_NOTE -> {
+                selectedNote.value = NoteEntity()
+                selectedCategory.value = Categories.WHITE
+            }
+            NavigationActions.SHOW_NOTE,
+                NavigationActions.EDIT_NOTE -> selectedNote.value = note
+            NavigationActions.SHOW_PREFERENCES -> {}
+            NavigationActions.SAVE_NOTE -> saveNote(note)
+            NavigationActions.DELETE_NOTE -> deleteNoteFromId(note)
+        }
+        notesAction.value = action
+    }
+
+    private fun findNoteById(id: Int): NoteEntity {
+        return filteredNotes.value?.find { note -> note.id == id } ?: NoteEntity()
+    }
+
+    private fun saveNote(note: NoteEntity) {
+        val oldNote = findNoteById(note.id)
+        if(oldNote.isEmpty()) {
+            repository.insertNote(note)
+        } else {
+            repository.updateNote(note)
+        }
+        selectedNote.value = note   // PROBLEM_ Die ID fehlt und somit wird die Notiz erneut eingetragen
+        Log.d(TAG, selectedNote.value?.toLimitedString())
+    }
+
+    private fun deleteNoteFromId(note: NoteEntity) {
+        repository.deleteNote(note)
+    }
+
+    // backup & restore
+    fun deleteAllNotes() {
+        Log.d(TAG, "Will delete ALL notes!")
+        repository.deleteAllNotes()
     }
 
     fun insertAllNotes(notes: List<NoteEntity>) {
         for(note in notes) {
             repository.insertNote(note)
         }
-    }
-
-    fun updateNote(note: NoteEntity, savedButton: Boolean = false){
-        repository.updateNote(note)
-        selectedNote.value = note
-        if (savedButton)
-            selectedNote.value = NoteEntity()
-        Log.d(TAG, selectedNote.value?.toString())
-    }
-
-    fun deleteNoteFromId(noteId: Int){
-        val note = getNotes().value?.find { note -> note.id == noteId }
-        if(note != null) {
-            repository.deleteNote(note)
-            selectedNote.value = NoteEntity()
-        }
-    }
-
-    fun deleteNotes() {
-        Log.d(TAG, "Will delete ALL notes!")
-        repository.deleteAllNotes()
     }
 }
