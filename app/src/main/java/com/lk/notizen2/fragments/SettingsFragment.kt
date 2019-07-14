@@ -57,7 +57,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
             Log.d(TAG, "Wert ${newValue}")
             val valueSet = newValue as Set<String>
             val valueList = Categories.transformToCategoryList(valueSet)
-            notesViewModel.filterCategories.value = valueList
+            notesViewModel.setFilteredCategories(valueList)
             true
         }
     }

@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity(),
         spw = SharedPrefWrapper(this)
         val filterSet = spw.readSet(Constants.PREF_FILTER_CAT_MULTI, setOf(Categories.ALL.id.toString()))
         val filterList = Categories.transformToCategoryList(filterSet)
-        viewModel.filterCategories.value = filterList
+        viewModel.setFilteredCategories(filterList)
 
         supportFragmentManager.transaction { replace(R.id.fl_main_empty, NoteListFragment()) }
     }
@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity(),
     }
 
     private fun checkNoteProtection() {
-        val note: NoteEntity = viewModel.selectedNote.value!!
+        val note: NoteEntity = viewModel.getSelectedNote()
         if (note.isProtected()) {
             supportFragmentManager.transaction {
                 add(ProtectionDialog(), "Release lock dialog")

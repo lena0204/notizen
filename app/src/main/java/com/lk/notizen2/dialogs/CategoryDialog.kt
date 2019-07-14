@@ -28,7 +28,7 @@ class CategoryDialog: DialogFragment() {
             val builder = AlertDialog.Builder(it, R.style.DialogTheme)
             builder.setTitle(R.string.category_dialog_title)
             builder.setItems(R.array.category_items) { _, which ->
-                notesViewModel.selectedCategory.value = Categories.getCategory(which)
+                notesViewModel.setSelectedCategory(Categories.getCategory(which))
             }
              builder.create()
         }

@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.fragment_show.view.*
 /**
  * Erstellt von Lena am 06.10.18.
  */
-class NoteShowFragment: Fragment(), Observer<NoteEntity> {
+class NoteShowFragment: Fragment(), Observer<Any> {
 
     private val TAG = "NoteShowFragment"
 
@@ -34,7 +34,7 @@ class NoteShowFragment: Fragment(), Observer<NoteEntity> {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelFactory.getNotesViewModel(requireActivity())
-        viewModel.selectedNote.observe(this, this)
+        viewModel.observeSelectedCategory(this, this)
     }
 
     private fun printNote(note: NoteEntity){
@@ -47,15 +47,14 @@ class NoteShowFragment: Fragment(), Observer<NoteEntity> {
         iv_show_category.setImageResource(currentNote.getCategoryAsEnum().color)
     }
 
-    override fun onChanged(selectedNote: NoteEntity?) {
-        if(selectedNote != null){
+    override fun onChanged(selectedNote: Any) {
+        if(selectedNote is NoteEntity){
             printNote(selectedNote)
         }
     }
 
     override fun onResume() {
         super.onResume()
-        if(viewModel.selectedNote.value != null)
-            printNote(viewModel.selectedNote.value!!)
+        printNote(viewModel.getSelectedNote())
     }
 }

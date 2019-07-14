@@ -64,10 +64,8 @@ class NoteListFragment: Fragment(), Observer<Any>, NotesAdapter.OnClickListener 
     }
 
     private fun setupRecyclerView(){
-        if (viewModel.filteredNotes.value != null) {
-            notesList = viewModel.filteredNotes.value!!
-            setupRecyclerAdapter()
-        }
+        notesList = viewModel.getFilteredNotes()
+        setupRecyclerAdapter()
     }
 
     private fun setupRecyclerAdapter(){

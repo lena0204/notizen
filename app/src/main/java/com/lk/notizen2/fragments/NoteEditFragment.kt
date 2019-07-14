@@ -44,8 +44,8 @@ class NoteEditFragment: Fragment(), Observer<Any> {
 
     private fun initialiseViewModels(){
         viewModel = ViewModelFactory.getNotesViewModel(requireActivity())
-        viewModel.selectedNote.observe(this, this)
-        viewModel.selectedCategory.observe(this,this)
+        viewModel.observeSelectedCategory(this, this)
+        viewModel.observeSelectedNote(this, this)
     }
     private fun setClickListeners(){
         bt_edit_save.setOnClickListener {
@@ -65,10 +65,10 @@ class NoteEditFragment: Fragment(), Observer<Any> {
     // TODO nach dem Speichern taucht kurz die default version (Farbe und Buttons) auf -> verhindern
     override fun onChanged(update: Any?) {
         when {
-            update is NoteEntity? && update != null -> {
+            update != null && update is NoteEntity -> {
                 onUpdateNote(update)
             }
-            update is Category? && update != null -> {
+            update != null && update is Category -> {
                 onCategoryChosen(update)
             }
         }
@@ -97,7 +97,7 @@ class NoteEditFragment: Fragment(), Observer<Any> {
         et_edit_title.setText(note.title, TextView.BufferType.EDITABLE)
         et_edit_description.setText(note.content,TextView.BufferType.EDITABLE)
         tb_edit_protected.isChecked = note.isProtected()
-        viewModel.selectedCategory.value = note.getCategoryAsEnum()
+        viewModel.setSelectedCategory(note.getCategoryAsEnum())
     }
 
     private fun printDefaultNote(){

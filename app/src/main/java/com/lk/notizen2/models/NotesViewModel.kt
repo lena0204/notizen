@@ -16,13 +16,11 @@ class NotesViewModel(application: Application): AndroidViewModel(application) {
 
     private val repository = NotesRepository(application)
 
-    // TODO make them private with getters / setters
+    private val selectedNote = MutableLiveData<NoteEntity>()
+    private val selectedCategory = MutableLiveData<Category>()
 
-    val selectedNote = MutableLiveData<NoteEntity>()
-    val selectedCategory = MutableLiveData<Category>()
-
-    val filteredNotes = MediatorLiveData<List<NoteEntity>>()
-    val filterCategories = MutableLiveData<List<Category>>()
+    private val filteredNotes = MediatorLiveData<List<NoteEntity>>()
+    private val filterCategories = MutableLiveData<List<Category>>()
 
     private val notes = repository.getNotesList()
 
@@ -45,6 +43,14 @@ class NotesViewModel(application: Application): AndroidViewModel(application) {
     fun observeListAndActions(owner: LifecycleOwner, observer: Observer<Any>){
         filteredNotes.observe(owner, observer)
         notesAction.observe(owner, observer)
+    }
+
+    fun observeSelectedCategory(owner: LifecycleOwner, observer: Observer<Any>) {
+        selectedCategory.observe(owner, observer)
+    }
+
+    fun observeSelectedNote(owner: LifecycleOwner, observer: Observer<Any>) {
+        selectedNote.observe(owner, observer)
     }
 
     private fun filterNotes(categories: List<Category>): List<NoteEntity> {
@@ -111,4 +117,17 @@ class NotesViewModel(application: Application): AndroidViewModel(application) {
             repository.insertNote(note)
         }
     }
+
+    // Getter and setter for LiveData
+    fun setFilteredCategories(categories: List<Category>) {
+        filterCategories.value = categories
+    }
+
+    fun getFilteredNotes(): List<NoteEntity> = filteredNotes.value!!
+
+    fun setSelectedCategory(category: Category) {
+        selectedCategory.value = category
+    }
+
+    fun getSelectedNote(): NoteEntity = selectedNote.value!!
 }
