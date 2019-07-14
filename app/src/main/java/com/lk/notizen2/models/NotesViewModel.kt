@@ -22,23 +22,23 @@ class NotesViewModel(application: Application): AndroidViewModel(application) {
     val selectedCategory = MutableLiveData<Category>()
 
     val filteredNotes = MediatorLiveData<List<NoteEntity>>()
-    val filterCategory = MutableLiveData<Category>()
+    val filterCategories = MutableLiveData<List<Category>>()
+
     private val notes = repository.getNotesList()
 
     private val notesAction = MutableLiveData<NavigationActions>()
 
-    init{
-        filterCategory.value = Categories.ALL
+    init {
+        filterCategories.value = listOf(Categories.ALL)
         selectedCategory.value = Categories.ALL
         selectedNote.value = NoteEntity()
         notesAction.value = NavigationActions.SHOW_LIST
 
-        filteredNotes.addSource(filterCategory) {
+        filteredNotes.addSource(filterCategories) {
             filteredNotes.value = filterNotes(it)
         }
         filteredNotes.addSource(notes) {
-            filteredNotes.value = filterNotes(filterCategory.value!!)
-            // For testing purpose: Log.v(TAG, "NACHHER: ${filteredNotes.value}")
+            filteredNotes.value = filterNotes(filterCategories.value!!)
         }
     }
 
@@ -47,13 +47,15 @@ class NotesViewModel(application: Application): AndroidViewModel(application) {
         notesAction.observe(owner, observer)
     }
 
-    private fun filterNotes(category: Category): List<NoteEntity> {
-        Log.v(TAG, "filterNotes: ${category.name}")
+    private fun filterNotes(categories: List<Category>): List<NoteEntity> {
+        Log.v(TAG, "filterNotes: ${categories}")
         return when {
             notes.value == null -> listOf()
-            category == Categories.ALL -> notes.value!!
-            else -> notes.value!!.filter {
-                    note -> note.getCategoryAsEnum() == filterCategory.value
+            categories[0] == Categories.ALL -> notes.value!!
+            else -> {
+                notes.value!!.filter {
+                    categories.contains(Categories.getCategory(it.category))
+                }
             }
         }
     }

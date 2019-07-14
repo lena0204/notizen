@@ -11,7 +11,7 @@ object Constants {
 
     const val PREF_CATEGORY_STANDARD = "pref_category_standard"
 
-    const val PREF_FILTER = "pref_filter_cat"
+    const val PREF_FILTER_CAT_MULTI = "pref_filter_cat_multi"
 
     const val SPREF_PASSWORD = "spref_password"
     const val SPREF_DESIGN = "spref_design"

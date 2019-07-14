@@ -33,6 +33,11 @@ class SharedPrefWrapper(private val context: Context) {
         }
     }
 
+    fun readSet(key: String, default: Set<String>): Set<String> {
+        val sp = PreferenceManager.getDefaultSharedPreferences(context)
+        return sp.getStringSet(key, default)!!
+    }
+
     fun readBoolean(key: String): Boolean {
         val sp = PreferenceManager.getDefaultSharedPreferences(context)
         return sp.getBoolean(key, false)

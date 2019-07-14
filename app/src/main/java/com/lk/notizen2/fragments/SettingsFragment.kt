@@ -47,14 +47,17 @@ class SettingsFragment : PreferenceFragmentCompat() {
     }
 
     private fun prepareFilterPreference() {
-        val sorting = findPreference(Constants.PREF_FILTER) as ListPreference
+        val sorting = findPreference(Constants.PREF_FILTER_CAT_MULTI) as MultiSelectListPreference
         sorting.entries = Categories.getCategoryArray()
         sorting.entryValues = arrayOf("0","1","2","3","4","5","6","7")
-        Log.d(TAG, "prepared Filter preference")
-        // TODO eigene Klasse, die Filtermöglichkeiten und Konvertierung in SharedPreferences bereitstellt
+        Log.d(TAG, "prepared Filter preference with values ${sorting.values}")
+
+        // IDEA_ eigene Klasse, die Filtermöglichkeiten und Konvertierung in SharedPreferences bereitstellt
         sorting.setOnPreferenceChangeListener { _, newValue ->
-            val filterCategoryNumber: Int = newValue.toString().toInt()
-            notesViewModel.filterCategory.value = Categories.getCategory(filterCategoryNumber)
+            Log.d(TAG, "Wert ${newValue}")
+            val valueSet = newValue as Set<String>
+            val valueList = Categories.transformToCategoryList(valueSet)
+            notesViewModel.filterCategories.value = valueList
             true
         }
     }

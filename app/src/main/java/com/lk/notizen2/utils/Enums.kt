@@ -36,6 +36,14 @@ object Categories {
         return arrayOf(WHITE.name, YELLOW.name,
             ORANGE.name, RED.name, PURPLE.name, BLUE.name, GREEN.name, ALL.name)
     }
+
+    fun transformToCategoryList(set: Set<String>): List<Category> {
+        val valueList = mutableListOf<Category>()
+        set.forEach {
+            valueList.add(Categories.getCategory(it.toInt()))
+        }
+        return valueList
+    }
 }
 
 enum class NavigationActions {

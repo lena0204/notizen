@@ -38,6 +38,9 @@ class MainActivity : AppCompatActivity(),
         viewModel = ViewModelFactory.getNotesViewModel(this)
         viewModel.observeListAndActions(this, this)
         spw = SharedPrefWrapper(this)
+        val filterSet = spw.readSet(Constants.PREF_FILTER_CAT_MULTI, setOf(Categories.ALL.id.toString()))
+        val filterList = Categories.transformToCategoryList(filterSet)
+        viewModel.filterCategories.value = filterList
 
         supportFragmentManager.transaction { replace(R.id.fl_main_empty, NoteListFragment()) }
     }
