@@ -47,7 +47,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
     }
 
     private fun prepareFilterPreference() {
-        val sorting = findPreference(Constants.PREF_FILTER_CAT_MULTI) as MultiSelectListPreference
+        val sorting = findPreference(Constants.PREF_FILTER_CATEGORIES) as MultiSelectListPreference
         sorting.entries = Categories.getCategoryArray()
         sorting.entryValues = arrayOf("0","1","2","3","4","5","6","7")
         Log.d(TAG, "prepared Filter preference with values ${sorting.values}")

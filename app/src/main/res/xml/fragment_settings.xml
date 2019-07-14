@@ -9,7 +9,7 @@
 
     <MultiSelectListPreference
         android:title="@string/sorter_name"
-        android:key="pref_filter_cat_multi"
+        android:key="pref_filter_categories"
         android:defaultValue="@array/emptyarray"/>
 
     <PreferenceCategory
