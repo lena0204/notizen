@@ -45,6 +45,7 @@ class NotesRepository(application: Application) {
     fun deleteAllNotes(){
         GlobalScope.launch(Dispatchers.Default){
             dao.deleteAll()
+            Log.v(TAG, "deleted ALL")
         }
     }
 

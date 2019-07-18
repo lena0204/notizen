@@ -25,15 +25,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
         addClickedListener()
         prepareFilterPreference()
         preparePasswordPreferences()
-        // setDynamicSummaries()
     }
 
     private fun addClickedListener(){
-        /*findPreference(Constants.SPREF_DESIGN).onPreferenceClickListener =
-                Preference.OnPreferenceClickListener {
-                    Themer.switchTheme(activity as MainActivity)
-                    true
-                }*/
         findPreference(Constants.PREF_CATEGORY_STANDARD).onPreferenceClickListener =
                 Preference.OnPreferenceClickListener {
                     // TODO Dialog mit Titel und Zeilenanzahl anzeigen
@@ -44,6 +38,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
                     callSetPasswordDialog()
                     true
                 }
+        findPreference(Constants.PREF_DESIGN).setOnPreferenceChangeListener { preference, newValue ->
+            requireActivity().recreate()
+            true
+        }
     }
 
     private fun prepareFilterPreference() {
@@ -52,7 +50,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
         sorting.entryValues = arrayOf("0","1","2","3","4","5","6","7")
         Log.d(TAG, "prepared Filter preference with values ${sorting.values}")
 
-        // IDEA_ eigene Klasse, die Filtermöglichkeiten und Konvertierung in SharedPreferences bereitstellt
         sorting.setOnPreferenceChangeListener { _, newValue ->
             Log.d(TAG, "Wert ${newValue}")
             val valueSet = newValue as Set<String>
@@ -66,16 +63,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val password = spw.readString(Constants.SPREF_PASSWORD)
         if(password != "") {
             findPreference(Constants.PREF_PASSWORD_SET).isEnabled = false
-        }
-    }
-
-    private fun setDynamicSummaries(){
-        val appTheme = spw.readInt(Constants.SPREF_DESIGN)
-        val designPreference = findPreference(Constants.SPREF_DESIGN)
-        when(appTheme){
-            0 -> designPreference.setSummary(R.string.pref_theme_summary_light)
-            1 -> designPreference.setSummary(R.string.pref_theme_summary_dark)
-            2 -> designPreference.setSummary(R.string.pref_theme_summary_black)
         }
     }
 

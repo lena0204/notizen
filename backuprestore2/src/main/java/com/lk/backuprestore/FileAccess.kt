@@ -18,17 +18,17 @@ internal class FileAccess {
             val text = data.toCsvString()
             try {
                 writeTextToFile(text)
+                listenerWrite.onBackupFinished(Result.RESULT_SUCCESS)
             } catch (ex: IOException) {
                 listenerWrite.onBackupFinished(Result.RESULT_FAILED)
             }
-            listenerWrite.onBackupFinished(Result.RESULT_SUCCESS)
         }
     }
 
-    private fun writeTextToFile(csvText: String) {
-        val sdcard = Environment.getExternalStorageDirectory()
-        if(sdcard.canWrite()){
-            val doc = File(sdcard, BackupRestore.PATH)
+    private fun writeTextToFile(csvText: String){
+        val internalStorage = Environment.getExternalStorageDirectory()
+        if(internalStorage.canWrite()){
+            val doc = File(internalStorage, BackupRestore.PATH)
             writeFile(doc, csvText)
         } else {
             Log.v(TAG, "SD-Karte kann nicht beschrieben werden.")

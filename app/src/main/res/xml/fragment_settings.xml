@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-<!--    <Preference
-        android:title="@string/pref_theme_title"
+    <SwitchPreference
+        android:title="@string/pref_design_title"
         android:key="pref_design"
-        android:summary="@string/pref_theme_summary_light"
-        />-->
+        android:summaryOff="@string/pref_design_summary_light"
+        android:summaryOn="@string/pref_design_summary_dark"
+        android:defaultValue="false"
+        />
 
     <MultiSelectListPreference
-        android:title="@string/sorter_name"
+        android:title="@string/pref_filter"
         android:key="pref_filter_categories"
         android:defaultValue="@array/emptyarray"/>
 

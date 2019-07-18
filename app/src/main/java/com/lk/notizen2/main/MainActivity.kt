@@ -1,5 +1,7 @@
 package com.lk.notizen2.main
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -7,6 +9,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.transaction
 import androidx.lifecycle.Observer
 import com.lk.backuprestore.Result
@@ -28,21 +31,27 @@ class MainActivity : AppCompatActivity(),
     private val TAG = "MainActivity"
     private lateinit var viewModel: NotesViewModel
     private lateinit var spw: SharedPrefWrapper
+    private lateinit var permRequester: PermissionRequester
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // IDEA_ Themer.setThemeOnCreated(this)
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+        spw = SharedPrefWrapper(this)
+        val designIsDark = spw.readBoolean(Constants.PREF_DESIGN)
+        if (designIsDark) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
         setContentView(R.layout.activity_main_empty)
 
+        permRequester = PermissionRequester(this)
         viewModel = ViewModelFactory.getNotesViewModel(this)
         viewModel.observeListAndActions(this, this)
-        spw = SharedPrefWrapper(this)
         val filterSet = spw.readSet(Constants.PREF_FILTER_CATEGORIES, setOf(Categories.ALL.id.toString()))
         val filterList = Categories.transformToCategoryList(filterSet)
         viewModel.setFilteredCategories(filterList)
 
-        supportFragmentManager.transaction { replace(R.id.fl_main_empty, NoteListFragment()) }
+        changeToFragment(NoteListFragment(), false)
     }
 
     // TODO Permission Request fur Write / Read external storage, manuell nötig
@@ -51,9 +60,9 @@ class MainActivity : AppCompatActivity(),
         Log.v(TAG, "Main: $update")
         when (update) {
             NavigationActions.SHOW_NOTE -> checkNoteProtection()
-            NavigationActions.SHOW_LIST -> showListTransaction()
+            NavigationActions.SHOW_LIST -> changeToFragment(NoteListFragment(), false)
             NavigationActions.EDIT_NOTE,
-                NavigationActions.NEW_NOTE -> editNoteTransaction()
+                NavigationActions.NEW_NOTE -> changeToFragment(NoteEditFragment())
             NavigationActions.SHOW_PREFERENCES -> { } // NOT needed in current implementation
             NavigationActions.DELETE_NOTE -> {}
             NavigationActions.SAVE_NOTE -> {}
@@ -73,7 +82,8 @@ class MainActivity : AppCompatActivity(),
         } else {
             val isPasswordCorrect = checkPassword(value)
             if (isPasswordCorrect) {
-                showNoteTransaction()   // PROBLEM_ es wird immer die Notiz angezeigt, nicht das Ziel bei geschützem löschen
+                // PROBLEM_ es wird immer die Notiz angezeigt, nicht das Ziel bei geschützem löschen
+                changeToFragment(NoteShowFragment())
                 Log.d(TAG, "Notiz anzeigen (Passwort)")
             } else {
                 createToast("Das Passwort ist falsch.")
@@ -94,35 +104,17 @@ class MainActivity : AppCompatActivity(),
                 add(ProtectionDialog(), "Release lock dialog")
             }
         } else {
-            showNoteTransaction()
+            changeToFragment(NoteShowFragment())
             Log.d(TAG, "Notiz direkt anzeigen, weil offen")
         }
     }
 
-    private fun showNoteTransaction() {
+    private fun changeToFragment(fragment: Fragment, addToStack: Boolean = true) {
         supportFragmentManager.transaction {
-            addToBackStack(null)
-            replace(R.id.fl_main_empty, NoteShowFragment())
-        }
-    }
-
-    private fun showListTransaction() {
-        supportFragmentManager.transaction {
-            replace(R.id.fl_main_empty, NoteListFragment())
-        }
-    }
-
-    private fun editNoteTransaction() {
-        supportFragmentManager.transaction {
-            addToBackStack(null)
-            replace(R.id.fl_main_empty, NoteEditFragment())
-        }
-    }
-
-    private fun showPreferences() {
-        supportFragmentManager.transaction {
-            addToBackStack(null)
-            replace(R.id.fl_main_empty, SettingsFragment())
+            if(addToStack) {
+                addToBackStack(null)
+            }
+            replace(R.id.fl_main_empty, fragment)
         }
     }
 
@@ -135,16 +127,42 @@ class MainActivity : AppCompatActivity(),
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         val value = super.onOptionsItemSelected(item)
         when (item?.itemId) {
-            // R.id.menu_themeswitch -> { /* TODO test ohne Themer.switchTheme(this)*/ }
             R.id.menu_backup -> tryNotesBackup()
             R.id.menu_restore -> tryNotesRestore()
-            R.id.menu_settings -> showPreferences()
+            R.id.menu_settings -> changeToFragment(SettingsFragment())
         }
         return value
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        when(requestCode) {
+            PermissionRequester.PERMISSION_REQUEST_READ -> {
+                if(isPermissionGranted(grantResults)) {
+                    tryNotesRestore()
+                } else {
+                    createToast("READ Berechtigung verweigert")
+                }
+            }
+            PermissionRequester.PERMISSION_REQUEST_WRITE -> {
+                if(isPermissionGranted(grantResults)) {
+                    tryNotesBackup()
+                } else {
+                    createToast("WRITE Berechtigung verweigert")
+                }
+            }
+        }
+    }
+    private fun isPermissionGranted(grantResults: IntArray): Boolean
+            = (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+
     private fun tryNotesBackup() {
-        BackupRestoreWrapper(viewModel).backupNotes(this)
+        if(permRequester.checkWritePermission()) {
+            BackupRestoreWrapper(viewModel).backupNotes(this)
+        }
     }
 
     override fun onBackupFinished(result: Result) {
@@ -155,7 +173,9 @@ class MainActivity : AppCompatActivity(),
     }
 
     private fun tryNotesRestore() {
-        BackupRestoreWrapper(viewModel).restoreNotes()
+        if(permRequester.checkReadPermission()) {
+            BackupRestoreWrapper(viewModel).restoreNotes()
+        }
         // TODO Nutzerrückmeldung notwendig??
     }
 

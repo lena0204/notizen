@@ -29,7 +29,11 @@ class BackupRestoreWrapper(private val viewModel: NotesViewModel) : OnRestoreFin
 
     override fun onRestoreFinished(data: TableData) {
         if(!data.isEmpty()) {
+            viewModel.deleteAllNotes()
             val notesList = NotesConversion().fromTableData(data)
+            /* TODO Problem: delete löscht teilweise noch eingefügte wieder mit weil die gleichzeitig laufen;
+                evtl weitere Methode im Repo, damit beides im gleichen Scope asynchron laufen kann */
+            Thread.sleep(50)
             viewModel.insertAllNotes(notesList)
         }
 

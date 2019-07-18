@@ -8,8 +8,6 @@
     <string name="action_about">\u00DCber Notizen</string>
     <string name="action_color">W\u00e4hle Farbe</string>
     <string name="action_settings">Einstellungen</string>
-    <string name="action_change">Umschalten</string>
-    <string name="action_sort">Sortierung</string>
 
     <!-- Edit note -->
     <string name="new_note">Neue Notiz</string>
@@ -17,9 +15,6 @@
     <string name="todo_edit_description">Beschreibung</string>
     <string name="todo_edit_confirm">Speichern</string>
     <string name="no_title">Bitte Titel eingeben</string>
-    <string name="image_priority">Priorit\u00e4t</string>
-    <string name="urgent">Dringend</string>
-    <string name="reminder">Erinnerung</string>
     <string name="saved">Gespeichert</string>
     <string name="protected_y">Schutz aktiviert</string>
     <string name="protected_n">Schutz nicht aktiviert</string>
@@ -72,21 +67,6 @@
             ge\u00e4ndert. \nBitte versuchen Sie es erneut.</string>
     <string name="toast_reset_successful">Das Passwort wurde erfolgreich zur\u00fcckgesetzt.</string>
 
-    <!-- Sortierung -->
-    <string name="sorter_name">Filter</string>
-    <string name="everything">Alles</string>
-
-    <!-- 2. Favorit -->
-    <string name="nothing">Nicht ausgew\u00e4hlt</string>
-    <string name="message_favorit">Sie haben keinen zweiten Favoriten ausgew\u00e4hlt.
-                    Sie k\u00f6nnen dies in den Einstellungen tun.</string>
-
-    <!-- About -->
-    <string name="text_about">Erstver\u00F6ffenlichung: 6. Juli 2015
-        \nAktuelle Ver\u00F6ffentlichung: 01. Juni 2017
-        \nAktuelle Version: 2.4 \nDiese App wird von Lena Kociemba ver\u00F6ffentlicht.
-        \nWohnort: Paderborn, Deutschland \nE-Mail: lenakociemba@gmail.com</string>
-
     <!-- Colour Dialog -->
     <string name="white">Weiß</string>
     <string name="yellow">Gelb</string>
@@ -95,25 +75,5 @@
     <string name="purple">Lila</string>
     <string name="blue">Blau</string>
     <string name="green">Gr\u00FCn</string>
-
-    <!-- Widget -->
-    <string name="test_titel">Titel</string>
-    <string name="test_inhalt">Lade Inhalte &#8230;</string>
-    <string name="action_widget">Widgeteinstellungen</string>
-    <string name="save">Speichern</string>
-    <string name="widget_standard">Standard</string>
-    <string name="widget_text">Text</string>
-
-    <!-- Einstellungen Widget -->
-    <string name="pref_notes_title">Notiz ausw\u00e4hlen</string>
-    <string name="pref_notes_subtitle">Ausgew\u00e4hlte Notiz: </string>
-    <string name="pref_priority_title">Priorit\u00e4t anzeigen</string>
-    <string name="pref_content_title">Inhalt anzeigen</string>
-    <string name="pref_anzeigen">Wird angezeigt</string>
-    <string name="pref_verbergen">Wird verborgen</string>
-    <string name="pref_hint_title">Hinweis</string>
-    <string name="pref_hint_subtitle">Die Konfiguration kann jederzeit über die obere rechte Ecke (Icon)
-        aufgerufen werden.</string>
-
 
 </resources>
