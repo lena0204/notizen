@@ -2,60 +2,52 @@
 <resources>
 
     <!-- Settings -->
-    <string name="pref_design_title">Design \u00e4ndern</string>
-    <string name="pref_design_summary_light">Helles Design ist angewandt</string>
-    <string name="pref_design_summary_dark">Dunkles Design ist angewandt</string>
-    <string name="pref_design_summary_black">Schwarzes Design ist angewandt</string>
+    <string name="pref_design_title">Change design</string>
+    <string name="pref_design_summary_light">Light design is applied</string>
+    <string name="pref_design_summary_dark">Dark design is applied</string>
+    <string name="pref_design_summary_black">Black design is applied</string>
 
-    <string name="pref_protection_title">Passwortschutz</string>
-    <string name="pref_cat_perso">Personalisierung</string>
-
+    <string name="pref_protection_title">Password protection</string>
+    <string name="pref_cat_perso">Personalization</string>
+    <string name="pref_cat_perso_subtitle">Preferences for the categories</string>
+    
     <string name="pref_filter">Filter</string>
 
-    <!-- NEU -->
-    <string name="pref_cat_standard">Standardkategorie</string>
-    <string name="pref_categories">Kategorien</string>
-    <string name="pref_categories_summary">Einstellungen für die einzelnen Kategorien</string>
+    <!-- Dialog für Personalisierung -->
+    <string name="dialog_perso_title">Preferences for each category</string>
+    <string name="dialog_person_hint_lines_no">Number of lines of the description</string>
+    <string name="dialog_perso_hint_name">Name of the category</string>
+    <string name="dialog_default_spinner_selection">Select a category…</string>
+    <string name="dialog_perso_no_lines">None selected</string>
 
-    <!-- Zeilenanzahl -->
-    <string name="lines_general">Nicht ausgew\u00e4hlt</string>
+    <!-- Backup & Restore -->
+    <string name="pref_br_title">Backup and restore</string>
+    <string name="pref_br_backup_title">Backup notes</string>
+    <string name="pref_br_backup_summary">Database is saved on the internal storage</string>
+    <string name="pref_br_restore_title">Restore old backups</string>
+    <string name="pref_br_restore_summary">Database is restored from the internal storage</string>
 
-    <!-- Standard Kategorien -->
-    <string name="pref_title_title">Name der Kategorie</string>
-    <string name="pref_title_summary">W\u00e4hlen Sie einen Name für die Farbe</string>
-
-    <string name="name_green">Freizeit</string>
-    <string name="name_blue">Wettbewerbe</string>
-    <string name="name_purple">Musik</string>
-    <string name="name_red">Wichtig</string>
-    <string name="name_orange">Apps</string>
-
-    <string name="pref_br_title">Sichern und Wiederherstellen</string>
-    <string name="pref_br_backup_title">Notizen sichern</string>
-    <string name="pref_br_backup_summary">Datenbank wird im internen Speicher gesichert</string>
-    <string name="pref_br_restore_title">Alte Sicherung wiederherstellen</string>
-    <string name="pref_br_restore_summary">Datenbank wird aus dem internen Speicher wiederherstellt</string>
-
+    <!-- Passwort -->
+    <string name="dia_set_title">Choose a password</string>
+    <string name="dia_set_explanation">The password must have at minimum 4 numbers.</string>
+    <!-- TODO mindestens 4 Nummer für das PW einfordern, und vorher kein abschließen des Dialogs ermöglichen -->
+    <string name="dia_set_hint_pw1">Password</string>
+    <string name="dia_set_hint_pw2">Repeat password</string>
+    <string name="dia_set_yes">Choose</string>
+    <string name="dia_change_title">Change password</string>
+    <string name="dia_change_old">Enter your old password:</string>
+    <string name="dia_change_new1">Your new password:</string>
+    <string name="dia_change_new2">Repeat your new password:</string>
 
     <!-- not used so far
+    IDEA_ Design dynamisch nach Zeit
+
     <string name="pref_dynamic_title">Design zeitabh\u00e4ngig setzen</string>
     <string name="pref_dynamic_summary_a">Design wird nicht ver\u00e4ndert</string>
     <string name="pref_dynamic_summary_e">Dynamische Anpassung je nach Zeit</string>
-
-    <string name="pref_lines_no_title">Zeilenanzahl der Beschreibung</string>
-    <string name="pref_lines_no_dialog">W\u00e4hlen Sie die Zeilenanzahl</string>
-    <string name="pref_lines_no_summary">W\u00e4hlen Sie eine Zeilenanzahl für die Beschreibung</string>
-
-    <string name="pref_colour_title">Kategorienname der Farben</string>
-
     <string name="pref_protection_summary">Einzelne Notizen mit einem Passwort schützen</string>
     <string name="pref_protection_explanation">Das Passwort wird genutzt, um einzelne Notizen zu
         sch\u00fctzen. Sie werden dadurch auch verschl\u00fcsselt gespeichert.
-        \nDas Passwort muss mindestens 4 Zeichen lang sein und darf nur Zahlen enthalten.</string>
-
-
-
-    -->
-    <!-- TODO Design dynamisch nach Zeit -->
+        \nDas Passwort muss mindestens 4 Zeichen lang sein und darf nur Zahlen enthalten.</string>    -->
 
 </resources>

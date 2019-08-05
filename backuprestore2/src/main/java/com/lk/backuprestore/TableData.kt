@@ -1,7 +1,5 @@
 package com.lk.backuprestore
 
-import android.util.Log
-
 /**
  * Erstellt von Lena am 2019-05-30.
  */
@@ -39,7 +37,9 @@ class TableData : Iterable<List<String>> {
             val tableData = TableData()
             val rows = text.split("\"#\"")
             for(row in rows) {
-                val cells = row.split("\";\"")
+                val cells = row.split("\";\"").toMutableList()
+                cells[0] = cells[0].trim('\"')
+                cells[cells.lastIndex] = cells[cells.lastIndex].trim('\"')
                 tableData.addDataToList(cells)
             }
             return tableData

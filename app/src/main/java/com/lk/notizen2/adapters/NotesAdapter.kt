@@ -1,6 +1,5 @@
 package com.lk.notizen2.adapters
 
-import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
@@ -27,7 +26,7 @@ class NotesAdapter(private val dataset: List<NoteEntity>):
     }
 
     interface OnClickListener {
-        fun onShowNote(note: Int)
+        fun onShowNote(noteId: Int)
     }
 
     fun setListener(cl: OnClickListener) {
@@ -86,6 +85,9 @@ class NotesAdapter(private val dataset: List<NoteEntity>):
         currentHolder.tvText.text = currentNote.content
         currentHolder.tbProtected.visibility = View.GONE
         currentHolder.tvText.maxLines = category.lineNumber
+        if(category.lineNumber == 0) {
+            currentHolder.tvText.visibility = View.GONE
+        }
     }
 
     private fun setCategoryBar(category: Category){

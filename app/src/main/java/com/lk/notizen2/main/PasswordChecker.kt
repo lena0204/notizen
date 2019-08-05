@@ -11,7 +11,7 @@ object PasswordChecker {
         if(password1 == PasswordSetDialog.SET_DIALOG_CANCELLED) {
             return false
         }
-        return (password1 == password2)
+        return (password1 == password2) && password1.length >= 4
     }
 
     fun isInputPasswordCorrect(inputPassword: String, correct: String) : Boolean {

@@ -26,6 +26,7 @@ class NotesViewModel(application: Application): AndroidViewModel(application) {
 
     private val notesAction = MutableLiveData<NavigationActions>()
 
+    // init: initialize LiveData values
     init {
         filterCategories.value = listOf(Categories.ALL)
         selectedCategory.value = Categories.ALL
@@ -40,21 +41,8 @@ class NotesViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
-    fun observeListAndActions(owner: LifecycleOwner, observer: Observer<Any>){
-        filteredNotes.observe(owner, observer)
-        notesAction.observe(owner, observer)
-    }
-
-    fun observeSelectedCategory(owner: LifecycleOwner, observer: Observer<Any>) {
-        selectedCategory.observe(owner, observer)
-    }
-
-    fun observeSelectedNote(owner: LifecycleOwner, observer: Observer<Any>) {
-        selectedNote.observe(owner, observer)
-    }
-
     private fun filterNotes(categories: List<Category>): List<NoteEntity> {
-        Log.v(TAG, "filterNotes: ${categories}")
+        Log.v(TAG, "filterNotes: $categories")
         return when {
             notes.value == null -> listOf()
             categories[0] == Categories.ALL -> notes.value!!
@@ -66,11 +54,6 @@ class NotesViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
-    fun doAction(action: NavigationActions, noteID: Int) {
-        val note = findNoteById(noteID)
-        doAction(action, note)
-    }
-
     fun doAction(action: NavigationActions, note: NoteEntity) {
         when(action) {
             NavigationActions.SHOW_LIST,
@@ -79,12 +62,17 @@ class NotesViewModel(application: Application): AndroidViewModel(application) {
                 selectedCategory.value = Categories.WHITE
             }
             NavigationActions.SHOW_NOTE,
-                NavigationActions.EDIT_NOTE -> selectedNote.value = note
-            NavigationActions.SHOW_PREFERENCES -> {}
+            NavigationActions.EDIT_NOTE -> selectedNote.value = note
+            NavigationActions.SHOW_PREFERENCES -> { }
             NavigationActions.SAVE_NOTE -> saveNote(note)
             NavigationActions.DELETE_NOTE -> deleteNoteFromId(note)
         }
         notesAction.value = action
+    }
+
+    fun doAction(action: NavigationActions, noteID: Int) {
+        val note = findNoteById(noteID)
+        doAction(action, note)
     }
 
     private fun findNoteById(id: Int): NoteEntity {
@@ -98,12 +86,25 @@ class NotesViewModel(application: Application): AndroidViewModel(application) {
         } else {
             repository.updateNote(note)
         }
-        selectedNote.value = note   // PROBLEM_ Die ID fehlt und somit wird die Notiz erneut eingetragen
+        selectedNote.value = note
+        // PROBLEM_ Die ID fehlt und somit wird die Notiz erneut eingetragen, bei pause/ resume -> erstmal abgeschaltet
         Log.d(TAG, selectedNote.value?.toLimitedString())
     }
 
     private fun deleteNoteFromId(note: NoteEntity) {
         repository.deleteNote(note)
+    }
+
+    // add Observers
+    fun observeListAndActions(owner: LifecycleOwner, observer: Observer<Any>){
+        filteredNotes.observe(owner, observer)
+        notesAction.observe(owner, observer)
+    }
+    fun observeSelectedCategory(owner: LifecycleOwner, observer: Observer<Any>) {
+        selectedCategory.observe(owner, observer)
+    }
+    fun observeSelectedNote(owner: LifecycleOwner, observer: Observer<Any>) {
+        selectedNote.observe(owner, observer)
     }
 
     // backup & restore
@@ -122,12 +123,9 @@ class NotesViewModel(application: Application): AndroidViewModel(application) {
     fun setFilteredCategories(categories: List<Category>) {
         filterCategories.value = categories
     }
-
     fun getFilteredNotes(): List<NoteEntity> = filteredNotes.value!!
-
     fun setSelectedCategory(category: Category) {
         selectedCategory.value = category
     }
-
     fun getSelectedNote(): NoteEntity = selectedNote.value!!
 }

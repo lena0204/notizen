@@ -13,7 +13,7 @@ import com.lk.notizen2.utils.ViewModelFactory
 /**
  * Erstellt von Lena am 26/12/2018.
  */
-class CategoryDialog: DialogFragment() {
+class CategoryChooserDialog: DialogFragment() {
 
     private val TAG = "CategoryDialog"
     private lateinit var notesViewModel: NotesViewModel
@@ -26,8 +26,8 @@ class CategoryDialog: DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return requireActivity().let{
             val builder = AlertDialog.Builder(it, R.style.DialogTheme)
-            builder.setTitle(R.string.category_dialog_title)
-            builder.setItems(R.array.category_items) { _, which ->
+            builder.setTitle(R.string.dialog_categoryfilter_title)
+            builder.setItems(Categories.getCategoryNameArray()) { _, which ->
                 notesViewModel.setSelectedCategory(Categories.getCategory(which))
             }
              builder.create()

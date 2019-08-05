@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Settings -->
+    <string name="pref_design_title">Design \u00e4ndern</string>
+    <string name="pref_design_summary_light">Helles Design ist angewandt</string>
+    <string name="pref_design_summary_dark">Dunkles Design ist angewandt</string>
+    <string name="pref_design_summary_black">Schwarzes Design ist angewandt</string>
+
+    <string name="pref_protection_title">Passwortschutz</string>
+    <string name="pref_cat_perso">Personalisierung</string>
+    <string name="pref_cat_perso_subtitle">Einstellungen für die Kategorien</string>
+
+    <string name="pref_filter">Filter</string>
+
+    <!-- Personalisierung der Kategorien -->
+    <string name="dialog_perso_title">Einstellungen für die einzelne Kategorien</string>
+    <string name="dialog_person_hint_lines_no">Zeilenanzahl der Beschreibung</string>
+    <string name="dialog_perso_no_lines">Nicht ausgew\u00e4hlt</string>
+    <string name="dialog_perso_hint_name">Name der Kategorie</string>
+    <string name="dialog_default_spinner_selection">Wähle eine Kategorie…</string>
+
+    <!-- Backup & restore -->
+    <string name="pref_br_title">Sichern und Wiederherstellen</string>
+    <string name="pref_br_backup_title">Notizen sichern</string>
+    <string name="pref_br_backup_summary">Datenbank wird im internen Speicher gesichert</string>
+    <string name="pref_br_restore_title">Alte Sicherung wiederherstellen</string>
+    <string name="pref_br_restore_summary">Datenbank wird aus dem internen Speicher wiederherstellt</string>
+
+    <!-- Passwort -->
+    <string name="dia_set_title">Passwort festlegen</string>
+    <string name="dia_set_explanation">Das Passwort muss aus mindestens vier Ziffern bestehen.</string>
+    <string name="dia_set_hint_pw1">Passwort</string>
+    <string name="dia_set_hint_pw2">Passwort wiederholen</string>
+    <string name="dia_set_yes">Festlegen</string>
+    <string name="dia_change_title">Passwort \u00e4ndern</string>
+    <string name="dia_change_old">Bitte geben Sie ihr altes Passwort an:</string>
+    <string name="dia_change_new1">Ihr neues Passwort:</string>
+    <string name="dia_change_new2">Ihr neues Passwort best\u00e4tigen:</string>
+
+</resources>

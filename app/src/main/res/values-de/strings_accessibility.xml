@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="cd_spinner_custom_category">Dropdown-Auswahl für die Farbe, die bearbeitet werden soll</string>
+    <string name="cd_edit_confirm">Speichern</string>
+
+</resources>

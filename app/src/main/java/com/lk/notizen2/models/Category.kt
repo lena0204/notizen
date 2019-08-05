@@ -1,15 +1,28 @@
 package com.lk.notizen2.models
 
-import android.content.res.Resources
-import android.graphics.drawable.Drawable
 import com.lk.notizen2.R
 
 /**
  * Erstellt von Lena am 06.10.18.
  */
 data class Category(
-    var id: Int = 0,
+    val id: Int = 0,
     var name: String = "",
     val color: Int = R.color.normal,
-    val lineNumber: Int = 4
-)
+    var lineNumber: Int = 4
+) {
+
+    fun flatToString(): String {
+        return "$id;$name;$color;$lineNumber"
+    }
+
+    companion object {
+
+        fun parseFromString(flatCategory: String): Category {
+            val attributes = flatCategory.split(";")
+            return Category(attributes[0].toInt(), attributes[1],
+                attributes[2].toInt(), attributes[3].toInt())
+        }
+    }
+
+}

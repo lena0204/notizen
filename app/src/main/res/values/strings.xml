@@ -2,78 +2,49 @@
 <resources>
 
     <!-- App name and menu options -->
-    <string name="app_name">Notizen 2</string>
-    <string name="action_insert">Neue Notiz</string>
-    <string name="action_delete">Notiz l\u00F6schen</string>
-    <string name="action_about">\u00DCber Notizen</string>
-    <string name="action_color">W\u00e4hle Farbe</string>
-    <string name="action_settings">Einstellungen</string>
+    <string name="app_name">Notes 2</string>
+    <string name="action_delete">Delete note</string>
+    <string name="action_settings">Preferences</string>
 
     <!-- Edit note -->
-    <string name="new_note">Neue Notiz</string>
-    <string name="todo_edit_title">Titel</string>
-    <string name="todo_edit_description">Beschreibung</string>
-    <string name="todo_edit_confirm">Speichern</string>
-    <string name="no_title">Bitte Titel eingeben</string>
-    <string name="saved">Gespeichert</string>
-    <string name="protected_y">Schutz aktiviert</string>
-    <string name="protected_n">Schutz nicht aktiviert</string>
+    <string name="new_note">New note</string>
+    <string name="todo_edit_title">Title</string>
+    <string name="todo_edit_description">Content</string>
+    <string name="no_title">Please enter a title</string>
 
     <!-- Dialoge -->
-    <string name="dialog_cancel">Abbrechen</string>
-
-    <string name="category_dialog_title">Kategorie auswählen</string>
-    <string name="dialog_delete_title">L\u00F6schen?</string>
-    <string name="dialog_delete_message">Wollen Sie die Notiz wirklich l\u00F6schen?</string>
-    <string name="dialog_delete_ok">Ja</string>
-
-    <string name="dialog_storage_title">Speicherzugriff</string>
-    <string name="dialog_storage_message">F\u00FCr das Sichern und Wiederherstellen wird der Zugriff
-            auf den internen Speicher ben\u00F6tigt. Ohne die Berechtigung sind diese Funktionen
-            nicht verf\u00FCgbar. Wollen Sie den Zugriff erlauben?</string>
-    <string name="dialog_storage_ok">Ja</string>
-    <string name="dialog_storage_cancel">Nein</string>
+    <string name="dialog_cancel">Cancel</string>
+    <string name="dialog_categoryfilter_title">Choose a category</string>
+    <string name="dialog_delete_title">Delete?</string>
+    <string name="dialog_delete_message">Do you really want to delete that note?</string>
+    <string name="dialog_delete_ok">Yes</string>
 
     <!-- Dialoge zu dem Passwort -->
-    <string name="dia_set_title">Passwort festlegen</string>
-    <string name="dia_set_explanation">Das Passwort muss aus 4 bis 10 Zeichen bestehen und darf nur
-        Zahlen enthalten.</string>
-    <string name="dia_set_hint_pw1">Passwort</string>
-    <string name="dia_set_hint_pw2">Passwort wiederholen</string>
-    <string name="dia_set_yes">Festlegen</string>
-    <string name="dia_change_title">Passwort \u00e4ndern</string>
-    <string name="dia_change_old">Bitte geben Sie ihr altes Passwort an:</string>
-    <string name="dia_change_new1">Ihr neues Passwort:</string>
-    <string name="dia_change_new2">Ihr neues Passwort best\u00e4tigen:</string>
-    <string name="dia_request_title">Passwortabfrage</string>
-    <string name="dia_request_explanation">Geben Sie Ihr Passwort ein, um den Schutz der Notiz aufzuheben.</string>
-    <string name="dia_request_yes">Best\u00e4tigen</string>
+    <string name="dia_request_title">Password request</string>
+    <string name="dia_request_explanation">Please enter your password to unlock the note.</string>
+    <string name="dia_request_yes">Confirm</string>
 
     <!-- Toasts -->
-    <string name="toast_deleted">Notiz gel\u00F6scht</string>
-    <string name="toast_backup">Notizen erfolgreich gesichert</string>
-    <string name="toast_restored">Notizen erfolgreich wiederhergestellt</string>
-    <string name="toast_b_failed">Sicherung ist fehlgeschlagen</string>
-    <string name="toast_r_failed">Wiederherstellung ist fehlgeschlagen \nKontrollieren Sie, ob die
-            gesicherte Datenbank vorhanden ist (Interner Speicher)</string>
+    <string name="toast_deleted">Note was deleted</string>
+    <string name="toast_backup">Backup was successful</string>
+    <string name="toast_restored">Notes were restored successfully</string>
+    <string name="toast_b_failed">Backup failed</string>
+    <string name="toast_r_failed">Restoring failed. Please check if the file is available on the internal storage.</string>
 
-    <string name="toast_new_password">Neues Passwort erfolgreich festgelegt.
-        \nDas Passwort kann über viermaliges Klicken der Ekl\u00e4rung unten zur\u00fcckgesetzt werden.</string>
-    <string name="toast_invalid_password">Das Passwort gen\u00fcgt den Anforderungen nicht.
-        \nBitte w\u00e4hlen Sie ein anderes.</string>
-    <string name="toast_invalid_authentication">Das Passwort ist falsch.
-        \nBitte versuchen Sie es erneut.</string>
-    <string name="toast_invalid_old_password">Das alte Passwort ist falsch. Ihr Passwort wurde nicht
-            ge\u00e4ndert. \nBitte versuchen Sie es erneut.</string>
-    <string name="toast_reset_successful">Das Passwort wurde erfolgreich zur\u00fcckgesetzt.</string>
+    <string name="toast_new_password">New password was set successfully.
+        \nThe password can be reset by clicking four times on the explanation below.</string>
+    <string name="toast_invalid_authentication">The password is wrong. Please try again.</string>
+    <string name="toast_invalid_old_password">The old password was wrong.
+        Your password wasn\'t changed. \nPlease try again.</string>
+    <string name="toast_reset_successful">Your password was reset to empty.</string>
 
     <!-- Colour Dialog -->
-    <string name="white">Weiß</string>
-    <string name="yellow">Gelb</string>
+    <string name="white">White</string>
+    <string name="yellow">Yellow</string>
     <string name="orange">Orange</string>
-    <string name="red">Rot</string>
-    <string name="purple">Lila</string>
-    <string name="blue">Blau</string>
-    <string name="green">Gr\u00FCn</string>
+    <string name="red">Red</string>
+    <string name="purple">Purple</string>
+    <string name="blue">Blue</string>
+    <string name="green">Green</string>
 
 </resources>

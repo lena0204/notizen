@@ -14,15 +14,10 @@
         android:key="pref_filter_categories"
         android:defaultValue="@array/emptyarray"/>
 
-    <PreferenceCategory
-        android:title="@string/pref_cat_perso">
-
-        <Preference
-            android:title="@string/pref_cat_standard"
-            android:key="pref_category_standard"
-            android:enabled="false"/>
-
-    </PreferenceCategory>
+    <Preference
+        android:title="@string/pref_cat_perso"
+        android:summary="@string/pref_cat_perso_subtitle"
+        android:key="pref_cat_personalization" />
 
     <PreferenceCategory
         android:title="@string/pref_protection_title">

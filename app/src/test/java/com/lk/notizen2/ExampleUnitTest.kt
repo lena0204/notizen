@@ -1,7 +1,6 @@
 package com.lk.notizen2
 
 import org.junit.Test
-
 import org.junit.Assert.*
 
 /**

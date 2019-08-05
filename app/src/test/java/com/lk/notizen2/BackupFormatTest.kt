@@ -1,11 +1,9 @@
 package com.lk.notizen2
 
-import android.util.Log
 import com.lk.backuprestore.TableData
 import com.lk.notizen2.database.NoteEntity
 import com.lk.notizen2.main.NotesConversion
 import com.lk.notizen2.utils.Categories
-import com.lk.notizen2.utils.Priority
 import org.junit.Assert
 import org.junit.Test
 
@@ -24,7 +22,7 @@ class BackupFormatTest {
         val notesWrite = listOf(note1, note2)
         var tableData = NotesConversion().toTableData(notesWrite)
         val text = tableData.toCsvString()
-        Log.d(TAG, "Csv-Ausgabe: $text")
+        println("$TAG: \tCsv-Ausgabe $text")
         Assert.assertTrue(text.isNotEmpty())
         tableData = TableData.fromCsvString(text)
         val notesRead = NotesConversion().fromTableData(tableData)
@@ -39,8 +37,7 @@ class BackupFormatTest {
         note1.setCategoryAsEnum(Categories.ORANGE)
         note1.title = "Titel 1"
         note1.content = "This is a test ..."
-        note1.protected = 1
-        note1.setPriorityAsEnum(Priority.REMINDER)
+        note1.setProtected(true)
         return note1
     }
 
@@ -51,8 +48,7 @@ class BackupFormatTest {
         note2.setCategoryAsEnum(Categories.PURPLE)
         note2.title = "Titel 2"
         note2.content = "This is a test 2 ..."
-        note2.protected = 0
-        note2.setPriorityAsEnum(Priority.URGENT)
+        note2.setProtected(false)
         return note2
     }
 

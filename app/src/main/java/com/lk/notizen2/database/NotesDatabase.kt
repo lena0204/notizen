@@ -2,11 +2,13 @@ package com.lk.notizen2.database
 
 import android.content.Context
 import androidx.room.*
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 
 /**
  * Erstellt von Lena am 06.10.18.
  */
-@Database(entities = [NoteEntity::class, WidgetEntity::class], version = 5, exportSchema = true)
+@Database(entities = [NoteEntity::class], version = 6, exportSchema = true)
 abstract class NotesDatabase: RoomDatabase() {
 
     abstract fun notesDao(): DAONotesWidgets
@@ -14,6 +16,12 @@ abstract class NotesDatabase: RoomDatabase() {
     companion object {
 
         @Volatile private var INSTANCE: NotesDatabase? = null
+
+        private val migration_5_6 = object : Migration(5,6) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("DROP TABLE widgets")
+            }
+        }
 
         fun getInstance(context: Context): NotesDatabase =
             INSTANCE ?: synchronized(this) {
@@ -23,6 +31,7 @@ abstract class NotesDatabase: RoomDatabase() {
         private fun buildDatabase(context: Context) =
             Room.databaseBuilder(context.applicationContext,
                 NotesDatabase::class.java, "notes.db")
+                .addMigrations(migration_5_6)
                 .build()
     }
 }

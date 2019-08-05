@@ -10,7 +10,8 @@ object Constants {
     const val PREF_PASSWORD_SET = "pref_password_set"
     const val PREF_PASSWORD_CHANGE = "pref_password_change"
 
-    const val PREF_CATEGORY_STANDARD = "pref_category_standard"
+    const val PREF_CAT_PERSONALIZATION = "pref_cat_personalization"
+    const val PREF_PERSONALISATION = "pref_personalisation"
 
     const val PREF_FILTER_CATEGORIES = "pref_filter_categories"
 

@@ -9,6 +9,7 @@ class BackupRestore {
 
     private val TAG = this::class.java.simpleName
 
+    // IDEA_ FileAccess auslagern
     fun backupData(tableData: TableData, listenerBackup: OnBackupFinished) {
         FileAccess().writeToFile(tableData, listenerBackup)
     }

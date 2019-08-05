@@ -24,22 +24,4 @@ interface DAONotesWidgets {
     @Query("DELETE FROM notes WHERE note_id >= 0")
     fun deleteAll()
 
-/*    @Query("SELECT * FROM widgets")
-    fun getWidget(): LiveData<List<WidgetEntity>>
-
-    @Query("SELECT * FROM widgets WHERE widget_id == :id")
-    fun getWidgetFromId(id: Int): WidgetEntity
-
-    @Query("SELECT * FROM widgets WHERE note_id == :noteId")
-    fun getWidgetFromNoteId(noteId: Int): WidgetEntity
-
-    @Insert
-    fun insertWidget(entity: WidgetEntity)
-
-    @Update
-    fun updateWidget(entity: WidgetEntity)
-
-    @Delete
-    fun deleteWidget(entity: WidgetEntity)*/
-
 }

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- App name and menu options -->
+    <string name="app_name">Notizen 2</string>
+    <string name="action_delete">Notiz l\u00F6schen</string>
+    <string name="action_settings">Einstellungen</string>
+
+    <!-- Edit note -->
+    <string name="new_note">Neue Notiz</string>
+    <string name="todo_edit_title">Titel</string>
+    <string name="todo_edit_description">Beschreibung</string>
+    <string name="no_title">Bitte Titel eingeben</string>
+
+    <!-- Dialoge -->
+    <string name="dialog_cancel">Abbrechen</string>
+
+    <string name="dialog_categoryfilter_title">Kategorie auswählen</string>
+    <string name="dialog_delete_title">L\u00F6schen?</string>
+    <string name="dialog_delete_message">Wollen Sie die Notiz wirklich l\u00F6schen?</string>
+    <string name="dialog_delete_ok">Ja</string>
+
+    <!-- Dialoge zu dem Passwort -->
+    <string name="dia_request_title">Passwortabfrage</string>
+    <string name="dia_request_explanation">Geben Sie Ihr Passwort ein, um den Schutz der Notiz aufzuheben.</string>
+    <string name="dia_request_yes">Best\u00e4tigen</string>
+
+    <!-- Toasts -->
+    <string name="toast_deleted">Notiz gel\u00F6scht</string>
+    <string name="toast_backup">Notizen erfolgreich gesichert</string>
+    <string name="toast_restored">Notizen erfolgreich wiederhergestellt</string>
+    <string name="toast_b_failed">Sicherung ist fehlgeschlagen</string>
+    <string name="toast_r_failed">Wiederherstellung ist fehlgeschlagen \nKontrollieren Sie, ob die
+            gesicherte Datenbank vorhanden ist (Interner Speicher)</string>
+
+    <string name="toast_new_password">Neues Passwort erfolgreich festgelegt.
+        \nDas Passwort kann über viermaliges Klicken der Ekl\u00e4rung unten zur\u00fcckgesetzt werden.</string>
+    <string name="toast_invalid_authentication">Das Passwort ist falsch.
+        \nBitte versuchen Sie es erneut.</string>
+    <string name="toast_invalid_old_password">Das alte Passwort ist falsch. Ihr Passwort wurde nicht
+            ge\u00e4ndert. \nBitte versuchen Sie es erneut.</string>
+    <string name="toast_reset_successful">Das Passwort wurde erfolgreich zur\u00fcckgesetzt.</string>
+
+    <!-- Colour Dialog -->
+    <string name="white">Weiß</string>
+    <string name="yellow">Gelb</string>
+    <string name="orange">Orange</string>
+    <string name="red">Rot</string>
+    <string name="purple">Lila</string>
+    <string name="blue">Blau</string>
+    <string name="green">Gr\u00FCn</string>
+
+</resources>

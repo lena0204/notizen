@@ -3,6 +3,8 @@ package com.lk.notizen2.fragments
 import android.content.res.ColorStateList
 import android.graphics.PorterDuff
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.text.format.DateFormat
 import android.util.Log
 import android.view.*
@@ -13,7 +15,7 @@ import androidx.fragment.app.transaction
 import androidx.lifecycle.Observer
 import com.lk.notizen2.R
 import com.lk.notizen2.database.NoteEntity
-import com.lk.notizen2.dialogs.CategoryDialog
+import com.lk.notizen2.dialogs.CategoryChooserDialog
 import com.lk.notizen2.models.*
 import com.lk.notizen2.utils.*
 import kotlinx.android.synthetic.main.fragment_edit.*
@@ -38,11 +40,11 @@ class NoteEditFragment: Fragment(), Observer<Any> {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        initialiseViewModels()
+        initialiseViewModel()
         setClickListeners()
     }
 
-    private fun initialiseViewModels(){
+    private fun initialiseViewModel(){
         viewModel = ViewModelFactory.getNotesViewModel(requireActivity())
         viewModel.observeSelectedCategory(this, this)
         viewModel.observeSelectedNote(this, this)
@@ -54,11 +56,21 @@ class NoteEditFragment: Fragment(), Observer<Any> {
         bt_edit_category.setOnClickListener {
             onShowCategoryDialog()
         }
+        et_edit_title.addTextChangedListener( object : TextWatcher {
+
+            // not needed
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { }
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { }
+
+            override fun afterTextChanged(editable: Editable?) {
+                bt_edit_save.isEnabled = et_edit_title.text.toString() != ""
+            }
+        })
     }
 
     private fun onShowCategoryDialog(){
         requireActivity().supportFragmentManager.transaction {
-            add(CategoryDialog(), "CAT_DIALOG")
+            add(CategoryChooserDialog(), "CAT_DIALOG")
         }
     }
 

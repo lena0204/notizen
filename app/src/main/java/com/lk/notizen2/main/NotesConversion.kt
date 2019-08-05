@@ -38,7 +38,7 @@ class NotesConversion : Conversion<NoteEntity>() {
             note.archived = row[3].toBoolean()
             note.title = row[4]
             note.content = row[5]
-            note.date = row[6].trim('\"')
+            note.date = row[6]
             notesList.add(note)
         }
         return notesList

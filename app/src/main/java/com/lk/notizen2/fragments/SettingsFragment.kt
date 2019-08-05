@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.preference.*
 import com.lk.notizen2.R
 import com.lk.notizen2.dialogs.PasswordSetDialog
+import com.lk.notizen2.dialogs.PersonalizationDialog
 import com.lk.notizen2.models.NotesViewModel
 import com.lk.notizen2.utils.*
 
@@ -28,9 +29,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
     }
 
     private fun addClickedListener(){
-        findPreference(Constants.PREF_CATEGORY_STANDARD).onPreferenceClickListener =
+        findPreference(Constants.PREF_CAT_PERSONALIZATION).onPreferenceClickListener =
                 Preference.OnPreferenceClickListener {
                     // TODO Dialog mit Titel und Zeilenanzahl anzeigen
+                    callPersonalizationDialog()
                     true
                 }
         findPreference(Constants.PREF_PASSWORD_SET).onPreferenceClickListener =
@@ -46,12 +48,11 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     private fun prepareFilterPreference() {
         val sorting = findPreference(Constants.PREF_FILTER_CATEGORIES) as MultiSelectListPreference
-        sorting.entries = Categories.getCategoryArray()
+        sorting.entries = Categories.getCategoryNameArray()
         sorting.entryValues = arrayOf("0","1","2","3","4","5","6","7")
-        Log.d(TAG, "prepared Filter preference with values ${sorting.values}")
 
         sorting.setOnPreferenceChangeListener { _, newValue ->
-            Log.d(TAG, "Wert ${newValue}")
+            Log.d(TAG, "Neuer Wert der FilterPreference: $newValue")
             val valueSet = newValue as Set<String>
             val valueList = Categories.transformToCategoryList(valueSet)
             notesViewModel.setFilteredCategories(valueList)
@@ -70,7 +71,12 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val dialog: Fragment = PasswordSetDialog()
         requireActivity().supportFragmentManager
             .beginTransaction().add(dialog, "Dialog_set_password").commit()
+    }
 
+    private fun callPersonalizationDialog() {
+        val dialog: Fragment = PersonalizationDialog()
+        requireActivity().supportFragmentManager
+            .beginTransaction().add(dialog, "Dialog_personalization").commit()
     }
 
 }

@@ -1,6 +1,5 @@
 package com.lk.notizen2.main
 
-import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
@@ -36,77 +35,31 @@ class MainActivity : AppCompatActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         spw = SharedPrefWrapper(this)
+        configureDesign()
+        setContentView(R.layout.activity_main_empty)
+
+        permRequester = PermissionRequester(this)
+        viewModel = ViewModelFactory.getNotesViewModel(this)
+        viewModel.observeListAndActions(this, this)
+
+        setCategoriesInViewModel()
+        changeToFragment(NoteListFragment(), false)
+    }
+
+    private fun configureDesign() {
         val designIsDark = spw.readBoolean(Constants.PREF_DESIGN)
         if (designIsDark) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
-        setContentView(R.layout.activity_main_empty)
+    }
 
-        permRequester = PermissionRequester(this)
-        viewModel = ViewModelFactory.getNotesViewModel(this)
-        viewModel.observeListAndActions(this, this)
+    private fun setCategoriesInViewModel() {
+        Categories.readCurrentDataFromPreferences(spw)
         val filterSet = spw.readSet(Constants.PREF_FILTER_CATEGORIES, setOf(Categories.ALL.id.toString()))
         val filterList = Categories.transformToCategoryList(filterSet)
         viewModel.setFilteredCategories(filterList)
-
-        changeToFragment(NoteListFragment(), false)
-    }
-
-    // TODO Permission Request fur Write / Read external storage, manuell nötig
-
-    override fun onChanged(update: Any?) {
-        Log.v(TAG, "Main: $update")
-        when (update) {
-            NavigationActions.SHOW_NOTE -> checkNoteProtection()
-            NavigationActions.SHOW_LIST -> changeToFragment(NoteListFragment(), false)
-            NavigationActions.EDIT_NOTE,
-                NavigationActions.NEW_NOTE -> changeToFragment(NoteEditFragment())
-            NavigationActions.SHOW_PREFERENCES -> { } // NOT needed in current implementation
-            NavigationActions.DELETE_NOTE -> {}
-            NavigationActions.SAVE_NOTE -> {}
-        }
-    }
-
-    override fun dialogResultSetter(password1: String, password2: String) {
-        if(PasswordChecker.checkNewPasswords(password1, password2) ) {
-            spw.writeString(Constants.SPREF_PASSWORD, password1)
-            createToast(R.string.toast_new_password)
-        }
-    }
-
-    override fun dialogResultProtection(value: String) {
-        if (value == ProtectionDialog.LOCK_DIALOG_CANCELLED) {
-            Log.d(TAG, "Passwortabfrage wurde gecancelt.")
-        } else {
-            val isPasswordCorrect = checkPassword(value)
-            if (isPasswordCorrect) {
-                // PROBLEM_ es wird immer die Notiz angezeigt, nicht das Ziel bei geschützem löschen
-                changeToFragment(NoteShowFragment())
-                Log.d(TAG, "Notiz anzeigen (Passwort)")
-            } else {
-                createToast("Das Passwort ist falsch.")
-            }
-        }
-    }
-
-    private fun checkPassword(value: String): Boolean {
-        val truePassword = spw.readString(Constants.SPREF_PASSWORD)
-        Log.d(TAG, "Passwort prüfen: (Eingabe) $value == $truePassword (korrekt)")
-        return PasswordChecker.isInputPasswordCorrect(value, truePassword)
-    }
-
-    private fun checkNoteProtection() {
-        val note: NoteEntity = viewModel.getSelectedNote()
-        if (note.isProtected()) {
-            supportFragmentManager.transaction {
-                add(ProtectionDialog(), "Release lock dialog")
-            }
-        } else {
-            changeToFragment(NoteShowFragment())
-            Log.d(TAG, "Notiz direkt anzeigen, weil offen")
-        }
     }
 
     private fun changeToFragment(fragment: Fragment, addToStack: Boolean = true) {
@@ -134,11 +87,60 @@ class MainActivity : AppCompatActivity(),
         return value
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
+    override fun onChanged(update: Any?) {
+        Log.v(TAG, "Main: $update")
+        when (update) {
+            NavigationActions.SHOW_NOTE -> checkNoteProtection()
+            NavigationActions.SHOW_LIST -> changeToFragment(NoteListFragment(), false)
+            NavigationActions.EDIT_NOTE,
+                NavigationActions.NEW_NOTE -> changeToFragment(NoteEditFragment())
+            NavigationActions.SHOW_PREFERENCES,
+            NavigationActions.DELETE_NOTE,
+            NavigationActions.SAVE_NOTE -> { } // NOT needed in current implementation
+        }
+    }
+
+    /* - - - - DIALOGE - - - - */
+
+    override fun dialogResultSetter(password1: String, password2: String) {
+        if(PasswordChecker.checkNewPasswords(password1, password2) ) {
+            spw.writeString(Constants.SPREF_PASSWORD, password1)
+            createToast(R.string.toast_new_password)
+        }
+    }
+
+    override fun dialogResultProtection(value: String) {
+        if (value != ProtectionDialog.LOCK_DIALOG_CANCELLED) {
+            val isPasswordCorrect = checkPassword(value)
+            if (isPasswordCorrect) {
+                // PROBLEM_ es wird immer die Notiz angezeigt, nicht das Ziel bei geschützem löschen -> dort fehlt aktuell auch noch der Dialog
+                changeToFragment(NoteShowFragment())
+                Log.v(TAG, "Notiz anzeigen (Passwort)")
+            } else {
+                createToast(R.string.toast_invalid_authentication)
+            }
+        }
+    }
+
+    private fun checkPassword(value: String): Boolean {
+        val truePassword = spw.readString(Constants.SPREF_PASSWORD)
+        Log.v(TAG, "Passwort prüfen: (Eingabe) $value == $truePassword (korrekt)")
+        return PasswordChecker.isInputPasswordCorrect(value, truePassword)
+    }
+
+    private fun checkNoteProtection() {
+        val note: NoteEntity = viewModel.getSelectedNote()
+        if (note.isProtected()) {
+            supportFragmentManager.transaction {
+                add(ProtectionDialog(), "Release lock dialog")
+            }
+        } else {
+            changeToFragment(NoteShowFragment())
+            Log.v(TAG, "Notiz direkt anzeigen, weil offen")
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         when(requestCode) {
             PermissionRequester.PERMISSION_REQUEST_READ -> {
                 if(isPermissionGranted(grantResults)) {
@@ -179,6 +181,7 @@ class MainActivity : AppCompatActivity(),
         // TODO Nutzerrückmeldung notwendig??
     }
 
+    // Utils
     private fun createToast(text: Int) {
         Toast.makeText(applicationContext, text, Toast.LENGTH_LONG).show()
     }

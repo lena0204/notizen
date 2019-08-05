@@ -6,11 +6,12 @@ Planned for Android 5 and higher.
 
 ### Current features:
 - add new notes
-- mark them with category
-- filter for one or more categories (currently in settings, wip)
-- protect notes with a numeric password
 - edit existing notes
 - show existing notes
 - delete notes, without dialog nor password check currently (!)
+- mark them with category
+- filter for one or more categories (currently in settings)
+- protect notes with a numeric password
+- configure name and line number in overview separately for each category
 - change design between light and dark
 - backup / restore functionality
