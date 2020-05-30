@@ -15,3 +15,8 @@ Planned for Android 5 and higher.
 - configure name and line number in overview separately for each category
 - change design between light and dark
 - backup / restore functionality
+
+### Planned features:
+- change password
+- reset password
+- safety dialog when deleting
