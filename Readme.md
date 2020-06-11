@@ -26,7 +26,11 @@ Licensed under Apache 2.0
 - change design between light and dark
 - backup / restore functionality to a plain text file
 
+### Planned features
+- change password
+- reset password
+- safety dialog when deleting
+
 ### Technology
 Native android app with kotlin, uses jetpack libraries
 Android version 5 or greater (API 21)
-
