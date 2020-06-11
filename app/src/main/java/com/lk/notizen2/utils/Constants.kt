@@ -23,6 +23,7 @@ object Constants {
 
     const val PREF_DYNAMIC = "pref_dynamic"
     const val PREF_DESIGN = "pref_design"
+    const val PREF_ABOUT = "pref_about"
     const val PREF_PASSWORD_SET = "pref_password_set"
     const val PREF_PASSWORD_CHANGE = "pref_password_change"
 

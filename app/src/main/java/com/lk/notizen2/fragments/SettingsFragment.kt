@@ -45,40 +45,42 @@ class SettingsFragment : PreferenceFragmentCompat() {
     }
 
     private fun addClickedListener(){
-        findPreference(Constants.PREF_CAT_PERSONALIZATION).onPreferenceClickListener =
+        findPreference<Preference>(Constants.PREF_CAT_PERSONALIZATION)?.onPreferenceClickListener =
                 Preference.OnPreferenceClickListener {
                     callPersonalizationDialog()
                     true
                 }
-        findPreference(Constants.PREF_PASSWORD_SET).onPreferenceClickListener =
+        findPreference<Preference>(Constants.PREF_PASSWORD_SET)?.onPreferenceClickListener =
                 Preference.OnPreferenceClickListener {
                     callSetPasswordDialog()
                     true
                 }
-        findPreference(Constants.PREF_DESIGN).setOnPreferenceChangeListener { preference, newValue ->
+        findPreference<SwitchPreference>(Constants.PREF_DESIGN)?.setOnPreferenceChangeListener { preference, newValue ->
             requireActivity().recreate()
             true
         }
     }
 
     private fun prepareFilterPreference() {
-        val sorting = findPreference(Constants.PREF_FILTER_CATEGORIES) as MultiSelectListPreference
-        sorting.entries = Categories.getCategoryNameArray()
-        sorting.entryValues = arrayOf("0","1","2","3","4","5","6","7")
+        val sorting = findPreference<MultiSelectListPreference>(Constants.PREF_FILTER_CATEGORIES)
+        if(sorting != null) {
+            sorting.entries = Categories.getCategoryNameArray()
+            sorting.entryValues = arrayOf("0","1","2","3","4","5","6","7")
 
-        sorting.setOnPreferenceChangeListener { _, newValue ->
-            Log.d(TAG, "Neuer Wert der FilterPreference: $newValue")
-            val valueSet = newValue as Set<String>
-            val valueList = Categories.transformToCategoryList(valueSet)
-            notesViewModel.setFilteredCategories(valueList)
-            true
+            sorting.setOnPreferenceChangeListener { _, newValue ->
+                Log.d(TAG, "Neuer Wert der FilterPreference: $newValue")
+                val valueSet = newValue as Set<String>
+                val valueList = Categories.transformToCategoryList(valueSet)
+                notesViewModel.setFilteredCategories(valueList)
+                true
+            }
         }
     }
 
     private fun preparePasswordPreferences() {
         val password = spw.readString(Constants.SPREF_PASSWORD)
         if(password != "") {
-            findPreference(Constants.PREF_PASSWORD_SET).isEnabled = false
+            findPreference<Preference>(Constants.PREF_PASSWORD_SET)?.isEnabled = false
         }
     }
 

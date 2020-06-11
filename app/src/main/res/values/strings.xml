@@ -2,7 +2,7 @@
 <resources>
 
     <!-- App name and menu options -->
-    <string name="app_name">Notes 2</string>
+    <string name="app_name">Notes</string>
     <string name="action_delete">Delete note</string>
     <string name="action_settings">Preferences</string>
 

@@ -14,6 +14,9 @@ Licensed under Apache 2.0
 - protection is partly not correctly displayed in the notes list but handled correctly when opening a note
 - password cannot be changed or reset (can be fixed by exporting the notes and then reinstalling the app)
 
+## Contribution
+Feel free to create issues / pull requests or contact me directly for feedback. I look forward to new ideas.
+
 ### Extensive feature list
 - add new notes
 - edit existing notes
@@ -33,4 +36,20 @@ Licensed under Apache 2.0
 
 ### Technology
 Native android app with kotlin, uses jetpack libraries
-Android version 5 or greater (API 21)
+
+Made for Android version 5 or greater (API 21)
+
+Made with Android Studio 4.1 Preview
+
+### Screenshots
+Notes list
+![Notes list](/screenshots/notes_list_light.png)
+
+Edit notes
+![Edit note](/screenshots/notes_edit.png)
+
+Settings
+![Settings](/screenshots/notes_settings.png)
+
+Dark mode
+![Dark mode](/screenshots/notes_list_filtered_dark.png)

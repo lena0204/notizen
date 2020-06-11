@@ -9,10 +9,10 @@
         android:defaultValue="false"
         />
 
-    <MultiSelectListPreference
+<!--    <MultiSelectListPreference
         android:title="@string/pref_filter"
         android:key="pref_filter_categories"
-        android:defaultValue="@array/emptyarray"/>
+        android:defaultValue="@array/emptyarray"/>-->
 
     <Preference
         android:title="@string/pref_cat_perso"
@@ -27,5 +27,13 @@
             android:key="pref_password_set"/>
 
     </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/about_title">
+        <Preference
+        android:key="pref_about"
+        android:summary="@string/about"/>
+    </PreferenceCategory>
+
 
 </PreferenceScreen>

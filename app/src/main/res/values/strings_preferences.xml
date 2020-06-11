@@ -50,4 +50,12 @@
         sch\u00fctzen. Sie werden dadurch auch verschl\u00fcsselt gespeichert.
         \nDas Passwort muss mindestens 4 Zeichen lang sein und darf nur Zahlen enthalten.</string>    -->
 
+    <string name="about_title">About this app</string>
+    <string name="about">
+         Version: v0.8\n
+        Developed by Licorne © 2020 \n
+        Further information:\n
+        https://github.com/lena0204/notizen\n
+    </string>
+
 </resources>

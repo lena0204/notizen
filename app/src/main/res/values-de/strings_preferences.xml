@@ -38,4 +38,12 @@
     <string name="dia_change_new1">Ihr neues Passwort:</string>
     <string name="dia_change_new2">Ihr neues Passwort best\u00e4tigen:</string>
 
+    <string name="about_title">Über diese App</string>
+    <string name="about">
+         Version: v0.8 \n
+        Entwickelt von Licorne © 2020\n
+        Weitere Informationen:\n
+        https://github.com/lena0204/notizen\n
+    </string>
+
 </resources>
