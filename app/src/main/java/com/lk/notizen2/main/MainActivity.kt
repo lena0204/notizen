@@ -1,3 +1,19 @@
+/*
+ * Copyright (c) 2020 Lena Kociemba
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.lk.notizen2.main
 
 import android.content.pm.PackageManager
@@ -8,15 +24,13 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.transaction
+import androidx.fragment.app.*
 import androidx.lifecycle.Observer
 import com.lk.backuprestore.Result
 import com.lk.backuprestore.listener.OnBackupFinished
 import com.lk.notizen2.R
 import com.lk.notizen2.database.NoteEntity
-import com.lk.notizen2.dialogs.PasswordSetDialog
-import com.lk.notizen2.dialogs.ProtectionDialog
+import com.lk.notizen2.dialogs.*
 import com.lk.notizen2.fragments.*
 import com.lk.notizen2.models.NotesViewModel
 import com.lk.notizen2.utils.*
@@ -62,15 +76,6 @@ class MainActivity : AppCompatActivity(),
         viewModel.setFilteredCategories(filterList)
     }
 
-    private fun changeToFragment(fragment: Fragment, addToStack: Boolean = true) {
-        supportFragmentManager.transaction {
-            if(addToStack) {
-                addToBackStack(null)
-            }
-            replace(R.id.fl_main_empty, fragment)
-        }
-    }
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val value = super.onCreateOptionsMenu(menu)
         this.menuInflater.inflate(R.menu.menu_main, menu)
@@ -80,11 +85,19 @@ class MainActivity : AppCompatActivity(),
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         val value = super.onOptionsItemSelected(item)
         when (item?.itemId) {
+            R.id.menu_filter -> showFilterDialog()
             R.id.menu_backup -> tryNotesBackup()
             R.id.menu_restore -> tryNotesRestore()
             R.id.menu_settings -> changeToFragment(SettingsFragment())
         }
         return value
+    }
+
+
+    private fun showFilterDialog() {
+        supportFragmentManager.transaction {
+            add(FilterDialog(), "Filter Dialog")
+        }
     }
 
     override fun onChanged(update: Any?) {
@@ -100,8 +113,16 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
-    /* - - - - DIALOGE - - - - */
+    private fun changeToFragment(fragment: Fragment, addToStack: Boolean = true) {
+        supportFragmentManager.transaction {
+            if(addToStack) {
+                addToBackStack(null)
+            }
+            replace(R.id.fl_main_empty, fragment)
+        }
+    }
 
+    /* - - - - DIALOGE - - - - */
     override fun dialogResultSetter(password1: String, password2: String) {
         if(PasswordChecker.checkNewPasswords(password1, password2) ) {
             spw.writeString(Constants.SPREF_PASSWORD, password1)
